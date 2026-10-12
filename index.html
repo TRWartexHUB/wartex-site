@@ -696,34 +696,2479 @@ body{background-attachment:scroll}
 @media(max-width:640px){.wartex-nav-button{padding:9px 10px}.wartex-more-panel{width:min(340px,90vw)}.wartex-spoofer-product{gap:9px;padding:12px}.wartex-coming-card{padding:25px 20px}}
 @media(prefers-reduced-motion:reduce){.wartex-more-backdrop,.wartex-more-panel,.wartex-menu-item,.wartex-nav-button,.wartex-spoofer-product,.wartex-coming-card,.wartex-coming-close{animation:none!important;transition:none!important}}
 
-/* Cinematic intro safely embedded in the Script Hub banner */
-.wartex-intro-host{min-width:0;min-height:270px}
-.wartex-inline-intro{position:relative;z-index:2;width:100%;min-width:0;min-height:220px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:.55rem;overflow:hidden}
-.wartex-inline-window{position:relative;width:100%;height:112px;min-width:0;overflow:hidden;isolation:isolate;contain:layout paint}
-.wartex-inline-scene{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;min-width:0;max-width:100%;overflow:hidden;opacity:0;animation:wartexInlineSceneLoop 16s infinite both;padding-right:.2rem}
-.wartex-inline-scene-a{animation-delay:0s}.wartex-inline-scene-b{animation-delay:4s}.wartex-inline-scene-c{animation-delay:8s}.wartex-inline-scene-d{animation-delay:12s}
-.wartex-inline-eyebrow{font-size:clamp(.48rem,1vw,.62rem);letter-spacing:.15em;color:#aeb4bd;font-weight:800;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wartex-inline-scene h2{font-size:clamp(1.1rem,2.4vw,1.75rem)!important;line-height:1.03!important;letter-spacing:-.045em!important;margin:.32rem 0!important;overflow-wrap:anywhere}
-.wartex-inline-scene h2 strong{display:block;font-weight:950}
-.wartex-inline-scene h2.wartex-inline-logo strong{display:inline}
-.wartex-inline-scene p{font-size:clamp(.57rem,1.08vw,.74rem)!important;line-height:1.35!important;margin:0!important;color:#c2c7ce!important;overflow-wrap:anywhere}
-.wartex-inline-scene p b{color:#fff;padding:0 .12rem}
-.wartex-inline-live{display:inline-flex;align-items:center;gap:5px;margin-left:.45rem;color:#e5e7eb;font-size:.55rem;letter-spacing:.1em}
-.wartex-inline-live i{width:5px;height:5px;border-radius:50%;background:#d1fae5;box-shadow:0 0 8px rgba(255,255,255,.6)}
-.wartex-inline-game-row,.wartex-inline-feature-row{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;min-width:0;max-width:100%;overflow:hidden}
-.wartex-inline-game-row span,.wartex-inline-feature-row span{display:inline-flex;align-items:center;gap:5px;min-width:0;padding:5px 7px;border:1px solid rgba(255,255,255,.14);border-radius:7px;background:rgba(255,255,255,.055);color:#d9dbe0;font-size:clamp(.48rem,.8vw,.61rem);font-weight:800;white-space:nowrap}
-.wartex-inline-game-row i,.wartex-inline-feature-row i{color:#fff;font-size:.58rem}
-.wartex-inline-intro .wartex-promo-cta{margin-top:.1rem;position:relative;z-index:4}
-@keyframes wartexInlineSceneLoop{0%,3%{opacity:0;transform:translateY(8px)}7%,22%{opacity:1;transform:translateY(0)}27%,100%{opacity:0;transform:translateY(-7px)}}
-.wartex-catalog-nav{background:rgba(255,255,255,.045)!important;border-color:rgba(255,255,255,.13)!important;color:#ededf0!important}
-.wartex-catalog-nav:hover{background:rgba(255,255,255,.105)!important;border-color:rgba(255,255,255,.25)!important}
-.wartex-nav-soon{font-size:8px;padding:3px 5px;border:1px solid rgba(255,255,255,.16);border-radius:5px;color:#bfc0c5;background:rgba(255,255,255,.05);letter-spacing:.04em}
-nav.main-menu-animated button,nav.main-menu-animated a{border-color:rgba(255,255,255,.12)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.035);transition:background-color .18s ease,border-color .18s ease,color .18s ease,transform .18s ease,box-shadow .18s ease}
-nav.main-menu-animated button:not(.wartex-more-trigger),nav.main-menu-animated a{background-color:rgba(255,255,255,.025)}
-nav.main-menu-animated button:hover,nav.main-menu-animated a:hover{background-color:rgba(255,255,255,.085)!important;border-color:rgba(255,255,255,.22)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 5px 14px rgba(0,0,0,.14);transform:translateY(-1px)}
-nav.main-menu-animated button.wartex-more-trigger{background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(220,220,220,.9));border-color:rgba(255,255,255,.55)!important}
-@media(max-width:700px){.wartex-intro-host{min-height:245px}.wartex-inline-intro{min-height:200px}.wartex-inline-window{height:100px}.wartex-inline-scene h2{font-size:1.32rem!important}.wartex-inline-eyebrow{font-size:.5rem}.wartex-inline-game-row span,.wartex-inline-feature-row span{padding:4px 5px;font-size:.47rem}}
-@media(prefers-reduced-motion:reduce){.wartex-inline-scene{animation:none!important;opacity:1}.wartex-inline-scene-b,.wartex-inline-scene-c,.wartex-inline-scene-d{display:none}}
+
+/* ORIGINAL INTRO — fitted to the Script Hub banner and safely looped */
+.wartex-promo-card.wartex-intro-host{padding:0;min-height:270px;height:100%;overflow:hidden}
+.wartex-original-intro{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:0!important;overflow:hidden!important;border-radius:inherit;background:#08080a;color:#f4f4f5}
+.wartex-original-intro-cycle{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
+.wartex-original-intro .wartex-intro-bg,.wartex-original-intro .wartex-grid,.wartex-original-intro .wartex-particles{position:absolute;inset:0}
+.wartex-original-intro .wartex-center-intro{top:47%;width:72%;left:50%}
+.wartex-original-intro .wartex-main-logo{gap:9px;justify-content:center}
+.wartex-original-intro .wartex-logo-box{width:35px;height:35px;min-width:35px;border-radius:9px}
+.wartex-original-intro .wartex-logo-box img{width:27px;height:27px}
+.wartex-original-intro .wartex-logo-title{font-size:clamp(20px,3vw,32px);letter-spacing:-1.5px}
+.wartex-original-intro .wartex-logo-title strong{font-size:.58em}
+.wartex-original-intro .wartex-tagline{gap:5px;font-size:6px;margin-top:10px;flex-wrap:wrap;justify-content:center}
+.wartex-original-intro .wartex-top-line{font-size:6px;letter-spacing:1.5px;gap:5px}
+.wartex-original-intro .wartex-top-line span{width:15px}
+.wartex-original-intro .wartex-center-status{font-size:6px;margin-top:7px;gap:5px}
+.wartex-original-intro .wartex-script-float{width:clamp(95px,24%,145px);min-width:0;padding:6px;gap:6px;border-radius:8px}
+.wartex-original-intro .script-icon{width:22px;height:22px;min-width:22px}
+.wartex-original-intro .wartex-script-float strong{font-size:6px}
+.wartex-original-intro .wartex-script-float span{font-size:5px}
+.wartex-original-intro .script-code{font-size:8px}
+.wartex-original-intro .wartex-script-1{left:2%;top:10%}
+.wartex-original-intro .wartex-script-2{left:2%;bottom:10%}
+.wartex-original-intro .wartex-script-3{right:2%;top:13%}
+.wartex-original-intro .wartex-script-4{right:2%;bottom:10%}
+.wartex-original-intro .wartex-script-5{left:2%;top:38%}
+.wartex-original-intro .wartex-script-6{right:2%;top:40%}
+.wartex-original-intro .wartex-transition{inset:0}
+.wartex-original-intro .wartex-executor-side{left:4%;top:44%;width:43%}
+.wartex-original-intro .wartex-executor-side h2{font-size:clamp(15px,2.4vw,26px);margin-bottom:8px}
+.wartex-original-intro .executor-header{font-size:6px;margin-bottom:7px;letter-spacing:1px}
+.wartex-original-intro .wartex-executor-list{gap:4px}
+.wartex-original-intro .wartex-executor-card{padding:5px;gap:5px;border-radius:7px}
+.wartex-original-intro .executor-icon{width:20px;height:20px;min-width:20px}
+.wartex-original-intro .executor-info strong{font-size:7px}
+.wartex-original-intro .executor-info span{font-size:5px}
+.wartex-original-intro .wartex-executor-right{right:4%;width:43%;top:46%}
+.wartex-original-intro .executor-big-title{font-size:clamp(17px,2.7vw,30px);line-height:.98}
+.wartex-original-intro .wartex-executor-right>p{font-size:7px;line-height:1.35}
+.wartex-original-intro .executor-stats{gap:5px;margin-top:7px}
+.wartex-original-intro .executor-stats strong{font-size:12px}
+.wartex-original-intro .executor-stats span{font-size:5px}
+.wartex-original-intro .wartex-security-box{margin-top:7px;padding:6px;gap:6px}
+.wartex-original-intro .wartex-security-box strong{font-size:7px}
+.wartex-original-intro .wartex-security-box span{font-size:5px}
+.wartex-original-intro .executor-footer{font-size:5px;margin-top:7px}
+.wartex-original-intro .wartex-loading{bottom:7px;font-size:5px;letter-spacing:1px;gap:5px}
+.wartex-original-intro .loading-bar{width:32px}
+.wartex-original-intro-cta{position:absolute;z-index:100;right:12px;bottom:11px;display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border:1px solid rgba(255,255,255,.38);border-radius:8px;background:rgba(245,245,245,.92);color:#090909;font-size:9px;font-weight:900;box-shadow:0 3px 12px rgba(0,0,0,.3)}
+.wartex-original-intro-cta:hover{background:#fff}
+@media(max-width:700px){
+ .wartex-promo-card.wartex-intro-host{min-height:245px}
+ .wartex-original-intro .wartex-script-float{width:25%;padding:4px;gap:4px}
+ .wartex-original-intro .wartex-script-float strong{font-size:5px}
+ .wartex-original-intro .wartex-script-float span{font-size:4px}
+ .wartex-original-intro .wartex-center-intro{width:70%}
+ .wartex-original-intro .wartex-executor-side{left:3%;width:44%}
+ .wartex-original-intro .wartex-executor-right{right:3%;width:44%}
+}
+@media(prefers-reduced-motion:reduce){.wartex-original-intro *{animation-play-state:running!important;transition:none!important}}
+
+
+
+/* =========================================================
+   MAIN INTRO
+========================================================= */
+
+.wartex-original-intro {
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;height:100%;
+
+    background: #08080a;
+
+    color: #f4f4f5;
+
+    z-index:2;
+
+    overflow: hidden;
+
+    font-family: inherit;
+
+    animation:none;
+
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.wartex-intro-bg {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(99,102,241,.12),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 10% 20%,
+            rgba(255,255,255,.035),
+            transparent 25%
+        ),
+
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(99,102,241,.06),
+            transparent 30%
+        ),
+
+        #08080a;
+
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.wartex-grid {
+
+    position: absolute;
+
+    inset: -100px;
+
+    opacity: .18;
+
+    background-image:
+
+        linear-gradient(
+            rgba(255,255,255,.035) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.035) 1px,
+            transparent 1px
+        );
+
+    background-size: 55px 55px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            transparent,
+            black 20%,
+            black 80%,
+            transparent
+        );
+
+    animation:
+        gridMove
+        15s
+        linear
+        infinite;
+
+}
+
+
+@keyframes gridMove {
+
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(55px);
+    }
+
+}
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+.wartex-particles {
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+}
+
+
+.wartex-particles span {
+
+    position: absolute;
+
+    width: 2px;
+    height: 2px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    opacity: 0;
+
+    animation:
+        particleUp
+        linear
+        infinite;
+
+}
+
+
+.wartex-particles span:nth-child(1)  { left: 4%;  animation-duration: 8s; }
+.wartex-particles span:nth-child(2)  { left: 9%;  animation-duration: 11s; }
+.wartex-particles span:nth-child(3)  { left: 15%; animation-duration: 7s; }
+.wartex-particles span:nth-child(4)  { left: 21%; animation-duration: 13s; }
+.wartex-particles span:nth-child(5)  { left: 28%; animation-duration: 9s; }
+.wartex-particles span:nth-child(6)  { left: 35%; animation-duration: 12s; }
+.wartex-particles span:nth-child(7)  { left: 42%; animation-duration: 8s; }
+.wartex-particles span:nth-child(8)  { left: 49%; animation-duration: 14s; }
+.wartex-particles span:nth-child(9)  { left: 56%; animation-duration: 9s; }
+.wartex-particles span:nth-child(10) { left: 63%; animation-duration: 12s; }
+.wartex-particles span:nth-child(11) { left: 70%; animation-duration: 7s; }
+.wartex-particles span:nth-child(12) { left: 77%; animation-duration: 10s; }
+.wartex-particles span:nth-child(13) { left: 83%; animation-duration: 13s; }
+.wartex-particles span:nth-child(14) { left: 88%; animation-duration: 8s; }
+.wartex-particles span:nth-child(15) { left: 94%; animation-duration: 11s; }
+.wartex-particles span:nth-child(16) { left: 18%; animation-duration: 15s; }
+.wartex-particles span:nth-child(17) { left: 46%; animation-duration: 10s; }
+.wartex-particles span:nth-child(18) { left: 74%; animation-duration: 14s; }
+.wartex-particles span:nth-child(19) { left: 31%; animation-duration: 9s; }
+.wartex-particles span:nth-child(20) { left: 91%; animation-duration: 12s; }
+.wartex-particles span:nth-child(21) { left: 60%; animation-duration: 8s; }
+.wartex-particles span:nth-child(22) { left: 12%; animation-duration: 13s; }
+.wartex-particles span:nth-child(23) { left: 82%; animation-duration: 10s; }
+.wartex-particles span:nth-child(24) { left: 38%; animation-duration: 11s; }
+.wartex-particles span:nth-child(25) { left: 26%; animation-duration: 12s; }
+.wartex-particles span:nth-child(26) { left: 68%; animation-duration: 9s; }
+.wartex-particles span:nth-child(27) { left: 52%; animation-duration: 14s; }
+.wartex-particles span:nth-child(28) { left: 87%; animation-duration: 8s; }
+.wartex-particles span:nth-child(29) { left: 7%; animation-duration: 10s; }
+.wartex-particles span:nth-child(30) { left: 72%; animation-duration: 13s; }
+.wartex-particles span:nth-child(31) { left: 44%; animation-duration: 9s; }
+.wartex-particles span:nth-child(32) { left: 97%; animation-duration: 15s; }
+
+
+@keyframes particleUp {
+
+    0% {
+        bottom: -5%;
+        opacity: 0;
+        transform: scale(.4);
+    }
+
+    20% {
+        opacity: .5;
+    }
+
+    60% {
+        opacity: .8;
+    }
+
+    100% {
+        bottom: 110%;
+        opacity: 0;
+        transform: scale(1.5);
+    }
+
+}
+
+
+/* =========================================================
+   SCENES
+========================================================= */
+
+.wartex-scene {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+}
+
+
+.wartex-scene-one {
+
+    animation:
+        sceneOne
+        30s
+        ease
+        forwards;
+
+}
+
+
+.wartex-scene-two {
+
+    opacity: 0;
+
+    transform: scale(.96);
+
+    animation:
+        sceneTwo
+        30s
+        ease
+        forwards;
+
+}
+
+
+/* =========================================================
+   SCENE ONE
+========================================================= */
+
+@keyframes sceneOne {
+
+    0% {
+
+        opacity: 0;
+
+        transform: scale(.97);
+
+    }
+
+    8% {
+
+        opacity: 1;
+
+        transform: scale(1);
+
+    }
+
+    55% {
+
+        opacity: 1;
+
+        transform: scale(1);
+
+    }
+
+    64% {
+
+        opacity: 0;
+
+        transform: scale(1.035);
+
+    }
+
+    100% {
+
+        opacity: 0;
+
+    }
+
+}
+
+
+/* =========================================================
+   CENTER
+========================================================= */
+
+.wartex-center-intro {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    width: min(800px, 90%);
+
+    text-align: center;
+
+}
+
+
+.wartex-top-line {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    color: #71717a;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    opacity: 0;
+
+    animation:
+        topLineIn
+        1s
+        ease
+        1s
+        forwards;
+
+}
+
+
+.wartex-top-line span {
+
+    width: 35px;
+
+    height: 1px;
+
+    background: #3f3f46;
+
+}
+
+
+@keyframes topLineIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(-15px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.wartex-main-logo {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 22px;
+
+    margin-top: 25px;
+
+    opacity: 0;
+
+    animation:
+        logoReveal
+        1.3s
+        cubic-bezier(.2,.8,.2,1)
+        1.5s
+        forwards;
+
+}
+
+
+@keyframes logoReveal {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(35px)
+            scale(.9);
+
+        filter: blur(12px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+        filter: blur(0);
+
+    }
+
+}
+
+
+.wartex-logo-box {
+
+    width: 78px;
+    height: 78px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 20px;
+
+    background:
+        rgba(20,20,23,.85);
+
+    border:
+        1px solid #3f3f46;
+
+    box-shadow:
+        0 0 45px
+        rgba(99,102,241,.12);
+
+}
+
+
+.wartex-logo-box img {
+
+    width: 62px;
+    height: 62px;
+
+    object-fit: contain;
+
+    border-radius: 15px;
+
+}
+
+
+.wartex-logo-fallback {
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+
+    color: #818cf8;
+
+    font-size: 25px;
+
+}
+
+
+.wartex-logo-title {
+
+    text-align: left;
+
+    color: #f4f4f5;
+
+    font-size:
+        clamp(35px, 5vw, 70px);
+
+    line-height: .9;
+
+    font-weight: 950;
+
+    letter-spacing: -4px;
+
+}
+
+
+.wartex-logo-title strong {
+
+    display: block;
+
+    color: #6366f1;
+
+}
+
+
+/* =========================================================
+   TAGLINE
+========================================================= */
+
+.wartex-tagline {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 14px;
+
+    margin-top: 35px;
+
+    color: #a1a1aa;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    font-weight: 800;
+
+    opacity: 0;
+
+    animation:
+        taglineIn
+        1s
+        ease
+        3s
+        forwards;
+
+}
+
+
+.wartex-tagline span {
+
+    transition: .3s;
+
+}
+
+
+.wartex-tagline span:hover {
+
+    color: white;
+
+}
+
+
+.wartex-tagline i {
+
+    width: 4px;
+    height: 4px;
+
+    background: #6366f1;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 12px
+        rgba(99,102,241,.9);
+
+}
+
+
+@keyframes taglineIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(15px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.wartex-center-status {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin: 32px auto 0;
+
+    max-width: 360px;
+
+    color: #52525b;
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+
+    opacity: 0;
+
+    animation:
+        statusIn
+        1s
+        ease
+        4s
+        forwards;
+
+}
+
+
+.status-dot {
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #6366f1;
+
+    box-shadow:
+        0 0 14px
+        rgba(99,102,241,.9);
+
+    animation:
+        statusPulse
+        1.5s
+        infinite;
+
+}
+
+
+.status-line {
+
+    height: 1px;
+
+    flex: 1;
+
+    background: #27272a;
+
+}
+
+
+@keyframes statusPulse {
+
+    50% {
+
+        opacity: .3;
+
+        transform: scale(.6);
+
+    }
+
+}
+
+
+@keyframes statusIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+/* =========================================================
+   GAME CARDS
+========================================================= */
+
+.wartex-script-float {
+
+    position: absolute;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    width: 245px;
+
+    padding: 11px;
+
+    background:
+        rgba(20,20,23,.82);
+
+    border:
+        1px solid #27272a;
+
+    border-radius: 13px;
+
+    backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 15px 50px
+        rgba(0,0,0,.35);
+
+    opacity: 0;
+
+    transition:
+        border-color .3s,
+        box-shadow .3s,
+        transform .3s;
+
+}
+
+
+.script-icon {
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #0b0b0d;
+
+    border:
+        1px solid #3f3f46;
+
+    color: #818cf8;
+
+}
+
+
+.wartex-script-float > div:nth-child(2) {
+
+    display: flex;
+
+    flex-direction: column;
+
+    flex: 1;
+
+    gap: 3px;
+
+}
+
+
+.wartex-script-float strong {
+
+    font-size: 10px;
+
+    color: #f4f4f5;
+
+}
+
+
+.wartex-script-float span {
+
+    color: #6366f1;
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+
+    font-weight: 800;
+
+}
+
+
+.script-code {
+
+    color: #52525b;
+
+    font-size: 10px;
+
+}
+
+
+/* =========================================================
+   GAME POSITIONS
+========================================================= */
+
+.wartex-script-1 {
+
+    left: 6%;
+    top: 19%;
+
+    transform:
+        translateX(-220px)
+        rotate(-5deg);
+
+    animation:
+        scriptLeftTop
+        1.2s
+        cubic-bezier(.2,.8,.2,1)
+        5s
+        forwards;
+
+}
+
+
+.wartex-script-2 {
+
+    left: 4%;
+    bottom: 17%;
+
+    transform:
+        translate(-220px,80px)
+        rotate(5deg);
+
+    animation:
+        scriptLeftBottom
+        1.2s
+        cubic-bezier(.2,.8,.2,1)
+        6.2s
+        forwards;
+
+}
+
+
+.wartex-script-3 {
+
+    right: 6%;
+    top: 20%;
+
+    transform:
+        translateX(220px)
+        rotate(5deg);
+
+    animation:
+        scriptRightTop
+        1.2s
+        cubic-bezier(.2,.8,.2,1)
+        6.8s
+        forwards;
+
+}
+
+
+.wartex-script-4 {
+
+    right: 4%;
+    bottom: 17%;
+
+    transform:
+        translate(220px,80px)
+        rotate(-5deg);
+
+    animation:
+        scriptRightBottom
+        1.2s
+        cubic-bezier(.2,.8,.2,1)
+        7.8s
+        forwards;
+
+}
+
+
+/* BROOKHAVEN */
+
+.wartex-script-5 {
+
+    left: 8%;
+    top: 38%;
+
+    transform:
+        translateX(-240px)
+        rotate(-4deg);
+
+    animation:
+        scriptLeftMiddle
+        1.2s
+        cubic-bezier(.2,.8,.2,1)
+        9s
+        forwards;
+
+}
+
+
+/* STEAL A BRAINROT */
+
+.wartex-script-6 {
+
+    right: 8%;
+    top: 42%;
+
+    transform:
+        translateX(240px)
+        rotate(4deg);
+
+    animation:
+        scriptRightMiddle
+        1.2s
+        cubic-bezier(.2,.8,.2,1)
+        10s
+        forwards;
+
+}
+
+
+@keyframes scriptLeftTop {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateX(-220px)
+            rotate(-5deg);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            rotate(0);
+
+    }
+
+}
+
+
+@keyframes scriptLeftBottom {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translate(-220px,80px)
+            rotate(5deg);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translate(0,0)
+            rotate(0);
+
+    }
+
+}
+
+
+@keyframes scriptRightTop {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateX(220px)
+            rotate(5deg);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            rotate(0);
+
+    }
+
+}
+
+
+@keyframes scriptRightBottom {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translate(220px,80px)
+            rotate(-5deg);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translate(0,0)
+            rotate(0);
+
+    }
+
+}
+
+
+@keyframes scriptLeftMiddle {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateX(-240px)
+            rotate(-4deg);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            rotate(0);
+
+    }
+
+}
+
+
+@keyframes scriptRightMiddle {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateX(240px)
+            rotate(4deg);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            rotate(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   TRANSITION
+========================================================= */
+
+.wartex-transition {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 20;
+
+    pointer-events: none;
+
+}
+
+
+.transition-line {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 0;
+    height: 1px;
+
+    transform:
+        translate(-50%,-50%);
+
+    background: white;
+
+    box-shadow:
+        0 0 35px
+        rgba(255,255,255,.9);
+
+    animation:
+        transitionLine
+        30s
+        ease
+        forwards;
+
+}
+
+
+@keyframes transitionLine {
+
+    0%,
+    50% {
+
+        width: 0;
+
+        opacity: 0;
+
+    }
+
+    53% {
+
+        width: 100%;
+
+        opacity: 1;
+
+    }
+
+    56% {
+
+        width: 100%;
+
+        opacity: 0;
+
+    }
+
+    100% {
+
+        width: 0;
+
+        opacity: 0;
+
+    }
+
+}
+
+
+/* =========================================================
+   SCENE TWO
+========================================================= */
+
+@keyframes sceneTwo {
+
+    0%,
+    51% {
+
+        opacity: 0;
+
+        transform:
+            scale(.96)
+            translateY(35px);
+
+    }
+
+    59% {
+
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0);
+
+    }
+
+    88% {
+
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0);
+
+    }
+
+    97% {
+
+        opacity: 0;
+
+        transform:
+            scale(1.04)
+            translateY(-20px);
+
+    }
+
+    100% {
+
+        opacity: 0;
+
+    }
+
+}
+
+
+/* =========================================================
+   EXECUTOR LEFT
+========================================================= */
+
+.wartex-executor-side {
+
+    position: absolute;
+
+    left: 8vw;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    width: 410px;
+
+}
+
+
+.executor-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin-bottom: 17px;
+
+    color: #71717a;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+}
+
+
+.executor-header span {
+
+    width: 20px;
+
+    height: 1px;
+
+    background: #6366f1;
+
+}
+
+
+.wartex-executor-side h2 {
+
+    margin: 0 0 20px;
+
+    font-size: 38px;
+
+    line-height: .95;
+
+    letter-spacing: -2px;
+
+    color: #f4f4f5;
+
+    opacity: 0;
+
+    animation:
+        executorTitle
+        1s
+        ease
+        17s
+        forwards;
+
+}
+
+
+.wartex-executor-side h2 strong {
+
+    display: block;
+
+    color: #6366f1;
+
+}
+
+
+@keyframes executorTitle {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateX(-30px);
+
+        filter: blur(8px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateX(0);
+
+        filter: blur(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   EXECUTOR CARDS
+========================================================= */
+
+.wartex-executor-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+}
+
+
+.wartex-executor-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 9px;
+
+    background:
+        rgba(20,20,23,.84);
+
+    border:
+        1px solid #27272a;
+
+    border-radius: 11px;
+
+    backdrop-filter: blur(10px);
+
+    transition:
+        border-color .3s,
+        transform .3s,
+        box-shadow .3s;
+
+}
+
+
+.executor-icon {
+
+    width: 39px;
+    height: 39px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #0b0b0d;
+
+    border:
+        1px solid #3f3f46;
+
+    border-radius: 9px;
+
+    color: #818cf8;
+
+}
+
+
+.executor-info {
+
+    display: flex;
+
+    flex-direction: column;
+
+    flex: 1;
+
+    gap: 2px;
+
+}
+
+
+.executor-info strong {
+
+    color: #f4f4f5;
+
+    font-size: 10px;
+
+}
+
+
+.executor-info span {
+
+    color: #6366f1;
+
+    font-size: 8px;
+
+    letter-spacing: 1.5px;
+
+}
+
+
+.executor-arrow {
+
+    color: #52525b;
+
+    font-size: 9px;
+
+}
+
+
+/* =========================================================
+   MOBILE DELTA
+========================================================= */
+
+.executor-left-1 {
+
+    opacity: 0;
+
+    transform:
+        translateX(-100px);
+
+    animation:
+        executorIn
+        .8s
+        ease
+        18s
+        forwards;
+
+}
+
+
+/* =========================================================
+   PC EXECUTORS
+========================================================= */
+
+.executor-left-2 {
+
+    opacity: 0;
+
+    transform:
+        translateX(-100px);
+
+    animation:
+        executorIn
+        .8s
+        ease
+        20.2s
+        forwards;
+
+}
+
+
+.executor-left-3 {
+
+    opacity: 0;
+
+    transform:
+        translateX(-100px);
+
+    animation:
+        executorIn
+        .8s
+        ease
+        21s
+        forwards;
+
+}
+
+
+.executor-left-4 {
+
+    opacity: 0;
+
+    transform:
+        translateX(-100px);
+
+    animation:
+        executorIn
+        .8s
+        ease
+        21.8s
+        forwards;
+
+}
+
+
+.executor-left-5 {
+
+    opacity: 0;
+
+    transform:
+        translateX(-100px);
+
+    animation:
+        executorIn
+        .8s
+        ease
+        22.6s
+        forwards;
+
+}
+
+
+@keyframes executorIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateX(-100px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateX(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   PC DIVIDER
+========================================================= */
+
+.executor-divider {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin: 18px 0 10px;
+
+    color: #52525b;
+
+    font-size: 7px;
+
+    letter-spacing: 2px;
+
+    opacity: 0;
+
+    animation:
+        dividerIn
+        .8s
+        ease
+        19.2s
+        forwards;
+
+}
+
+
+.executor-divider span {
+
+    height: 1px;
+
+    flex: 1;
+
+    background: #27272a;
+
+}
+
+
+.executor-divider b {
+
+    white-space: nowrap;
+
+    font-weight: 700;
+
+}
+
+
+@keyframes dividerIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(10px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   RIGHT SIDE
+========================================================= */
+
+.wartex-executor-right {
+
+    position: absolute;
+
+    right: 8vw;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    width: 470px;
+
+}
+
+
+.executor-small-label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #71717a;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 20px;
+
+    opacity: 0;
+
+    animation:
+        rightTextIn
+        .8s
+        ease
+        17s
+        forwards;
+
+}
+
+
+.executor-small-label span {
+
+    width: 22px;
+
+    height: 1px;
+
+    background: #6366f1;
+
+}
+
+
+.executor-big-title {
+
+    font-size:
+        clamp(42px, 5vw, 70px);
+
+    line-height: .9;
+
+    letter-spacing: -4px;
+
+    font-weight: 950;
+
+    color: #f4f4f5;
+
+    opacity: 0;
+
+    animation:
+        rightTitleIn
+        1s
+        ease
+        17.5s
+        forwards;
+
+}
+
+
+.executor-big-title strong {
+
+    display: block;
+
+    color: #6366f1;
+
+}
+
+
+@keyframes rightTitleIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(25px);
+
+        filter: blur(10px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+        filter: blur(0);
+
+    }
+
+}
+
+
+.wartex-executor-right > p {
+
+    max-width: 440px;
+
+    margin-top: 24px;
+
+    color: #a1a1aa;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+
+    opacity: 0;
+
+    animation:
+        rightTextIn
+        .8s
+        ease
+        18.6s
+        forwards;
+
+}
+
+
+@keyframes rightTextIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(15px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.executor-stats {
+
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 24px;
+
+    opacity: 0;
+
+    animation:
+        rightTextIn
+        .8s
+        ease
+        19.5s
+        forwards;
+
+}
+
+
+.executor-stats div {
+
+    min-width: 85px;
+
+    padding: 10px;
+
+    border:
+        1px solid #27272a;
+
+    background:
+        rgba(24,24,27,.65);
+
+    border-radius: 9px;
+
+}
+
+
+.executor-stats strong {
+
+    display: block;
+
+    color: #f4f4f5;
+
+    font-size: 13px;
+
+}
+
+
+.executor-stats span {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: #52525b;
+
+    font-size: 7px;
+
+    letter-spacing: 1.5px;
+
+}
+
+
+/* =========================================================
+   SECURITY
+========================================================= */
+
+.wartex-security-box {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    margin-top: 20px;
+
+    padding: 11px;
+
+    border:
+        1px solid #27272a;
+
+    background:
+        rgba(24,24,27,.65);
+
+    border-radius: 11px;
+
+    opacity: 0;
+
+    animation:
+        rightTextIn
+        .8s
+        ease
+        20.4s
+        forwards;
+
+}
+
+
+.security-icon {
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background:
+        rgba(99,102,241,.08);
+
+    border:
+        1px solid rgba(99,102,241,.2);
+
+    color: #818cf8;
+
+}
+
+
+.wartex-security-box strong {
+
+    display: block;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+}
+
+
+.wartex-security-box span {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: #71717a;
+
+    font-size: 8px;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.executor-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 45px;
+
+    color: #52525b;
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+
+    opacity: 0;
+
+    animation:
+        rightTextIn
+        .8s
+        ease
+        21.3s
+        forwards;
+
+}
+
+
+.executor-footer span {
+
+    height: 1px;
+
+    flex: 1;
+
+    background: #27272a;
+
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.wartex-loading {
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 28px;
+
+    transform:
+        translateX(-50%);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: #52525b;
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+
+    z-index: 50;
+
+    animation:
+        loadingFade
+        30s
+        ease
+        forwards;
+
+}
+
+
+.loading-bar {
+
+    width: 55px;
+
+    height: 1px;
+
+    background: #27272a;
+
+    overflow: hidden;
+
+}
+
+
+.loading-bar div {
+
+    width: 0;
+
+    height: 100%;
+
+    background: #6366f1;
+
+    animation:
+        loadingProgress
+        28s
+        linear
+        forwards;
+
+}
+
+
+@keyframes loadingProgress {
+
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+
+}
+
+
+@keyframes loadingFade {
+
+    0% {
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    87% {
+        opacity: 1;
+    }
+
+    95% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+
+}
+
+
+/* =========================================================
+   EXIT
+========================================================= */
+
+@keyframes wartexExit {
+
+    0% {
+
+        opacity: 1;
+
+        visibility: visible;
+
+    }
+
+    89% {
+
+        opacity: 1;
+
+        visibility: visible;
+
+    }
+
+    95% {
+
+        opacity: 0;
+
+        visibility: visible;
+
+    }
+
+    100% {
+
+        opacity: 0;
+
+        visibility: hidden;
+
+        pointer-events: none;
+
+    }
+
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.wartex-script-float:hover {
+
+    border-color:
+        #4f46e5;
+
+    box-shadow:
+        0 0 35px
+        rgba(99,102,241,.12);
+
+    transform:
+        translateY(-4px)
+        scale(1.02);
+
+}
+
+
+.wartex-executor-card:hover {
+
+    border-color:
+        #4f46e5;
+
+    transform:
+        translateX(5px);
+
+    box-shadow:
+        0 0 30px
+        rgba(99,102,241,.08);
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .wartex-original-intro {
+
+        overflow-y: auto;
+
+    }
+
+
+    .wartex-main-logo {
+
+        gap: 13px;
+
+    }
+
+
+    .wartex-logo-box {
+
+        width: 58px;
+        height: 58px;
+
+        border-radius: 15px;
+
+    }
+
+
+    .wartex-logo-box img {
+
+        width: 45px;
+        height: 45px;
+
+    }
+
+
+    .wartex-logo-title {
+
+        font-size: 38px;
+
+        letter-spacing: -2px;
+
+    }
+
+
+    .wartex-tagline {
+
+        gap: 8px;
+
+        font-size: 8px;
+
+        margin-top: 25px;
+
+    }
+
+
+    .wartex-script-float {
+
+        width: 185px;
+
+        padding: 8px;
+
+    }
+
+
+    .script-icon {
+
+        width: 32px;
+        height: 32px;
+
+    }
+
+
+    .wartex-script-float strong {
+
+        font-size: 8px;
+
+    }
+
+
+    .wartex-script-1 {
+
+        left: 3%;
+        top: 10%;
+
+    }
+
+
+    .wartex-script-2 {
+
+        left: 3%;
+        bottom: 9%;
+
+    }
+
+
+    .wartex-script-3 {
+
+        right: 3%;
+        top: 23%;
+
+    }
+
+
+    .wartex-script-4 {
+
+        right: 3%;
+        bottom: 16%;
+
+    }
+
+
+    .wartex-script-5 {
+
+        left: 3%;
+        top: 32%;
+
+    }
+
+
+    .wartex-script-6 {
+
+        right: 3%;
+        top: 42%;
+
+    }
+
+
+    .wartex-executor-side {
+
+        left: 20px;
+
+        width:
+            calc(100% - 40px);
+
+        top: 43%;
+
+    }
+
+
+    .wartex-executor-right {
+
+        display: none;
+
+    }
+
+
+    .wartex-executor-side h2 {
+
+        font-size: 30px;
+
+    }
+
+
+    .wartex-executor-card {
+
+        padding: 7px;
+
+    }
+
+
+    .executor-divider {
+
+        margin:
+            10px 0 7px;
+
+    }
+
+
+    .wartex-loading {
+
+        bottom: 15px;
+
+        font-size: 7px;
+
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+    .wartex-script-float {
+
+        width: 155px;
+
+    }
+
+
+    .wartex-script-float strong {
+
+        font-size: 7px;
+
+    }
+
+
+    .wartex-script-float span {
+
+        font-size: 6px;
+
+    }
+
+
+    .script-code {
+
+        display: none;
+
+    }
+
+
+    .wartex-logo-title {
+
+        font-size: 31px;
+
+    }
+
+
+    .wartex-tagline {
+
+        max-width: 330px;
+
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+
+}
+
 
 </style>
 
@@ -968,32 +3413,499 @@ nav.main-menu-animated button.wartex-more-trigger{background:linear-gradient(180
       </article>
       <article class="wartex-promo-card wartex-promo-card-alt wartex-intro-host" data-wartex-tilt>
         <div class="wartex-promo-orbit" aria-hidden="true"></div>
-        <div class="wartex-inline-intro" aria-label="WARTEX Script Hub cinematic looping intro">
-          <span class="wartex-promo-kicker"><span class="wartex-promo-dot"></span> WARTEX NETWORK <span class="wartex-inline-live"><i></i> SYSTEM READY</span></span>
-          <div class="wartex-inline-window">
-            <div class="wartex-inline-scene wartex-inline-scene-a">
-              <span class="wartex-inline-eyebrow">ROBLOX SCRIPT NETWORK</span>
-              <h2 class="wartex-inline-logo">WARTEX <strong>SCRIPT HUB</strong></h2>
-              <p>THE SAFEST <b>·</b> THE FASTEST <b>·</b> TOP SCRIPTS</p>
-            </div>
-            <div class="wartex-inline-scene wartex-inline-scene-b">
-              <span class="wartex-inline-eyebrow">DISCOVER YOUR NEXT SCRIPT</span>
-              <h2>EXPLORE <strong>POPULAR GAMES</strong></h2>
-              <div class="wartex-inline-game-row"><span><i class="fa-solid fa-gamepad"></i> BLOX FRUITS</span><span><i class="fa-solid fa-skull"></i> DOORS</span><span><i class="fa-solid fa-bolt"></i> BROOKHAVEN</span></div>
-            </div>
-            <div class="wartex-inline-scene wartex-inline-scene-c">
-              <span class="wartex-inline-eyebrow">WARTEX EXECUTOR</span>
-              <h2>ADVANCED <strong>EXECUTION UI</strong></h2>
-              <p>Customizable interface · Key System · Script Hub</p>
-            </div>
-            <div class="wartex-inline-scene wartex-inline-scene-d">
-              <span class="wartex-inline-eyebrow">SYSTEM STATUS</span>
-              <h2><strong>BUILT FOR WARTEX</strong></h2>
-              <div class="wartex-inline-feature-row"><span><i class="fa-solid fa-shield-halved"></i> SECURITY</span><span><i class="fa-solid fa-bolt"></i> FAST ACCESS</span><span><i class="fa-solid fa-code"></i> SCRIPT HUB</span></div>
-            </div>
-          </div>
-          <button type="button" class="wartex-promo-cta" onclick="openWartexScriptHub()">Script Hub'ı Aç <span aria-hidden="true">↗</span></button>
+        <div class="wartex-inline-intro wartex-original-intro-host"><div class="wartex-intro-bg"></div>
+<div class="wartex-grid"></div>
+
+<!-- PARTICLES -->
+<div class="wartex-particles">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+</div>
+
+
+<!-- =====================================================
+     SCENE 1 — SCRIPT HUB
+====================================================== -->
+
+<section class="wartex-scene wartex-scene-one">
+
+    <div class="wartex-center-intro">
+
+        <div class="wartex-top-line">
+            <span></span>
+            ROBLOX SCRIPT NETWORK
+            <span></span>
         </div>
+
+
+        <div class="wartex-main-logo">
+
+            <div class="wartex-logo-box">
+
+                <img
+                    src="/favicon.ico"
+                    alt="WARTEX"
+                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                >
+
+                <div class="wartex-logo-fallback">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+
+            </div>
+
+
+            <div class="wartex-logo-title">
+                WARTEX
+                <strong>SCRIPT HUB</strong>
+            </div>
+
+        </div>
+
+
+        <div class="wartex-tagline">
+
+            <span>THE SAFEST</span>
+
+            <i></i>
+
+            <span>THE FASTEST</span>
+
+            <i></i>
+
+            <span>THE MOST POPULAR SCRIPTS</span>
+
+        </div>
+
+
+        <div class="wartex-center-status">
+
+            <span class="status-dot"></span>
+
+            SYSTEM INITIALIZING
+
+            <span class="status-line"></span>
+
+            <span>01</span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         GAME 1
+    ================================================== -->
+
+    <div class="wartex-script-float wartex-script-1">
+
+        <div class="script-icon">
+            <i class="fa-solid fa-gamepad"></i>
+        </div>
+
+        <div>
+            <strong>BLOX FRUITS</strong>
+            <span>SCRIPT</span>
+        </div>
+
+        <i class="fa-solid fa-code script-code"></i>
+
+    </div>
+
+
+
+    <!-- =================================================
+         GAME 2
+    ================================================== -->
+
+    <div class="wartex-script-float wartex-script-2">
+
+        <div class="script-icon">
+            <i class="fa-solid fa-skull"></i>
+        </div>
+
+        <div>
+            <strong>FALLEN SURVIVAL</strong>
+            <span>SCRIPT</span>
+        </div>
+
+        <i class="fa-solid fa-code script-code"></i>
+
+    </div>
+
+
+
+    <!-- =================================================
+         GAME 3
+    ================================================== -->
+
+    <div class="wartex-script-float wartex-script-3">
+
+        <div class="script-icon">
+            <i class="fa-solid fa-door-open"></i>
+        </div>
+
+        <div>
+            <strong>DOORS</strong>
+            <span>SCRIPT</span>
+        </div>
+
+        <i class="fa-solid fa-code script-code"></i>
+
+    </div>
+
+
+
+    <!-- =================================================
+         GAME 4
+    ================================================== -->
+
+    <div class="wartex-script-float wartex-script-4">
+
+        <div class="script-icon">
+            <i class="fa-solid fa-mask-face"></i>
+        </div>
+
+        <div>
+            <strong>MURDER MYSTERY 2</strong>
+            <span>SCRIPT</span>
+        </div>
+
+        <i class="fa-solid fa-code script-code"></i>
+
+    </div>
+
+
+
+    <!-- =================================================
+         GAME 5
+    ================================================== -->
+
+    <div class="wartex-script-float wartex-script-5">
+
+        <div class="script-icon">
+            <i class="fa-solid fa-house"></i>
+        </div>
+
+        <div>
+            <strong>BROOKHAVEN</strong>
+            <span>SCRIPT</span>
+        </div>
+
+        <i class="fa-solid fa-code script-code"></i>
+
+    </div>
+
+
+
+    <!-- =================================================
+         GAME 6
+    ================================================== -->
+
+    <div class="wartex-script-float wartex-script-6">
+
+        <div class="script-icon">
+            <i class="fa-solid fa-brain"></i>
+        </div>
+
+        <div>
+            <strong>STEAL A BRAINROT</strong>
+            <span>SCRIPT</span>
+        </div>
+
+        <i class="fa-solid fa-code script-code"></i>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     TRANSITION
+====================================================== -->
+
+<div class="wartex-transition">
+
+    <div class="transition-line"></div>
+
+    <div class="transition-flash"></div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SCENE 2 — EXECUTORS
+====================================================== -->
+
+<section class="wartex-scene wartex-scene-two">
+
+
+    <!-- =================================================
+         LEFT SIDE
+    ================================================== -->
+
+    <div class="wartex-executor-side">
+
+        <div class="executor-header">
+
+            <span></span>
+
+            EXECUTOR DIRECTORY
+
+        </div>
+
+
+        <h2>
+            MOBILE
+            <strong>EXECUTORS</strong>
+        </h2>
+
+
+        <div class="wartex-executor-list">
+
+            <!-- DELTA -->
+
+            <div class="wartex-executor-card executor-left-1">
+
+                <div class="executor-icon">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+
+                <div class="executor-info">
+
+                    <strong>DELTA</strong>
+
+                    <span>EXECUTOR</span>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right executor-arrow"></i>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PC DIVIDER -->
+
+        <div class="executor-divider">
+
+            <span></span>
+
+            <b>PC EXECUTORS</b>
+
+            <span></span>
+
+        </div>
+
+
+
+        <div class="wartex-executor-list">
+
+            <!-- SOLARA V3 -->
+
+            <div class="wartex-executor-card executor-left-2">
+
+                <div class="executor-icon">
+                    <i class="fa-solid fa-terminal"></i>
+                </div>
+
+                <div class="executor-info">
+
+                    <strong>SOLARA V3</strong>
+
+                    <span>EXECUTOR</span>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right executor-arrow"></i>
+
+            </div>
+
+
+            <!-- REAL -->
+
+            <div class="wartex-executor-card executor-left-3">
+
+                <div class="executor-icon">
+                    <i class="fa-solid fa-circle-nodes"></i>
+                </div>
+
+                <div class="executor-info">
+
+                    <strong>REAL</strong>
+
+                    <span>EXECUTOR</span>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right executor-arrow"></i>
+
+            </div>
+
+
+            <!-- POTASSIUM -->
+
+            <div class="wartex-executor-card executor-left-4">
+
+                <div class="executor-icon">
+                    <i class="fa-solid fa-flask"></i>
+                </div>
+
+                <div class="executor-info">
+
+                    <strong>POTASSIUM</strong>
+
+                    <span>EXECUTOR</span>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right executor-arrow"></i>
+
+            </div>
+
+
+            <!-- VECTOR -->
+
+            <div class="wartex-executor-card executor-left-5">
+
+                <div class="executor-icon">
+                    <i class="fa-solid fa-vector-square"></i>
+                </div>
+
+                <div class="executor-info">
+
+                    <strong>VECTOR</strong>
+
+                    <span>EXECUTOR</span>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right executor-arrow"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         RIGHT SIDE
+    ================================================== -->
+
+    <div class="wartex-executor-right">
+
+        <div class="executor-small-label">
+
+            <span></span>
+
+            WARTEX EXECUTOR NETWORK
+
+        </div>
+
+
+        <div class="executor-big-title">
+
+            MOBILE & PC
+
+            <strong>EXECUTORS</strong>
+
+        </div>
+
+
+        <p>
+
+            Discover updated executor resources
+            for mobile and PC platforms,
+            all in one central hub.
+
+        </p>
+
+
+        <div class="executor-stats">
+
+            <div>
+                <strong>06+</strong>
+                <span>EXECUTORS</span>
+            </div>
+
+            <div>
+                <strong>24/7</strong>
+                <span>NETWORK</span>
+            </div>
+
+            <div>
+                <strong>FAST</strong>
+                <span>ACCESS</span>
+            </div>
+
+        </div>
+
+
+        <div class="wartex-security-box">
+
+            <div class="security-icon">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+            </div>
+
+            <div>
+
+                <strong>WARTEX SECURITY</strong>
+
+                <span>
+                    Resources are regularly reviewed and monitored.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="executor-footer">
+
+            <span></span>
+
+            WARTEX SCRIPT HUB
+
+            <span></span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     LOADING
+====================================================== -->
+
+<div class="wartex-loading">
+
+    <div class="loading-bar">
+
+        <div></div>
+
+    </div>
+
+    <span>INITIALIZING WARTEX SCRIPT HUB</span>
+
+</div></div><button type="button" class="wartex-original-intro-cta" onclick="openWartexScriptHub()">SCRIPT HUB <span>↗</span></button></div>
         <div class="wartex-promo-mark" aria-hidden="true">WH<span>+</span></div><div class="wartex-promo-reflection" aria-hidden="true"></div>
       </article>
     </section>
@@ -10736,6 +13648,26 @@ function wartexCopyScript(script) {
     else alert((labels[key]||'Bu bölüm')+' bölümü yakında eklenecek.');
   };
   document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+})();
+</script>
+
+
+<script id="wartex-original-intro-loop">
+(function(){
+ const roots=document.querySelectorAll('.wartex-original-intro');
+ roots.forEach(function(root){
+   if(root.dataset.loopReady==='1') return;
+   root.dataset.loopReady='1';
+   const cycle=root.querySelector('.wartex-original-intro-cycle');
+   if(!cycle) return;
+   const initial=cycle.innerHTML;
+   window.setInterval(function(){
+     const replacement=document.createElement('div');
+     replacement.className='wartex-original-intro-cycle';
+     replacement.innerHTML=initial;
+     cycle.replaceWith(replacement);
+   },29500);
+ });
 })();
 </script>
 
