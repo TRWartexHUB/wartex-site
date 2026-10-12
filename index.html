@@ -3413,7 +3413,7 @@ body{background-attachment:scroll}
       </article>
       <article class="wartex-promo-card wartex-promo-card-alt wartex-intro-host" data-wartex-tilt>
         <div class="wartex-promo-orbit" aria-hidden="true"></div>
-        <div class="wartex-inline-intro wartex-original-intro-host"><div class="wartex-intro-bg"></div>
+        <div class="wartex-inline-intro wartex-original-intro-host"><div class="wartex-original-intro"><div class="wartex-original-intro-cycle"><div class="wartex-intro-bg"></div>
 <div class="wartex-grid"></div>
 
 <!-- PARTICLES -->
@@ -3905,8 +3905,9 @@ body{background-attachment:scroll}
 
     <span>INITIALIZING WARTEX SCRIPT HUB</span>
 
-</div></div><button type="button" class="wartex-original-intro-cta" onclick="openWartexScriptHub()">SCRIPT HUB <span>↗</span></button></div>
-        <div class="wartex-promo-mark" aria-hidden="true">WH<span>+</span></div><div class="wartex-promo-reflection" aria-hidden="true"></div>
+</div></div></div>
+<button type="button" class="wartex-original-intro-cta" onclick="openWartexScriptHub()">SCRIPT HUB <span>↗</span></button>
+<div class="wartex-promo-mark" aria-hidden="true">WH<span>+</span></div><div class="wartex-promo-reflection" aria-hidden="true"></div>
       </article>
     </section>
 
@@ -13654,18 +13655,19 @@ function wartexCopyScript(script) {
 
 <script id="wartex-original-intro-loop">
 (function(){
- const roots=document.querySelectorAll('.wartex-original-intro');
- roots.forEach(function(root){
+ document.querySelectorAll('.wartex-original-intro').forEach(function(root){
    if(root.dataset.loopReady==='1') return;
    root.dataset.loopReady='1';
-   const cycle=root.querySelector('.wartex-original-intro-cycle');
-   if(!cycle) return;
-   const initial=cycle.innerHTML;
+   const first=root.querySelector('.wartex-original-intro-cycle');
+   if(!first) return;
+   const initial=first.innerHTML;
    window.setInterval(function(){
+     const current=root.querySelector('.wartex-original-intro-cycle');
+     if(!current) return;
      const replacement=document.createElement('div');
      replacement.className='wartex-original-intro-cycle';
      replacement.innerHTML=initial;
-     cycle.replaceWith(replacement);
+     current.replaceWith(replacement);
    },29500);
  });
 })();
