@@ -3234,32 +3234,10 @@ body{background-attachment:scroll}
 .wartex-home-copy p strong{color:#dedbe8;font-weight:600}
 .wartex-home-copy a{color:#d8b4fe;text-decoration:underline;text-decoration-color:rgba(216,180,254,.4);text-underline-offset:3px}
 .wartex-home-copy a:hover{color:#fff}
-/* Stable 8-second intro playback: keep the banner visible and loop scenes without DOM replacement */
+/* Minimal intro repair: keep the original scene animations, repeat them every 8 seconds */
 .wartex-original-intro .wartex-original-intro-cycle{animation:none!important}
-.wartex-original-intro .wartex-scene-one{opacity:1;animation:wartexSceneOneStable 8s linear infinite!important}
-.wartex-original-intro .wartex-scene-two{opacity:0;animation:wartexSceneTwoStable 8s linear infinite!important}
-.wartex-original-intro .wartex-transition{animation:wartexTransitionStable 8s linear infinite!important}
-@keyframes wartexSceneOneStable{
-  0%,4%{opacity:1;transform:scale(.98)}
-  8%,43%{opacity:1;transform:scale(1)}
-  50%{opacity:0;transform:scale(1.025)}
-  51%,100%{opacity:0}
-}
-@keyframes wartexSceneTwoStable{
-  0%,43%{opacity:0;transform:scale(.97) translateY(12px)}
-  50%,91%{opacity:1;transform:scale(1) translateY(0)}
-  98%,100%{opacity:0;transform:scale(1.025) translateY(-8px)}
-}
-@keyframes wartexTransitionStable{
-  0%,43%{opacity:0}
-  47%,50%{opacity:1}
-  54%,100%{opacity:0}
-}
-.wartex-original-intro .wartex-scene-one *,
-.wartex-original-intro .wartex-scene-two *{animation-iteration-count:infinite}
-.wartex-original-intro .wartex-scene-one .wartex-center-intro,
-.wartex-original-intro .wartex-scene-two .wartex-executor-side,
-.wartex-original-intro .wartex-scene-two .wartex-executor-right{animation-duration:8s}
+.wartex-original-intro .wartex-scene-one{animation:sceneOne 8s ease-in-out infinite!important}
+.wartex-original-intro .wartex-scene-two{animation:sceneTwo 8s ease-in-out infinite!important}
 </style>
 </head>
 
