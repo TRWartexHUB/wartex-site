@@ -695,6 +695,36 @@ body{background-attachment:scroll}
 @keyframes wartexComingIn{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
 @media(max-width:640px){.wartex-nav-button{padding:9px 10px}.wartex-more-panel{width:min(340px,90vw)}.wartex-spoofer-product{gap:9px;padding:12px}.wartex-coming-card{padding:25px 20px}}
 @media(prefers-reduced-motion:reduce){.wartex-more-backdrop,.wartex-more-panel,.wartex-menu-item,.wartex-nav-button,.wartex-spoofer-product,.wartex-coming-card,.wartex-coming-close{animation:none!important;transition:none!important}}
+
+/* Cinematic intro safely embedded in the Script Hub banner */
+.wartex-intro-host{min-width:0;min-height:270px}
+.wartex-inline-intro{position:relative;z-index:2;width:100%;min-width:0;min-height:220px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:.55rem;overflow:hidden}
+.wartex-inline-window{position:relative;width:100%;height:112px;min-width:0;overflow:hidden;isolation:isolate;contain:layout paint}
+.wartex-inline-scene{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;min-width:0;max-width:100%;overflow:hidden;opacity:0;animation:wartexInlineSceneLoop 16s infinite both;padding-right:.2rem}
+.wartex-inline-scene-a{animation-delay:0s}.wartex-inline-scene-b{animation-delay:4s}.wartex-inline-scene-c{animation-delay:8s}.wartex-inline-scene-d{animation-delay:12s}
+.wartex-inline-eyebrow{font-size:clamp(.48rem,1vw,.62rem);letter-spacing:.15em;color:#aeb4bd;font-weight:800;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wartex-inline-scene h2{font-size:clamp(1.1rem,2.4vw,1.75rem)!important;line-height:1.03!important;letter-spacing:-.045em!important;margin:.32rem 0!important;overflow-wrap:anywhere}
+.wartex-inline-scene h2 strong{display:block;font-weight:950}
+.wartex-inline-scene h2.wartex-inline-logo strong{display:inline}
+.wartex-inline-scene p{font-size:clamp(.57rem,1.08vw,.74rem)!important;line-height:1.35!important;margin:0!important;color:#c2c7ce!important;overflow-wrap:anywhere}
+.wartex-inline-scene p b{color:#fff;padding:0 .12rem}
+.wartex-inline-live{display:inline-flex;align-items:center;gap:5px;margin-left:.45rem;color:#e5e7eb;font-size:.55rem;letter-spacing:.1em}
+.wartex-inline-live i{width:5px;height:5px;border-radius:50%;background:#d1fae5;box-shadow:0 0 8px rgba(255,255,255,.6)}
+.wartex-inline-game-row,.wartex-inline-feature-row{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;min-width:0;max-width:100%;overflow:hidden}
+.wartex-inline-game-row span,.wartex-inline-feature-row span{display:inline-flex;align-items:center;gap:5px;min-width:0;padding:5px 7px;border:1px solid rgba(255,255,255,.14);border-radius:7px;background:rgba(255,255,255,.055);color:#d9dbe0;font-size:clamp(.48rem,.8vw,.61rem);font-weight:800;white-space:nowrap}
+.wartex-inline-game-row i,.wartex-inline-feature-row i{color:#fff;font-size:.58rem}
+.wartex-inline-intro .wartex-promo-cta{margin-top:.1rem;position:relative;z-index:4}
+@keyframes wartexInlineSceneLoop{0%,3%{opacity:0;transform:translateY(8px)}7%,22%{opacity:1;transform:translateY(0)}27%,100%{opacity:0;transform:translateY(-7px)}}
+.wartex-catalog-nav{background:rgba(255,255,255,.045)!important;border-color:rgba(255,255,255,.13)!important;color:#ededf0!important}
+.wartex-catalog-nav:hover{background:rgba(255,255,255,.105)!important;border-color:rgba(255,255,255,.25)!important}
+.wartex-nav-soon{font-size:8px;padding:3px 5px;border:1px solid rgba(255,255,255,.16);border-radius:5px;color:#bfc0c5;background:rgba(255,255,255,.05);letter-spacing:.04em}
+nav.main-menu-animated button,nav.main-menu-animated a{border-color:rgba(255,255,255,.12)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.035);transition:background-color .18s ease,border-color .18s ease,color .18s ease,transform .18s ease,box-shadow .18s ease}
+nav.main-menu-animated button:not(.wartex-more-trigger),nav.main-menu-animated a{background-color:rgba(255,255,255,.025)}
+nav.main-menu-animated button:hover,nav.main-menu-animated a:hover{background-color:rgba(255,255,255,.085)!important;border-color:rgba(255,255,255,.22)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 5px 14px rgba(0,0,0,.14);transform:translateY(-1px)}
+nav.main-menu-animated button.wartex-more-trigger{background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(220,220,220,.9));border-color:rgba(255,255,255,.55)!important}
+@media(max-width:700px){.wartex-intro-host{min-height:245px}.wartex-inline-intro{min-height:200px}.wartex-inline-window{height:100px}.wartex-inline-scene h2{font-size:1.32rem!important}.wartex-inline-eyebrow{font-size:.5rem}.wartex-inline-game-row span,.wartex-inline-feature-row span{padding:4px 5px;font-size:.47rem}}
+@media(prefers-reduced-motion:reduce){.wartex-inline-scene{animation:none!important;opacity:1}.wartex-inline-scene-b,.wartex-inline-scene-c,.wartex-inline-scene-d{display:none}}
+
 </style>
 
 </head>
@@ -839,6 +869,13 @@ body{background-attachment:scroll}
             <span>Executors / Externals</span>
 
         </button>
+        <button type="button" onclick="openModal('spooferCatalogModal')"
+                class="wartex-nav-button wartex-catalog-nav">
+            <i class="fa-solid fa-microchip"></i>
+            <span>Spoofer Kataloğu</span>
+            <span class="wartex-nav-soon">YAKINDA</span>
+        </button>
+
         <button onclick="openWartexScriptHub()"
         class="bg-purple-600/10 hover:bg-purple-600/20
                text-purple-300 px-3 py-1.5 rounded-lg
@@ -931,12 +968,29 @@ body{background-attachment:scroll}
       </article>
       <article class="wartex-promo-card wartex-promo-card-alt wartex-intro-host" data-wartex-tilt>
         <div class="wartex-promo-orbit" aria-hidden="true"></div>
-        <div class="wartex-inline-intro" aria-label="WARTEX Script Hub animated introduction">
-          <span class="wartex-promo-kicker"><span class="wartex-promo-dot"></span> WARTEX NETWORK</span>
+        <div class="wartex-inline-intro" aria-label="WARTEX Script Hub cinematic looping intro">
+          <span class="wartex-promo-kicker"><span class="wartex-promo-dot"></span> WARTEX NETWORK <span class="wartex-inline-live"><i></i> SYSTEM READY</span></span>
           <div class="wartex-inline-window">
-            <div class="wartex-inline-scene wartex-inline-scene-a"><span class="wartex-inline-eyebrow">ROBLOX SCRIPT NETWORK</span><h2>WARTEX <strong>SCRIPT HUB</strong></h2><p>Discover. Search. Execute.</p></div>
-            <div class="wartex-inline-scene wartex-inline-scene-b"><span class="wartex-inline-eyebrow">ADVANCED EXPERIENCE</span><h2>EXPLORE <strong>NEW SCRIPTS</strong></h2><p>Trending scripts · Fast discovery</p></div>
-            <div class="wartex-inline-scene wartex-inline-scene-c"><span class="wartex-inline-eyebrow">SYSTEM READY</span><h2>YOUR HUB <strong>STARTS HERE</strong></h2><p>One place for your script library.</p></div>
+            <div class="wartex-inline-scene wartex-inline-scene-a">
+              <span class="wartex-inline-eyebrow">ROBLOX SCRIPT NETWORK</span>
+              <h2 class="wartex-inline-logo">WARTEX <strong>SCRIPT HUB</strong></h2>
+              <p>THE SAFEST <b>·</b> THE FASTEST <b>·</b> TOP SCRIPTS</p>
+            </div>
+            <div class="wartex-inline-scene wartex-inline-scene-b">
+              <span class="wartex-inline-eyebrow">DISCOVER YOUR NEXT SCRIPT</span>
+              <h2>EXPLORE <strong>POPULAR GAMES</strong></h2>
+              <div class="wartex-inline-game-row"><span><i class="fa-solid fa-gamepad"></i> BLOX FRUITS</span><span><i class="fa-solid fa-skull"></i> DOORS</span><span><i class="fa-solid fa-bolt"></i> BROOKHAVEN</span></div>
+            </div>
+            <div class="wartex-inline-scene wartex-inline-scene-c">
+              <span class="wartex-inline-eyebrow">WARTEX EXECUTOR</span>
+              <h2>ADVANCED <strong>EXECUTION UI</strong></h2>
+              <p>Customizable interface · Key System · Script Hub</p>
+            </div>
+            <div class="wartex-inline-scene wartex-inline-scene-d">
+              <span class="wartex-inline-eyebrow">SYSTEM STATUS</span>
+              <h2><strong>BUILT FOR WARTEX</strong></h2>
+              <div class="wartex-inline-feature-row"><span><i class="fa-solid fa-shield-halved"></i> SECURITY</span><span><i class="fa-solid fa-bolt"></i> FAST ACCESS</span><span><i class="fa-solid fa-code"></i> SCRIPT HUB</span></div>
+            </div>
           </div>
           <button type="button" class="wartex-promo-cta" onclick="openWartexScriptHub()">Script Hub'ı Aç <span aria-hidden="true">↗</span></button>
         </div>
@@ -4332,6 +4386,18 @@ POTASSIUM is one of the paid options listed on the premium side, standing out wi
 
 </div>
 
+
+<!-- WARTEX SPOOFER CATALOG -->
+<div id="spooferCatalogModal" class="fixed inset-0 bg-black/85 z-50 items-center justify-center p-4 hidden">
+  <div class="wartex-coming-card">
+    <div class="wartex-coming-icon"><i class="fa-solid fa-microchip"></i></div>
+    <span class="wartex-coming-kicker">WARTEX • SPOOFER CATALOG</span>
+    <h3>Spoofer <strong>Kataloğu</strong></h3>
+    <p>Spoofer kataloğu hazırlanıyor. Ürün bilgileri ve özellikler hazır olduğunda burada yayınlanacak.</p>
+    <div class="wartex-coming-status"><span></span> Yakında eklenecek</div>
+    <button type="button" onclick="closeModal('spooferCatalogModal')" class="wartex-coming-close">Tamam</button>
+  </div>
+</div>
 
 <!-- WARTEX SPOOFER COMING SOON -->
 <div id="spooferComingSoonModal" class="fixed inset-0 bg-black/85 z-50 items-center justify-center p-4 hidden">
