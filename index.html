@@ -3203,6 +3203,27 @@ body{background-attachment:scroll}
 @media(prefers-reduced-motion:reduce){.wartex-home-hero:before{animation:none}.wartex-vip-chevron,.wartex-home-actions button,.wartex-executor-actions a{transition:none}}
 
 </style>
+<style id="wartex-glass-neon-refresh">
+
+/* WARTEX HOME COPY + GLASS NEON NAV */
+.wartex-home-description{position:relative;max-width:740px;margin:20px auto 0;padding:17px 20px;border:1px solid rgba(168,85,247,.22);border-radius:16px;background:linear-gradient(135deg,rgba(139,92,246,.085),rgba(255,255,255,.025));box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 0 26px rgba(139,92,246,.055);text-align:left}
+.wartex-home-description p{margin:0;color:#c8c5d2;font-size:clamp(11px,1.3vw,13px);line-height:1.8}
+.wartex-home-description p+p{margin-top:8px;padding-top:9px;border-top:1px solid rgba(255,255,255,.08);color:#a9a5b5}
+.wartex-home-description strong{color:#f3e8ff;font-weight:800}
+.wartex-home-subtitle{font-size:clamp(12px,1.8vw,16px)!important;letter-spacing:.12em!important;font-weight:850!important;color:#ddd6fe!important}
+.main-menu-animated .max-w-7xl{gap:7px!important}
+.main-menu-animated .max-w-7xl>button:not(.wartex-more-trigger){position:relative;isolation:isolate;display:inline-flex;align-items:center;gap:8px;padding:9px 12px!important;border:1px solid rgba(167,139,250,.17)!important;border-radius:11px!important;background:rgba(20,16,30,.36)!important;color:#d6d0e4!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 1px 0 rgba(255,255,255,.045);transition:background .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease!important}
+.main-menu-animated .max-w-7xl>button:not(.wartex-more-trigger):hover{background:rgba(139,92,246,.13)!important;border-color:rgba(192,132,252,.52)!important;color:#fff!important;box-shadow:0 0 0 1px rgba(168,85,247,.07),0 0 18px rgba(139,92,246,.12),inset 0 1px 0 rgba(255,255,255,.08)!important;transform:translateY(-1px)}
+.main-menu-animated .max-w-7xl>button:not(.wartex-more-trigger)>i{color:#c4b5fd!important;filter:drop-shadow(0 0 5px rgba(168,85,247,.25))}
+.main-menu-animated .max-w-7xl>button:not(.wartex-more-trigger) span{font-weight:750;letter-spacing:.01em}
+.main-menu-animated .max-w-7xl>button.wartex-more-trigger{border:1px solid rgba(192,132,252,.36)!important;background:rgba(139,92,246,.13)!important;color:#f5f3ff!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 16px rgba(139,92,246,.08)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.main-menu-animated .max-w-7xl>button.wartex-more-trigger:hover{background:rgba(139,92,246,.22)!important;border-color:rgba(216,180,254,.65)!important;box-shadow:0 0 22px rgba(139,92,246,.16)!important}
+.wartex-nav-button.wartex-catalog-nav{background:rgba(139,92,246,.08)!important;border-color:rgba(168,85,247,.23)!important;color:#e9ddff!important}
+.wartex-nav-button.wartex-catalog-nav:hover{background:rgba(139,92,246,.16)!important;border-color:rgba(192,132,252,.5)!important;box-shadow:0 0 18px rgba(139,92,246,.13)!important}
+@media(max-width:640px){.wartex-home-description{padding:14px;text-align:left}.main-menu-animated .max-w-7xl>button:not(.wartex-more-trigger){padding:8px 10px!important}}
+@media(prefers-reduced-motion:reduce){.main-menu-animated .max-w-7xl>button{transition:none!important}}
+
+</style>
 </head>
 
 <body class="min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-white">
@@ -3342,7 +3363,7 @@ body{background-attachment:scroll}
                        whitespace-nowrap">
 
             <i class="fa-solid fa-terminal text-indigo-400 text-[10px]"></i>
-            <span>Executors / Externals</span>
+            <span>WARTEX Executor</span>
 
         </button>
         <button type="button" onclick="openModal('spooferCatalogModal')"
@@ -3945,7 +3966,13 @@ body{background-attachment:scroll}
 
     <section class="wartex-home-hero">
  <div class="wartex-home-hero-top"><span class="wartex-home-symbol">W</span><span class="wartex-home-status"><i></i> WARTEX HUB ONLINE</span></div>
- <p class="wartex-home-kicker">YOUR ROBLOX COMMUNITY</p><h1>WARTEX <span>HUB</span></h1><p class="wartex-home-subtitle">Scripts. Tools. Community.</p>
+ <p class="wartex-home-kicker">OFFICIAL PLATFORM</p>
+ <h1>WARTEX <span>HUB</span></h1>
+ <p class="wartex-home-subtitle">ROBLOX FREE SCRIPT HUB &amp; FREE EXECUTOR</p>
+ <div class="wartex-home-description">
+  <p>WARTEX HUB provides Roblox free scripts, Roblox script hub resources, free executor resources and Roblox free spoofer tools.</p>
+  <p>Before using our platform, please review <strong>How to Purchase?</strong> and <strong>Terms</strong> sections.</p>
+ </div>
  <div class="wartex-home-tags"><span><i class="fa-solid fa-code"></i> SCRIPT HUB</span><span><i class="fa-solid fa-bolt"></i> WARTEX EXECUTOR</span><span><i class="fa-solid fa-users"></i> COMMUNITY</span></div>
  <div class="wartex-home-actions"><button type="button" onclick="openWartexScriptHub()"><i class="fa-solid fa-code"></i> Script Hub'ı Aç <i class="fa-solid fa-arrow-up-right-from-square"></i></button><button type="button" onclick="openModal('executorExternalModal')"><i class="fa-solid fa-bolt"></i> Executor'ı İncele</button></div>
 </section>
