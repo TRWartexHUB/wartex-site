@@ -640,6 +640,63 @@
             background: #3f3f46;
         }
     </style>
+
+<style id="wartex-more-menu-style">
+/* Performance: remove the page-wide repaint animations; keep interaction motion lightweight. */
+body{background-attachment:scroll}
+.main-menu-animated{animation:none!important;will-change:auto!important}
+.wartex-logo-text{animation:none!important;will-change:auto!important}
+.wartex-particles,.wartex-particle-bg,.particles-bg{animation:none!important;will-change:auto!important}
+.wartex-nav-button,.wartex-menu-item,.wartex-icon-button,.wartex-coming-close,.wartex-spoofer-product{font:inherit;cursor:pointer}
+.wartex-nav-button{display:inline-flex;align-items:center;gap:9px;padding:10px 13px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg,#202124,#111214);color:#f4f4f5;font-size:11px;font-weight:800;white-space:nowrap;transition:background .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.wartex-nav-button:hover{background:#292a2d;border-color:rgba(255,255,255,.3);transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.wartex-more-trigger{border-color:rgba(255,255,255,.25);background:linear-gradient(180deg,#f5f5f5,#c9c9c9);color:#080808}
+.wartex-more-trigger:hover{background:#fff;border-color:#fff}
+.wartex-more-chevron{font-size:9px;opacity:.65;transition:transform .18s ease}
+.wartex-more-trigger:hover .wartex-more-chevron{transform:translateX(3px)}
+.wartex-more-backdrop{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.58);opacity:0;visibility:hidden;transition:opacity .22s ease,visibility .22s;contain:strict}
+.wartex-more-panel{position:fixed;z-index:81;top:0;left:0;bottom:0;width:min(360px,88vw);display:flex;flex-direction:column;background:linear-gradient(160deg,#151618,#090a0b 70%);border-right:1px solid rgba(255,255,255,.13);box-shadow:18px 0 55px rgba(0,0,0,.45);transform:translate3d(-103%,0,0);visibility:hidden;transition:transform .27s cubic-bezier(.2,.75,.25,1),visibility .27s;contain:layout paint;will-change:transform}
+.wartex-more-backdrop.is-open{opacity:1;visibility:visible}
+.wartex-more-panel.is-open{transform:translate3d(0,0,0);visibility:visible}
+.wartex-more-header{display:flex;align-items:center;justify-content:space-between;padding:20px 18px 17px;border-bottom:1px solid rgba(255,255,255,.09);background:#111214}
+.wartex-more-brand{display:flex;align-items:center;gap:12px}.wartex-more-brand>div{display:flex;flex-direction:column;gap:3px}.wartex-more-brand strong{font-size:14px;letter-spacing:.15em;color:#fff}.wartex-more-brand small{font-size:9px;letter-spacing:.18em;color:#85868b;font-weight:800}
+.wartex-more-mark{display:grid;place-items:center;width:39px;height:39px;border:1px solid rgba(255,255,255,.28);border-radius:12px;background:linear-gradient(145deg,#f8f8f8,#a5a5a5);color:#080808;font-size:21px;font-weight:950}
+.wartex-icon-button{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:#202124;border:1px solid #343539;color:#a8a8ad;transition:color .16s,background .16s,border-color .16s}.wartex-icon-button:hover{color:#fff;background:#303135;border-color:#55565a}
+.wartex-more-scroll{overflow:auto;overscroll-behavior:contain;padding:12px 12px 18px;scrollbar-width:thin;scrollbar-color:#3b3b40 transparent}
+.wartex-menu-caption{margin:14px 10px 7px;color:#777980;font-size:9px;font-weight:900;letter-spacing:.17em}
+.wartex-menu-item{width:100%;display:flex;align-items:center;gap:12px;min-height:43px;padding:10px 12px;margin:3px 0;text-align:left;border-radius:10px;border:1px solid transparent;background:transparent;color:#c9c9ce;font-size:12px;font-weight:650;transition:background .16s ease,color .16s ease,border-color .16s ease,transform .16s ease}
+.wartex-menu-item>i:first-child{width:17px;text-align:center;color:#8d9097;font-size:12px;transition:color .16s ease}
+.wartex-menu-item:hover{background:linear-gradient(90deg,rgba(255,255,255,.095),rgba(255,255,255,.025));border-color:rgba(255,255,255,.1);color:#fff;transform:translateX(3px)}
+.wartex-menu-item:hover>i:first-child{color:#fff}
+.wartex-menu-item.is-current{background:#f1f1f1;color:#090909;border-color:#fff}
+.wartex-menu-item.is-current>i:first-child{color:#111}
+.wartex-menu-item .item-end{margin-left:auto;font-size:9px;opacity:.55}
+.wartex-status-pill{margin-left:auto;display:inline-flex;align-items:center;gap:5px;padding:4px 7px;border-radius:999px;border:1px solid #343539;background:#1a1b1d;color:#b7b8bd;font-size:9px;font-weight:800;white-space:nowrap}
+.wartex-status-pill i,.wartex-footer-dot{width:6px;height:6px;display:inline-block;border-radius:50%;background:#a3e635}
+.wartex-more-footer{display:flex;align-items:center;gap:8px;padding:14px 19px;border-top:1px solid rgba(255,255,255,.08);color:#92939a;font-size:9px;font-weight:900;letter-spacing:.12em}
+.wartex-footer-version{margin-left:auto;color:#62636a}
+.wartex-spoofer-product{width:100%;display:flex;align-items:center;gap:13px;margin-bottom:22px;padding:16px;border:1px solid rgba(255,255,255,.12);border-radius:16px;text-align:left;background:linear-gradient(115deg,#202124,#101112);color:#fff;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.wartex-spoofer-product:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.35);background:linear-gradient(115deg,#292a2d,#121314)}
+.wartex-spoofer-icon{display:grid;place-items:center;flex:0 0 43px;height:43px;border:1px solid #38393d;border-radius:12px;background:#292a2d;color:#f1f1f1;font-size:17px}
+.wartex-spoofer-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:5px}.wartex-spoofer-copy strong{font-size:13px;font-weight:900}.wartex-spoofer-copy small{font-size:10px;color:#96979d}
+.wartex-coming-badge{padding:5px 7px;border:1px solid #45464a;border-radius:7px;color:#d0d0d3;background:#252629;font-size:8px;font-weight:900;letter-spacing:.07em;white-space:nowrap}
+.wartex-spoofer-arrow{font-size:10px;color:#85868b}
+#spooferComingSoonModal{display:flex;align-items:center;justify-content:center}
+#spooferComingSoonModal.hidden{display:none}
+.wartex-coming-card{width:min(430px,100%);padding:30px 26px;border:1px solid #393a3e;border-radius:22px;background:linear-gradient(155deg,#191a1d,#090a0b);box-shadow:0 28px 80px rgba(0,0,0,.5);text-align:center;animation:wartexComingIn .22s ease-out both}
+.wartex-coming-icon{display:grid;place-items:center;width:62px;height:62px;margin:0 auto 17px;border-radius:18px;border:1px solid #3c3d41;background:#252629;color:#f2f2f2;font-size:24px}
+.wartex-coming-kicker{color:#999ba2;font-size:9px;font-weight:900;letter-spacing:.2em}
+.wartex-coming-card h3{margin:10px 0;color:#fff;font-size:25px;font-weight:500;letter-spacing:-.04em}.wartex-coming-card h3 strong{font-weight:950}
+.wartex-coming-card p{margin:0 auto;max-width:330px;color:#a8a9af;font-size:12px;line-height:1.7}
+.wartex-coming-status{display:inline-flex;align-items:center;gap:8px;margin:19px 0 20px;padding:8px 11px;border:1px solid #343539;border-radius:9px;background:#141517;color:#c5c6ca;font-size:10px;font-weight:800}
+.wartex-coming-status span{width:6px;height:6px;border-radius:50%;background:#b6b7bb}
+.wartex-coming-close{display:block;width:100%;padding:12px;border:1px solid #f5f5f5;border-radius:10px;background:#f5f5f5;color:#080808;font-size:12px;font-weight:900;transition:transform .16s ease,background .16s ease}
+.wartex-coming-close:hover{transform:translateY(-1px);background:#fff}
+@keyframes wartexComingIn{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:640px){.wartex-nav-button{padding:9px 10px}.wartex-more-panel{width:min(340px,90vw)}.wartex-spoofer-product{gap:9px;padding:12px}.wartex-coming-card{padding:25px 20px}}
+@media(prefers-reduced-motion:reduce){.wartex-more-backdrop,.wartex-more-panel,.wartex-menu-item,.wartex-nav-button,.wartex-spoofer-product,.wartex-coming-card,.wartex-coming-close{animation:none!important;transition:none!important}}
+</style>
+
 </head>
 
 <body class="min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-white">
@@ -731,6 +788,13 @@
                 flex items-center gap-1.5
                 text-[11px] font-semibold text-zinc-400">
 
+        <button type="button" onclick="toggleWartexMoreMenu(true)"
+                class="wartex-nav-button wartex-more-trigger">
+            <i class="fa-solid fa-bars-staggered"></i>
+            <span>Daha Fazla</span>
+            <i class="fa-solid fa-chevron-right wartex-more-chevron"></i>
+        </button>
+
         <button class="bg-zinc-800 text-white
                        px-3 py-1.5 rounded-lg
                        border border-zinc-700
@@ -812,6 +876,40 @@
     </div>
 
 </nav>
+
+<!-- WARTEX MORE MENU -->
+<div id="wartexMoreBackdrop" class="wartex-more-backdrop" aria-hidden="true"
+     onclick="toggleWartexMoreMenu(false)"></div>
+<aside id="wartexMorePanel" class="wartex-more-panel" aria-label="Daha Fazla menüsü"
+       aria-hidden="true">
+  <div class="wartex-more-header">
+    <div class="wartex-more-brand">
+      <span class="wartex-more-mark">W</span>
+      <div><strong>WARTEX</strong><small>HIZLI MENÜ</small></div>
+    </div>
+    <button type="button" class="wartex-icon-button" aria-label="Menüyü kapat"
+            onclick="toggleWartexMoreMenu(false)"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="wartex-more-scroll">
+    <p class="wartex-menu-caption">GENEL</p>
+    <button class="wartex-menu-item is-current" onclick="wartexMoreNavigate('overview')"><i class="fa-solid fa-grid-2"></i><span>Genel bakış</span><i class="fa-solid fa-arrow-up-right-from-square item-end"></i></button>
+    <button class="wartex-menu-item" onclick="wartexMoreNavigate('announcements')"><i class="fa-solid fa-bullhorn"></i><span>Duyurular</span></button>
+    <button class="wartex-menu-item" onclick="wartexMoreNavigate('updates')"><i class="fa-solid fa-sparkles"></i><span>Güncellemeler</span></button>
+    <p class="wartex-menu-caption">ÜRÜN DURUMU</p>
+    <button class="wartex-menu-item" onclick="wartexMoreNavigate('executor-log')"><i class="fa-solid fa-terminal"></i><span>Executor update log</span></button>
+    <button class="wartex-menu-item" onclick="wartexMoreNavigate('status')"><i class="fa-solid fa-signal"></i><span>Sürüm durumu</span><span class="wartex-status-pill"><i></i> Takip et</span></button>
+    <button class="wartex-menu-item" onclick="wartexMoreNavigate('script-log')"><i class="fa-solid fa-code"></i><span>Script Hub log</span></button>
+    <button class="wartex-menu-item" onclick="wartexMoreNavigate('new-scripts')"><i class="fa-solid fa-fire"></i><span>Yeni scriptler</span></button>
+    <p class="wartex-menu-caption">YARDIM & BİLGİ</p>
+    <button class="wartex-menu-item" onclick="wartexMoreNavigate('rules')"><i class="fa-solid fa-shield-halved"></i><span>Kurallar</span></button>
+    <button class="wartex-menu-item" onclick="wartexMoreNavigate('refunds')"><i class="fa-solid fa-rotate-left"></i><span>İade koşulları</span></button>
+    <button class="wartex-menu-item" onclick="wartexMoreNavigate('purchase')"><i class="fa-solid fa-bag-shopping"></i><span>Satın alım rehberi</span></button>
+    <button class="wartex-menu-item" onclick="wartexMoreNavigate('faq')"><i class="fa-solid fa-circle-question"></i><span>Sıkça sorulanlar</span></button>
+    <button class="wartex-menu-item" onclick="wartexMoreNavigate('contact')"><i class="fa-solid fa-headset"></i><span>İletişim</span></button>
+  </div>
+  <div class="wartex-more-footer"><span class="wartex-footer-dot"></span><span>WARTEX HUB</span><span class="wartex-footer-version">MENÜ</span></div>
+</aside>
+
 
 <!-- =========================================================
      ANA İÇERİK
@@ -2164,6 +2262,19 @@ window.openModal = function(id) {
         <div class="p-6 overflow-y-auto">
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+
+                <!-- WARTEX SPOOFER -->
+                <button type="button" onclick="openModal('spooferComingSoonModal')"
+                        class="wartex-spoofer-product">
+                    <span class="wartex-spoofer-icon"><i class="fa-solid fa-microchip"></i></span>
+                    <span class="wartex-spoofer-copy">
+                        <strong>WARTEX Spoofer</strong>
+                        <small>PC bakım araçları • Hazırlanıyor</small>
+                    </span>
+                    <span class="wartex-coming-badge">YAKINDA</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square wartex-spoofer-arrow"></i>
+                </button>
 
                 <!-- EXECUTORLAR -->
 
@@ -4219,6 +4330,19 @@ POTASSIUM is one of the paid options listed on the premium side, standing out wi
 
     </div>
 
+</div>
+
+
+<!-- WARTEX SPOOFER COMING SOON -->
+<div id="spooferComingSoonModal" class="fixed inset-0 bg-black/85 z-50 items-center justify-center p-4 hidden">
+  <div class="wartex-coming-card">
+    <div class="wartex-coming-icon"><i class="fa-solid fa-microchip"></i></div>
+    <span class="wartex-coming-kicker">WARTEX • YAKINDA</span>
+    <h3>WARTEX <strong>Spoofer</strong></h3>
+    <p>Spoofer bölümü şu anda hazırlanıyor. Hazır olduğunda bu alandan erişebileceksin.</p>
+    <div class="wartex-coming-status"><span></span> Geliştirme aşamasında</div>
+    <button type="button" onclick="closeModal('spooferComingSoonModal')" class="wartex-coming-close">Tamam</button>
+  </div>
 </div>
 
 <!-- =========================================================
@@ -10505,6 +10629,49 @@ function wartexCopyScript(script) {
 
 </style>
 <script id="wartex-premium-3d-promo-script">(()=>{const cards=document.querySelectorAll('[data-wartex-tilt]');const fine=window.matchMedia('(hover:hover) and (pointer:fine)').matches;if(!fine||window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;cards.forEach(card=>{let frame=0;card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{card.style.setProperty('--tilt-y',((x-.5)*10).toFixed(2)+'deg');card.style.setProperty('--tilt-x',((.5-y)*8).toFixed(2)+'deg');card.style.setProperty('--glint-x',(x*100).toFixed(1)+'%');card.style.setProperty('--glint-y',(y*100).toFixed(1)+'%')})});card.addEventListener('pointerleave',()=>{cancelAnimationFrame(frame);card.style.setProperty('--tilt-x','0deg');card.style.setProperty('--tilt-y','0deg');card.style.setProperty('--glint-x','50%');card.style.setProperty('--glint-y','50%')})})})();</script>
+
+
+<script id="wartex-more-menu-script">
+(function(){
+  const panel=document.getElementById('wartexMorePanel');
+  const backdrop=document.getElementById('wartexMoreBackdrop');
+  function close(){
+    if(!panel||!backdrop)return;
+    panel.classList.remove('is-open');backdrop.classList.remove('is-open');
+    panel.setAttribute('aria-hidden','true');backdrop.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+  }
+  window.toggleWartexMoreMenu=function(force){
+    if(!panel||!backdrop)return;
+    const open=typeof force==='boolean'?force:!panel.classList.contains('is-open');
+    if(open){
+      panel.classList.add('is-open');backdrop.classList.add('is-open');
+      panel.setAttribute('aria-hidden','false');backdrop.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+    }else close();
+  };
+  window.wartexMoreNavigate=function(key){
+    close();
+    const targets={
+      overview:function(){window.scrollTo({top:0,behavior:'smooth'});},
+      'new-scripts':function(){if(typeof window.openWartexScriptHub==='function')window.openWartexScriptHub();else window.scrollTo({top:0,behavior:'smooth'});},
+      purchase:function(){if(typeof window.openPaymentProcess==='function')window.openPaymentProcess();},
+      contact:function(){if(typeof window.openModal==='function')window.openModal('supportModal');},
+      rules:function(){if(typeof window.openModal==='function')window.openModal('termsModal');},
+      refunds:function(){if(typeof window.openModal==='function')window.openModal('termsModal');}
+    };
+    if(targets[key]){targets[key]();return;}
+    const labels={
+      announcements:'Duyurular',updates:'Güncellemeler','executor-log':'Executor update log',
+      status:'Sürüm durumu','script-log':'Script Hub log',faq:'Sıkça sorulanlar'
+    };
+    if(typeof window.showToast==='function')window.showToast((labels[key]||'Bu bölüm')+' bölümü yakında eklenecek.');
+    else if(typeof window.showNotification==='function')window.showNotification((labels[key]||'Bu bölüm')+' bölümü yakında eklenecek.');
+    else alert((labels[key]||'Bu bölüm')+' bölümü yakında eklenecek.');
+  };
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+})();
+</script>
 
 </body>
 </html>
