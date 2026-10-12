@@ -3224,6 +3224,26 @@ body{background-attachment:scroll}
 @media(prefers-reduced-motion:reduce){.main-menu-animated .max-w-7xl>button{transition:none!important}}
 
 </style>
+<style id="wartex-intro-copy-fix">
+
+/* Restore original WARTEX introduction copy without a third promo card */
+.wartex-home-copy{max-width:1000px;margin:0 auto 30px;padding:5px 12px 22px;text-align:center;border-bottom:1px solid rgba(255,255,255,.09)}
+.wartex-home-copy-kicker{margin:0 0 10px;color:#a78bfa;font-size:9px;font-weight:900;letter-spacing:.24em}
+.wartex-home-copy h1{max-width:900px;margin:0 auto 14px;color:#f7f7fb;font-size:clamp(19px,3.1vw,30px);line-height:1.25;font-weight:900;letter-spacing:-.035em}
+.wartex-home-copy p{max-width:790px;margin:8px auto 0;color:#b9b8c5;font-size:clamp(11px,1.25vw,13px);line-height:1.85}
+.wartex-home-copy p strong{color:#dedbe8;font-weight:600}
+.wartex-home-copy a{color:#d8b4fe;text-decoration:underline;text-decoration-color:rgba(216,180,254,.4);text-underline-offset:3px}
+.wartex-home-copy a:hover{color:#fff}
+/* Full intro cycle: reset both original scenes together at exactly 8 seconds */
+.wartex-original-intro .wartex-scene-one{animation:sceneOne 8s ease-in-out infinite!important}
+.wartex-original-intro .wartex-scene-two{animation:sceneTwo 8s ease-in-out infinite!important}
+.wartex-original-intro .wartex-transition{animation:wartexTransition8 8s linear infinite!important}
+@keyframes wartexTransition8{0%,54%{opacity:0}59%,63%{opacity:1}68%,100%{opacity:0}}
+.wartex-original-intro .wartex-original-intro-cycle{animation:none!important}
+.wartex-original-intro .wartex-intro-bg,.wartex-original-intro .wartex-grid,.wartex-original-intro .wartex-particles{pointer-events:none}
+@media(max-width:700px){.wartex-home-copy{padding:4px 4px 18px;margin-bottom:22px}.wartex-home-copy h1{font-size:clamp(18px,5vw,24px)}}
+
+</style>
 </head>
 
 <body class="min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-white">
@@ -3964,17 +3984,11 @@ body{background-attachment:scroll}
     </section>
 
 
-    <section class="wartex-home-hero">
- <div class="wartex-home-hero-top"><span class="wartex-home-symbol">W</span><span class="wartex-home-status"><i></i> WARTEX HUB ONLINE</span></div>
- <p class="wartex-home-kicker">OFFICIAL PLATFORM</p>
- <h1>WARTEX <span>HUB</span></h1>
- <p class="wartex-home-subtitle">ROBLOX FREE SCRIPT HUB &amp; FREE EXECUTOR</p>
- <div class="wartex-home-description">
-  <p>WARTEX HUB provides Roblox free scripts, Roblox script hub resources, free executor resources and Roblox free spoofer tools.</p>
-  <p>Before using our platform, please review <strong>How to Purchase?</strong> and <strong>Terms</strong> sections.</p>
- </div>
- <div class="wartex-home-tags"><span><i class="fa-solid fa-code"></i> SCRIPT HUB</span><span><i class="fa-solid fa-bolt"></i> WARTEX EXECUTOR</span><span><i class="fa-solid fa-users"></i> COMMUNITY</span></div>
- <div class="wartex-home-actions"><button type="button" onclick="openWartexScriptHub()"><i class="fa-solid fa-code"></i> Script Hub'ı Aç <i class="fa-solid fa-arrow-up-right-from-square"></i></button><button type="button" onclick="openModal('executorExternalModal')"><i class="fa-solid fa-bolt"></i> Executor'ı İncele</button></div>
+    <section class="wartex-home-copy" aria-label="WARTEX HUB introduction">
+  <p class="wartex-home-copy-kicker">OFFICIAL PLATFORM</p>
+  <h1>WARTEX HUB — ROBLOX FREE SCRIPT HUB &amp; FREE EXECUTOR</h1>
+  <p><strong>WARTEX HUB provides Roblox free scripts, Roblox script hub resources, free executor resources and Roblox free spoofer tools.</strong></p>
+  <p>Before using our platform, please review <a href="#purchase-process">How to Purchase?</a> and <a href="#" onclick="openModal('termsModal');return false;">Terms</a> sections.</p>
 </section>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8
