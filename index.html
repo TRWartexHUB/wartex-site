@@ -7633,7 +7633,8 @@ if (image && script._wartexSource === "ScriptBlox") {
 if (!image) {
     image = await wartexGetRobloxGameImage(script.game?.name || "");
 }
-   
+    /* Kartta gösterilen gerçek görseli inceleme penceresinde de kullan. */
+    script._wartexDisplayImage = image;
 
     const views =
         Number(script.views || 0).toLocaleString();
@@ -7871,23 +7872,18 @@ if (!image) {
                <div class="mt-4">
 
                     <button
+                        type="button"
+                        aria-label="${title} scriptini incele"
                         onclick='wartexOpenScriptDetails(${JSON.stringify(script).replace(/'/g, "&#039;")})'
-                        class="bg-indigo-600
-                               hover:bg-indigo-500
-                               text-white
-                               font-bold
-                               py-2.5
-                               rounded-xl
-                               text-[10px]
-                               transition">
+                        class="group/inspect relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl border border-indigo-400/30 bg-gradient-to-r from-indigo-600 via-indigo-600 to-violet-600 px-4 py-3 text-xs font-extrabold text-white shadow-lg shadow-indigo-950/30 transition-all duration-300 hover:-translate-y-0.5 hover:border-indigo-300/70 hover:from-indigo-500 hover:via-violet-600 hover:to-indigo-500 hover:shadow-indigo-500/25 focus:outline-none focus:ring-2 focus:ring-indigo-400/70 focus:ring-offset-2 focus:ring-offset-zinc-950 active:translate-y-0">
 
-                        <i class="fa-solid fa-magnifying-glass mr-1"></i>
-                        İncele
+                        <span class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover/inspect:translate-x-full"></span>
+                        <i class="fa-solid fa-arrow-up-right-from-square relative text-[11px]"></i>
+                        <span class="relative tracking-wide">Scripti İncele</span>
+                        <i class="fa-solid fa-chevron-right relative ml-auto text-[10px] opacity-70 transition-transform group-hover/inspect:translate-x-0.5"></i>
 
                     </button>
 
-
-                    
                 </div>
 
             </div>
@@ -8074,6 +8070,31 @@ function wartexOpenScriptDetails(script) {
 
             <div class="p-5 overflow-y-auto">
 
+                <div class="relative mb-5 h-44 sm:h-56 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
+                    ${(script._wartexDisplayImage || script.image || script.game?.imageUrl || script.game?.image) ? `
+                        <img
+                            src="${wartexEscape(script._wartexDisplayImage || script.image || script.game?.imageUrl || script.game?.image)}"
+                            alt="${title} görseli"
+                            class="h-full w-full object-cover"
+                            loading="eager"
+                            onerror="this.style.display='none';this.parentElement.querySelector('.wartex-detail-image-fallback').classList.remove('hidden');"
+                        >
+                    ` : ""}
+                    <div class="wartex-detail-image-fallback ${(script._wartexDisplayImage || script.image || script.game?.imageUrl || script.game?.image) ? "hidden" : ""} absolute inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-950 via-zinc-900 to-black">
+                        <div class="text-center">
+                            <i class="fa-solid fa-gamepad mb-3 text-4xl text-indigo-300/70"></i>
+                            <p class="text-xs font-bold text-zinc-400">${gameName}</p>
+                        </div>
+                    </div>
+                    <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10"></div>
+                    <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between gap-3">
+                        <div class="min-w-0">
+                            <span class="mb-1 block text-[9px] font-bold uppercase tracking-[0.18em] text-indigo-200">WARTEX SCRIPT HUB</span>
+                            <p class="truncate text-sm font-black text-white">${title}</p>
+                        </div>
+                        <span class="shrink-0 rounded-lg border border-white/15 bg-black/40 px-2.5 py-1.5 text-[9px] font-bold text-zinc-200 backdrop-blur">${gameName}</span>
+                    </div>
+                </div>
 
                 <div class="grid
                             grid-cols-2
