@@ -7537,7 +7537,7 @@ async function wartexRenderScripts(scripts) {
         pageButtons.push(`<button onclick="wartexSetPage(${wartexHubTotalPages})" class="px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-xs text-zinc-300 hover:text-white">${wartexHubTotalPages}</button>`);
     }
     results.innerHTML = `
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">${cards.join("")}</div>
+        <div class="grid grid-cols-4 gap-3">${cards.join("")}</div>
         <div class="mt-6 pt-4 border-t border-zinc-800 flex flex-wrap items-center justify-between gap-3">
             <p class="text-[10px] text-zinc-500">Sayfa <span class="text-white font-bold">${wartexHubPage}</span> / ${wartexHubTotalPages} · Sayfa başına en fazla 40 script · Kaynaklar: ScriptBlox + RobloxScripts.com</p>
             <div class="flex items-center justify-center gap-1 flex-wrap">
