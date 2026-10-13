@@ -7621,13 +7621,17 @@ let image =
     script.game?.image ||
     "";
 
+/* ScriptBlox bazı görselleri tam URL yerine /images/... gibi göreli yol olarak döndürür. */
+if (image && script._wartexSource === "ScriptBlox") {
+    try {
+        image = new URL(String(image).trim(), "https://scriptblox.com/").href;
+    } catch (_) {
+        image = "";
+    }
+}
+
 if (!image) {
-
-    image =
-        await wartexGetRobloxGameImage(
-            script.game?.name || ""
-        );
-
+    image = await wartexGetRobloxGameImage(script.game?.name || "");
 }
    
 
