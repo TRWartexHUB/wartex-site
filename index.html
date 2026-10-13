@@ -3239,6 +3239,22 @@ body{background-attachment:scroll}
 .wartex-original-intro .wartex-scene-one{animation:sceneOne 8s ease-in-out infinite!important}
 .wartex-original-intro .wartex-scene-two{animation:sceneTwo 8s ease-in-out infinite!important}
 </style>
+
+<style id="wartex-global-interaction-animations">
+@keyframes wartexModalBackdropIn{from{opacity:0}to{opacity:1}}
+@keyframes wartexModalBackdropOut{from{opacity:1}to{opacity:0}}
+@keyframes wartexModalPanelIn{from{opacity:0;transform:translateY(18px) scale(.975);filter:blur(4px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes wartexModalPanelOut{from{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}to{opacity:0;transform:translateY(10px) scale(.985);filter:blur(3px)}}
+@keyframes wartexButtonPress{0%{transform:scale(1)}45%{transform:scale(.965)}100%{transform:scale(1)}}
+.wartex-modal-enter{animation:wartexModalBackdropIn .2s ease-out both}
+.wartex-modal-enter>.modal-box{animation:wartexModalPanelIn .28s cubic-bezier(.2,.75,.25,1) both}
+.wartex-modal-exit{animation:wartexModalBackdropOut .17s ease-in both;pointer-events:none}
+.wartex-modal-exit>.modal-box{animation:wartexModalPanelOut .17s ease-in both}
+button,.wartex-nav-button,[role="button"]{-webkit-tap-highlight-color:transparent;transition-property:color,background-color,border-color,box-shadow,opacity,transform,filter;transition-duration:.18s;transition-timing-function:cubic-bezier(.2,.75,.25,1)}
+button:active,.wartex-nav-button:active,[role="button"]:active{transform:scale(.97)}
+.wartex-click-feedback{animation:wartexButtonPress .24s ease-out}
+@media(prefers-reduced-motion:reduce){.wartex-modal-enter,.wartex-modal-enter>.modal-box,.wartex-modal-exit,.wartex-modal-exit>.modal-box,.wartex-click-feedback{animation:none!important;transition:none!important}button:active,.wartex-nav-button:active,[role="button"]:active{transform:none}}
+</style>
 </head>
 
 <body class="min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-white">
@@ -7391,7 +7407,9 @@ window.openModal = function(id) {
 
         if (modal) {
 
-            modal.classList.remove('hidden');
+            modal.classList.remove('hidden', 'wartex-modal-exit');
+            void modal.offsetWidth;
+            modal.classList.add('wartex-modal-enter');
             document.body.classList.add('overflow-hidden');
 
         }
@@ -8488,16 +8506,20 @@ function wartexEscape(value) {
 
         if (modal) {
 
-            modal.classList.add('hidden');
+            modal.classList.remove('wartex-modal-enter');
+            modal.classList.add('wartex-modal-exit');
 
-            const visibleModal =
-                document.querySelector('[id$="Modal"]:not(.hidden)');
+            window.setTimeout(function() {
+                modal.classList.add('hidden');
+                modal.classList.remove('wartex-modal-exit');
 
-            if (!visibleModal) {
+                const visibleModal =
+                    document.querySelector('[id$="Modal"]:not(.hidden)');
 
-                document.body.classList.remove('overflow-hidden');
-
-            }
+                if (!visibleModal) {
+                    document.body.classList.remove('overflow-hidden');
+                }
+            }, 170);
 
         }
 
@@ -8512,7 +8534,7 @@ function wartexEscape(value) {
 
             openModal(toModalId);
 
-        }, 100);
+        }, 175);
 
     }
 
@@ -11681,5 +11703,19 @@ function wartexCopyScript(script) {
   </div>
 </div>
 
+<script id="wartex-global-button-feedback">
+document.addEventListener("click", function(event) {
+    const button = event.target && event.target.closest
+        ? event.target.closest("button, .wartex-nav-button, [role='button']")
+        : null;
+    if (!button || button.disabled) return;
+    button.classList.remove("wartex-click-feedback");
+    void button.offsetWidth;
+    button.classList.add("wartex-click-feedback");
+    window.setTimeout(function() {
+        button.classList.remove("wartex-click-feedback");
+    }, 260);
+}, true);
+</script>
 </body>
 </html>
