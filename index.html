@@ -7434,15 +7434,57 @@ async function wartexRequestScriptPage(page, query = "") {
     wartexHubQuery = query;
     wartexShowScriptLoading(query ? "Scriptler aranıyor..." : "Katalog yükleniyor...");
     try {
-        const params = new URLSearchParams({page:String(wartexHubPage),max:"20",sortBy:"views",order:"desc"});
-        if (query) params.set("q", query);
-        const endpoint = query ? WARTEX_SCRIPT_API + "/search?" + params.toString() : WARTEX_SCRIPT_API + "/fetch?" + params.toString();
-        const response = await fetch(endpoint);
-        if (!response.ok) throw new Error("ScriptBlox API HTTP " + response.status);
-        const data = await response.json();
-        const payload = data && data.result ? data.result : {};
-        const scripts = Array.isArray(payload.scripts) ? payload.scripts : [];
-        wartexHubTotalPages = Math.max(1, Number(payload.totalPages) || 1);
+        /* İki bağımsız, herkese açık katalog birleştirilir.
+           Her kaynağa sayfa başına 10 kayıt isteyerek yinelenenleri azaltırız. */
+        const sbParams = new URLSearchParams({page:String(wartexHubPage),max:"10",sortBy:"views",order:"desc"});
+        if (query) sbParams.set("q", query);
+        const sbEndpoint = query ? WARTEX_SCRIPT_API + "/search?" + sbParams.toString() : WARTEX_SCRIPT_API + "/fetch?" + sbParams.toString();
+
+        const rsParams = new URLSearchParams({page:String(wartexHubPage),limit:"10",sort:"trending"});
+        if (query) rsParams.set("q", query);
+        const rsEndpoint = "https://robloxscripts.com/api/v1/scripts?" + rsParams.toString();
+
+        const [sbResponse, rsResponse] = await Promise.allSettled([fetch(sbEndpoint), fetch(rsEndpoint)]);
+        let scripts = [];
+        let pageCounts = [1];
+
+        if (sbResponse.status === "fulfilled" && sbResponse.value.ok) {
+            const sbData = await sbResponse.value.json();
+            const payload = sbData && sbData.result ? sbData.result : {};
+            const sbScripts = Array.isArray(payload.scripts) ? payload.scripts : [];
+            scripts.push(...sbScripts.map(item => ({...item, _wartexSource:"ScriptBlox"})));
+            pageCounts.push(Number(payload.totalPages) || 1);
+        } else {
+            console.warn("ScriptBlox kaynağı şu an yanıt vermedi.");
+        }
+
+        if (rsResponse.status === "fulfilled" && rsResponse.value.ok) {
+            const rsData = await rsResponse.value.json();
+            const rsScripts = Array.isArray(rsData.data) ? rsData.data : [];
+            scripts.push(...rsScripts.map(item => ({
+                ...item,
+                title: item.title || "İsimsiz Script",
+                game: typeof item.game === "string" ? {name:item.game} : {name:item.game?.name || "Universal", imageUrl:item.game?.iconUrl || item.image || ""},
+                views: Number(item.views || 0),
+                verified: item.author?.verified === true,
+                script: item.script || "",
+                code: item.script || "",
+                _wartexSource:"RobloxScripts.com"
+            })));
+            pageCounts.push(Number(rsData.pagination?.totalPages || rsData.meta?.totalPages) || 1);
+        } else {
+            console.warn("RobloxScripts.com kaynağı şu an yanıt vermedi.");
+        }
+
+        /* Aynı başlığın iki kaynaktan gelmesini engelle. */
+        const seen = new Set();
+        scripts = scripts.filter(item => {
+            const key = String(item.title || "").trim().toLowerCase() + "|" + String(item.game?.name || "").trim().toLowerCase();
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        });
+        wartexHubTotalPages = Math.max(1, ...pageCounts);
         if (wartexHubPage > wartexHubTotalPages) wartexHubPage = wartexHubTotalPages;
         await wartexRenderScripts(scripts);
     } catch (error) {
@@ -7497,7 +7539,7 @@ async function wartexRenderScripts(scripts) {
     results.innerHTML = `
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">${cards.join("")}</div>
         <div class="mt-6 pt-4 border-t border-zinc-800 flex flex-wrap items-center justify-between gap-3">
-            <p class="text-[10px] text-zinc-500">Sayfa <span class="text-white font-bold">${wartexHubPage}</span> / ${wartexHubTotalPages} · Sayfa başına 20 script · Kaynak: ScriptBlox</p>
+            <p class="text-[10px] text-zinc-500">Sayfa <span class="text-white font-bold">${wartexHubPage}</span> / ${wartexHubTotalPages} · Sayfa başına en fazla 20 script · Kaynaklar: ScriptBlox + RobloxScripts.com</p>
             <div class="flex items-center justify-center gap-1 flex-wrap">
                 <button onclick="wartexSetPage(wartexHubPage - 1)" ${wartexHubPage <= 1 ? "disabled" : ""} class="px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-xs text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed"><i class="fa-solid fa-chevron-left mr-1"></i>Önceki</button>
                 ${pageButtons.join("")}
