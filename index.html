@@ -3239,9 +3239,6 @@ body{background-attachment:scroll}
 .wartex-original-intro .wartex-scene-one{animation:sceneOne 8s ease-in-out infinite!important}
 .wartex-original-intro .wartex-scene-two{animation:sceneTwo 8s ease-in-out infinite!important}
 </style>
-<style id="wartex-script-hub-polish">
-.wartex-status-chip{display:inline-flex;align-items:center;gap:5px;max-width:180px;padding:5px 7px;border-radius:7px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.82);backdrop-filter:blur(8px);font-size:8px;line-height:1;font-weight:800;white-space:nowrap;box-shadow:0 2px 12px rgba(0,0,0,.3)}.wartex-status-chip.is-green{color:#86efac;border-color:rgba(34,197,94,.38)}.wartex-status-chip.is-amber{color:#fcd34d;border-color:rgba(245,158,11,.4)}.wartex-status-chip.is-red{color:#fca5a5;border-color:rgba(239,68,68,.4)}.wartex-status-chip.is-neutral{color:#d4d4d8}.wartex-status-dot{width:6px;height:6px;border-radius:50%;display:inline-block;box-shadow:0 0 8px currentColor;animation:wartexStatusPulse 1.8s ease-in-out infinite}@keyframes wartexStatusPulse{0%,100%{opacity:1}50%{opacity:.45}}.wartex-pagination button{transition:background .2s,border-color .2s,color .2s}.wartex-script-card{min-width:0}@media(max-width:640px){.wartex-status-chip{font-size:7px;padding:4px 5px;gap:3px}.wartex-script-card .relative.h-40{height:135px}.wartex-pagination{gap:5px}.wartex-pagination button{min-width:32px;height:32px;padding-left:8px;padding-right:8px}}
-</style>
 </head>
 
 <body class="min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-white">
@@ -7397,30 +7394,158 @@ window.openModal = function(id) {
 ========================================================= */
 
 const WARTEX_SCRIPT_API = "https://scriptblox.com/api/script";
-let wartexCurrentPage=1, wartexTotalPages=1, wartexCurrentQuery="", wartexRequestMode="fetch", wartexLoadingScripts=false;
-function openWartexScriptHub(){const modal=document.getElementById("wartexScriptHubModal");if(!modal)return console.error("WARTEX Script Hub modalı bulunamadı.");modal.classList.remove("hidden");document.body.classList.add("overflow-hidden");const input=document.getElementById("wartexScriptSearch");if(input)input.value="";wartexCurrentPage=1;wartexCurrentQuery="";wartexRequestMode="fetch";wartexLoadTrending(1);}
-function closeWartexScriptHub(){const modal=document.getElementById("wartexScriptHubModal");if(!modal)return;modal.classList.add("hidden");document.body.classList.remove("overflow-hidden");}
-async function wartexSearchScripts(page=1){const input=document.getElementById("wartexScriptSearch");if(!input)return;const query=input.value.trim();if(!query){wartexCurrentQuery="";return wartexLoadTrending(1);}wartexCurrentQuery=query;wartexRequestMode="search";return wartexFetchScriptPage(page,"search");}
-async function wartexLoadTrending(page=1){wartexCurrentQuery="";wartexRequestMode="fetch";return wartexFetchScriptPage(page,"fetch");}
-async function wartexFetchScriptPage(page=1,mode=wartexRequestMode){
- const results=document.getElementById("wartexScriptResults");if(!results||wartexLoadingScripts)return;const requestedPage=Math.max(1,Number(page)||1);wartexLoadingScripts=true;
- results.innerHTML=`<div class="text-center py-16"><i class="fa-solid fa-spinner fa-spin text-zinc-300 text-3xl mb-4"></i><p class="text-zinc-400 text-xs">Scriptler yükleniyor · Sayfa ${requestedPage}</p></div>`;
- try{
-  const url=mode==="search"?WARTEX_SCRIPT_API+"/search?q="+encodeURIComponent(wartexCurrentQuery)+"&page="+requestedPage+"&max=20":WARTEX_SCRIPT_API+"/fetch?page="+requestedPage+"&max=20&sortBy=views&order=desc";
-  const response=await fetch(url);if(!response.ok)throw new Error("API bağlantısı başarısız ("+response.status+").");const data=await response.json();const payload=data?.result;const scripts=Array.isArray(payload?.scripts)?payload.scripts:[];
-  if(!scripts.length){if(requestedPage>1){wartexTotalPages=Math.max(1,requestedPage-1);wartexCurrentPage=wartexTotalPages;results.innerHTML='<div class="text-center py-12 text-zinc-400 text-sm">Bu sayfada başka script yok.</div>';wartexRenderPagination(results);}else{results.innerHTML='<div class="text-center py-16"><i class="fa-solid fa-folder-open text-zinc-600 text-4xl mb-4"></i><p class="text-zinc-300 text-sm font-bold">Script bulunamadı.</p><p class="text-zinc-500 text-xs mt-2">Farklı bir oyun adıyla aramayı dene.</p></div>';wartexCurrentPage=1;wartexTotalPages=1;}return;}
-  wartexCurrentPage=requestedPage;const reported=Number(payload?.totalPages||payload?.pages||payload?.totalPage||0);wartexTotalPages=reported>0?reported:Math.max(wartexTotalPages,requestedPage+(scripts.length>=20?1:0),requestedPage);await wartexRenderScripts(scripts);
- }catch(error){console.error("WARTEX Script Hub:",error);results.innerHTML=`<div class="text-center py-16"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-4"></i><p class="text-red-300 text-sm font-bold">Scriptler yüklenemedi.</p><p class="text-zinc-500 text-xs mt-2">${wartexEscape(error.message||"Bağlantıyı kontrol edip tekrar dene.")}</p><button onclick="wartexFetchScriptPage(${requestedPage}, '${mode}')" class="mt-4 px-4 py-2 rounded-lg bg-zinc-800 text-white text-xs">Tekrar Dene</button></div>`;}finally{wartexLoadingScripts=false;}
+
+function openWartexScriptHub() {
+
+   const modal = document.getElementById("wartexScriptHubModal");
+
+    if (!modal) {
+        console.error("WARTEX Script Hub modalı bulunamadı.");
+        return;
+    }
+
+    modal.classList.remove("hidden");
+    document.body.classList.add("overflow-hidden");
+
+    wartexLoadTrending();
 }
-function wartexRenderPagination(results){
- const current=wartexCurrentPage,total=Math.max(current,wartexTotalPages),pages=[];
- if(current<=6){for(let p=1;p<=Math.min(6,total);p++)pages.push(`<button onclick="wartexGoToPage(${p})" ${p===current?'aria-current="page"':''} class="min-w-9 h-9 px-3 rounded-lg border text-xs font-bold transition ${p===current?'bg-white text-black border-white':'bg-zinc-950 text-zinc-400 border-zinc-800 hover:text-white hover:border-zinc-500'}">${p}</button>`);}
- const nav=document.createElement("div");nav.className="wartex-pagination flex flex-wrap items-center justify-center gap-2 mt-7 pt-5 border-t border-zinc-800";
- const pageLabel=current<=6?pages.join(""):`<span class="px-4 py-2 rounded-lg border border-zinc-700 bg-zinc-900 text-white text-xs font-bold">Sayfa ${current}</span>`;
- nav.innerHTML=`<button ${current<=1?"disabled":""} onclick="wartexGoToPage(${current-1})" class="w-9 h-9 rounded-lg border border-zinc-800 text-zinc-300 hover:bg-zinc-800 disabled:opacity-30 disabled:cursor-not-allowed" aria-label="Önceki sayfa"><i class="fa-solid fa-chevron-left"></i></button>${pageLabel}<button onclick="wartexGoToPage(${current+1})" class="w-9 h-9 rounded-lg border border-zinc-700 bg-zinc-900 text-white hover:bg-zinc-800" aria-label="Sonraki sayfa"><i class="fa-solid fa-chevron-right"></i></button><span class="w-full text-center text-[10px] text-zinc-500 mt-1">Sayfa ${current} · Sayfa başına en fazla 20 script</span>`;
- results.appendChild(nav);
+
+
+function closeWartexScriptHub() {
+
+    const modal = document.getElementById("wartexScriptHubModal");
+
+    if (!modal) return;
+
+    modal.classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
 }
-function wartexGoToPage(page){wartexFetchScriptPage(Math.max(1,Number(page)||1),wartexRequestMode);}
+
+
+async function wartexSearchScripts() {
+
+    const input = document.getElementById("wartexScriptSearch");
+    const results = document.getElementById("wartexScriptResults");
+
+    if (!input || !results) return;
+
+    const query = input.value.trim();
+
+    if (!query) {
+        wartexLoadTrending();
+        return;
+    }
+
+    results.innerHTML = `
+        <div class="text-center py-16">
+            <i class="fa-solid fa-spinner fa-spin
+                      text-indigo-400 text-3xl mb-4"></i>
+
+            <p class="text-zinc-400 text-xs">
+                Scriptler aranıyor...
+            </p>
+        </div>
+    `;
+
+    try {
+
+        const response = await fetch(
+            WARTEX_SCRIPT_API +
+            "/search?q=" +
+            encodeURIComponent(query) +
+            "&max=20"
+        );
+
+        if (!response.ok) {
+            throw new Error("API bağlantısı başarısız.");
+        }
+
+        const data = await response.json();
+
+        const scripts = data?.result?.scripts || [];
+
+        wartexRenderScripts(scripts);
+
+    } catch (error) {
+
+        console.error(error);
+
+        results.innerHTML = `
+            <div class="text-center py-16">
+
+                <i class="fa-solid fa-triangle-exclamation
+                          text-red-400 text-3xl mb-4"></i>
+
+                <p class="text-red-300 text-sm font-bold">
+                    Scriptler yüklenemedi.
+                </p>
+
+                <p class="text-zinc-500 text-xs mt-2">
+                    Lütfen tekrar deneyin.
+                </p>
+
+            </div>
+        `;
+    }
+}
+
+
+async function wartexLoadTrending() {
+
+    const results =
+        document.getElementById("wartexScriptResults");
+
+    if (!results) return;
+
+    results.innerHTML = `
+        <div class="text-center py-16">
+
+            <i class="fa-solid fa-spinner fa-spin
+                      text-indigo-400 text-3xl mb-4"></i>
+
+            <p class="text-zinc-400 text-xs">
+                Trend scriptler yükleniyor...
+            </p>
+
+        </div>
+    `;
+
+    try {
+
+        const response = await fetch(
+            WARTEX_SCRIPT_API +
+            "/trending?max=20"
+        );
+
+        if (!response.ok) {
+            throw new Error("API bağlantısı başarısız.");
+        }
+
+        const data = await response.json();
+
+        const scripts = data?.result?.scripts || [];
+
+        wartexRenderScripts(scripts);
+
+    } catch (error) {
+
+        console.error(error);
+
+        results.innerHTML = `
+            <div class="text-center py-16">
+
+                <i class="fa-solid fa-triangle-exclamation
+                          text-red-400 text-3xl mb-4"></i>
+
+                <p class="text-red-300 text-sm font-bold">
+                    Trend scriptler yüklenemedi.
+                </p>
+
+            </div>
+        `;
+    }
+}
+
 
 function wartexQuickSearch(query) {
 
@@ -7435,10 +7560,44 @@ function wartexQuickSearch(query) {
 }
 
 
-async function wartexRenderScripts(scripts){
- const results=document.getElementById("wartexScriptResults");if(!results)return;if(!Array.isArray(scripts)||!scripts.length){results.innerHTML='<div class="text-center py-16 text-zinc-400 text-sm">Script bulunamadı.</div>';return;}
- const cards=await Promise.all(scripts.map(script=>wartexCreateScriptCard(script)));
- results.innerHTML=`<div class="flex flex-wrap items-center justify-between gap-2 mb-4"><div><p class="text-white text-sm font-extrabold">Script Kataloğu</p><p class="text-zinc-500 text-[10px] mt-1">Sayfa ${wartexCurrentPage} · ${cards.length} sonuç</p></div><span class="text-[10px] text-zinc-500 border border-zinc-800 rounded-full px-3 py-1">ScriptBlox canlı kataloğu</span></div><div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 items-stretch">${cards.join("")}</div>`;wartexRenderPagination(results);
+async function wartexRenderScripts(scripts) {
+
+    const results =
+        document.getElementById("wartexScriptResults");
+
+    if (!results) return;
+
+    if (!scripts || !scripts.length) {
+
+        results.innerHTML = `
+            <div class="text-center py-16">
+
+                <i class="fa-solid fa-folder-open
+                          text-zinc-600 text-4xl mb-4"></i>
+
+                <p class="text-zinc-400 text-sm font-bold">
+                    Script bulunamadı.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    results.innerHTML = `
+        <div class="grid grid-cols-1
+                    md:grid-cols-2
+                    xl:grid-cols-3 gap-4">
+
+           ${await Promise.all(
+    scripts.map(script =>
+        wartexCreateScriptCard(script)
+    )
+).then(cards => cards.join(""))}
+
+        </div>
+    `;
 }
 
 async function wartexGetRobloxGameImage(gameName) {
@@ -7498,17 +7657,290 @@ async function wartexGetRobloxGameImage(gameName) {
     }
 }
 
-async function wartexCreateScriptCard(script){
- const title=wartexEscape(script.title||"İsimsiz Script"),gameName=wartexEscape(script.game?.name||"Universal");let image=script.image||script.game?.imageUrl||script.game?.image||"";if(!image)image=await wartexGetRobloxGameImage(script.game?.name||"");
- const views=Number(script.views||0).toLocaleString(),verified=script.verified===true,keyValue=script.keySystem??script.key,keyText=String(keyValue??"").toLowerCase(),hasKey=keyValue===true||["true","yes","required","key"].includes(keyText);
- const dateValue=script.updatedAt||script.updated_at||script.createdAt||script.created_at||"",ageDays=dateValue?Math.floor((Date.now()-new Date(dateValue).getTime())/86400000):null;let fresh={label:"Güncellik belirsiz",cls:"is-neutral",dot:"bg-zinc-400"};
- if(Number.isFinite(ageDays)&&ageDays>=0){if(ageDays<=30)fresh={label:"Yeni güncelleme",cls:"is-green",dot:"bg-emerald-400"};else if(ageDays<=90)fresh={label:"Kontrol et",cls:"is-amber",dot:"bg-amber-400"};else fresh={label:"Eski güncelleme",cls:"is-red",dot:"bg-red-400"};}
- const verifiedBadge=verified?'<span class="wartex-status-chip is-green"><i class="fa-solid fa-circle-check"></i> Doğrulanmış</span>':'<span class="wartex-status-chip is-red"><i class="fa-solid fa-circle-exclamation"></i> Doğrulanmamış</span>';
- const keyBadge=hasKey?'<span class="wartex-status-chip is-amber"><i class="fa-solid fa-key"></i> Key System</span>':'<span class="wartex-status-chip is-green"><i class="fa-solid fa-unlock-keyhole"></i> Keyless</span>';
- return `<article class="wartex-script-card group flex flex-col bg-[#0a0a0a] border border-zinc-800 hover:border-zinc-500 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/40">
- <div class="relative h-40 overflow-hidden bg-zinc-900">${image?'<img src="'+wartexEscape(image)+'" alt="'+title+'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" onerror="this.style.display=\'none\';this.parentElement.querySelector(\'.wartex-card-fallback\').classList.remove(\'hidden\')">':''}<div class="wartex-card-fallback ${image?'hidden':''} absolute inset-0 bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center"><div class="text-center"><i class="fa-solid fa-gamepad text-zinc-600 text-4xl mb-2"></i><p class="text-zinc-500 text-[10px] font-bold">${gameName}</p></div></div><div class="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-black/30 pointer-events-none"></div>
- <div class="absolute top-2 right-2 z-10 flex flex-col items-end gap-1.5">${verifiedBadge}${keyBadge}<span class="wartex-status-chip ${fresh.cls}"><span class="wartex-status-dot ${fresh.dot}"></span>${fresh.label}</span></div><span class="absolute bottom-3 left-3 max-w-[70%] truncate rounded-md bg-black/75 border border-white/10 px-2.5 py-1 text-[9px] font-bold text-zinc-200"><i class="fa-solid fa-gamepad mr-1 text-zinc-400"></i>${gameName}</span></div>
- <div class="p-4 flex flex-col flex-1"><h4 class="text-white font-extrabold text-sm leading-snug line-clamp-2 min-h-10">${title}</h4><div class="flex items-center justify-between gap-3 mt-4 py-3 border-y border-zinc-800/90"><div class="flex items-center gap-2"><i class="fa-solid fa-eye text-zinc-500 text-xs"></i><div><span class="block text-white font-extrabold text-xs">${views}</span><span class="block text-[8px] text-zinc-500 uppercase tracking-wider">Görüntülenme</span></div></div><span class="text-[9px] text-zinc-500">${script.isPatched===true?'<i class="fa-solid fa-triangle-exclamation text-red-400 mr-1"></i>Patched işaretli':script.isPatched===false?'<i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i>Patched değil':'<i class="fa-solid fa-circle-info mr-1"></i>Durum yok'}</span></div><button onclick='wartexOpenScriptDetails(${JSON.stringify(script).replace(/</g,"\\u003c").replace(/'/g,"&#039;")})' class="mt-4 w-full bg-white hover:bg-zinc-200 text-black font-extrabold py-2.5 rounded-xl text-[10px] transition"><i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> Scripti İncele</button></div></article>`;
+async function wartexCreateScriptCard(script) {
+
+    const title =
+        wartexEscape(script.title || "İsimsiz Script");
+
+    const gameName =
+        wartexEscape(
+            script.game?.name || "Universal"
+        );
+let image =
+    script.image ||
+    script.game?.imageUrl ||
+    script.game?.image ||
+    "";
+
+if (!image) {
+
+    image =
+        await wartexGetRobloxGameImage(
+            script.game?.name || ""
+        );
+
+}
+   
+
+    const views =
+        Number(script.views || 0).toLocaleString();
+
+    const code =
+    script.code || script.script || "";
+
+    const verified =
+        script.verified === true;
+
+    return `
+        <div class="wartex-script-card
+                    group
+                    bg-zinc-950
+                    border border-zinc-800
+                    hover:border-indigo-500/50
+                    rounded-2xl
+                    overflow-hidden
+                    transition-all
+                    duration-300
+                    hover:-translate-y-1
+                    hover:shadow-xl
+                    hover:shadow-indigo-500/10">
+
+            ${
+    image
+    ? `
+        <div class="relative h-40 overflow-hidden bg-zinc-900">
+
+            <img
+                src="${wartexEscape(image)}"
+                class="w-full h-full object-cover
+                       group-hover:scale-105
+                       transition-transform duration-500"
+                loading="lazy"
+                onerror="
+                    this.style.display='none';
+                    this.parentElement.querySelector('.wartex-fallback').classList.remove('hidden');
+                "
+            >
+
+            <div class="wartex-fallback hidden absolute inset-0
+                        bg-gradient-to-br
+                        from-indigo-950/60
+                        to-zinc-950
+                        flex items-center
+                        justify-center">
+
+                <div class="text-center">
+
+                    <i class="fa-solid fa-gamepad
+                              text-indigo-500/50
+                              text-4xl mb-2">
+                    </i>
+
+                    <p class="text-zinc-500
+                              text-[9px]
+                              font-bold">
+
+                        ${gameName}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="absolute inset-0
+                        bg-gradient-to-t
+                        from-zinc-950
+                        via-transparent
+                        to-transparent">
+            </div>
+
+        </div>
+    `
+    : `
+        <div class="h-40 bg-gradient-to-br
+                    from-indigo-950/40
+                    to-zinc-950
+                    flex items-center
+                    justify-center">
+
+            <div class="text-center">
+
+                <i class="fa-solid fa-code
+                          text-indigo-500/40
+                          text-4xl mb-2">
+                </i>
+
+                <p class="text-zinc-600
+                          text-[9px]
+                          font-bold">
+
+                    Script Hub
+
+                </p>
+
+            </div>
+
+        </div>
+    `
+}
+
+            <div class="p-5">
+
+                <!-- OYUN -->
+
+                <div class="flex items-center gap-2 mb-2">
+
+                    <span class="text-[10px]
+                                 text-indigo-400
+                                 font-bold
+                                 uppercase
+                                 tracking-wide">
+
+                        <i class="fa-solid fa-gamepad mr-1"></i>
+                        ${gameName}
+
+                    </span>
+
+                </div>
+
+
+                <!-- BAŞLIK -->
+
+                <h4 class="text-white
+                           font-black
+                           text-sm
+                           leading-relaxed
+                           line-clamp-2">
+
+                    ${title}
+
+                </h4>
+
+
+                <!-- BİLGİLER -->
+
+                <div class="flex items-center
+                            justify-between
+                            mt-4
+                            py-3
+                            border-y
+                            border-zinc-800">
+
+                    <div class="flex items-center gap-2">
+
+                        <i class="fa-solid fa-eye
+                                  text-zinc-600
+                                  text-xs">
+                        </i>
+
+                        <div>
+
+                            <span class="block
+                                         text-white
+                                         font-black
+                                         text-xs">
+
+                                ${views}
+
+                            </span>
+
+                            <span class="text-[8px]
+                                         text-zinc-600
+                                         uppercase">
+
+                                Görüntülenme
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    ${
+                        verified
+                        ? `
+                            <div class="flex items-center gap-2
+                                        bg-emerald-500/10
+                                        border border-emerald-500/20
+                                        px-2.5 py-1.5
+                                        rounded-lg">
+
+                                <span class="relative flex h-2 w-2">
+
+                                    <span class="animate-ping
+                                                 absolute
+                                                 inline-flex
+                                                 h-full
+                                                 w-full
+                                                 rounded-full
+                                                 bg-emerald-400
+                                                 opacity-75">
+                                    </span>
+
+                                    <span class="relative
+                                                 inline-flex
+                                                 rounded-full
+                                                 h-2 w-2
+                                                 bg-emerald-500">
+                                    </span>
+
+                                </span>
+
+                                <span class="text-[9px]
+                                             font-black
+                                             text-emerald-400
+                                             uppercase">
+
+                                    Doğrulanmış
+
+                                </span>
+
+                            </div>
+                        `
+                        : `
+                            <span class="text-[9px]
+                                         text-zinc-600
+                                         font-bold">
+
+                                Doğrulanmamış
+
+                            </span>
+                        `
+                    }
+
+                </div>
+
+
+                <!-- BUTONLAR -->
+
+               <div class="mt-4">
+
+                    <button
+                        onclick='wartexOpenScriptDetails(${JSON.stringify(script).replace(/'/g, "&#039;")})'
+                        class="bg-indigo-600
+                               hover:bg-indigo-500
+                               text-white
+                               font-bold
+                               py-2.5
+                               rounded-xl
+                               text-[10px]
+                               transition">
+
+                        <i class="fa-solid fa-magnifying-glass mr-1"></i>
+                        İncele
+
+                    </button>
+
+
+                    
+                </div>
+
+            </div>
+
+        </div>
+    `;
 }
 
 function wartexOpenScriptDetails(script) {
