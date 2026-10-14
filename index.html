@@ -5294,6 +5294,7 @@ window.openModal = function(id) {
   <span class="wartex-executor-art-version">VERSION 1.0.0</span>
  </div>
  <div class="wartex-executor-product-heading"><div><span class="wartex-executor-eyebrow">WARTEX PRODUCT LINE</span><h3>WARTEX EXECUTOR</h3><p>WARTEX tarafından geliştirilen tek resmî executor ürünü.</p></div><span class="wartex-executor-release"><i></i> Geliştiriliyor</span></div>
+ <button type="button" class="wartex-premium-play" onclick="openWartexPremiumShowcase()"><i class="fa-solid fa-play"></i><span><strong>Animasyonu İzle</strong><small>3D WARTEX ürün vitrini</small></span><i class="fa-solid fa-arrow-up-right-from-square wartex-premium-play-arrow"></i></button>
  <div class="wartex-executor-actions">
   <a href="https://discord.gg/cfxX5Ezw3" target="_blank" rel="noopener noreferrer" class="wartex-executor-action-primary"><i class="fa-solid fa-download"></i> Download</a>
   <a href="https://discord.gg/cfxX5Ezw3" target="_blank" rel="noopener noreferrer" class="wartex-executor-action-secondary"><i class="fa-solid fa-key"></i> Get Key</a>
@@ -11942,5 +11943,62 @@ document.addEventListener("click", function(event) {
  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('is-open'))window.closeWartexPeekDetails();});
 })();
 </script>
+ 
+<style>
+/* WARTEX premium 3D showcase */
+.wartex-premium-play{width:100%;display:flex;align-items:center;gap:13px;text-align:left;margin:18px 0 12px;padding:14px 16px;border:1px solid rgba(255,255,255,.17);border-radius:15px;background:linear-gradient(110deg,#191919,#080808 60%,#222);color:#fff;cursor:pointer;transition:transform .25s,border-color .25s,box-shadow .25s;box-shadow:inset 0 1px rgba(255,255,255,.08),0 8px 24px #0008}
+.wartex-premium-play:hover{transform:translateY(-2px);border-color:#aaa;box-shadow:0 12px 30px #000b,0 0 22px #fff1}
+.wartex-premium-play>i:first-child{display:grid;place-items:center;width:39px;height:39px;border-radius:12px;background:#fff;color:#080808}
+.wartex-premium-play span{display:grid;gap:3px}.wartex-premium-play strong{font-size:12px;letter-spacing:.12em;text-transform:uppercase}.wartex-premium-play small{font-size:10px;color:#a1a1aa}.wartex-premium-play-arrow{margin-left:auto;color:#a3a3a3}
+#wartexPremiumShowcase{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(0,0,0,.92);backdrop-filter:blur(16px);overflow:auto}
+#wartexPremiumShowcase.is-open{display:flex;animation:wartexShowcaseFade .35s ease both}
+.wartex-premium-stage{width:min(1120px,100%);position:relative;padding:28px 16px 20px;text-align:center;perspective:1200px}
+.wartex-premium-close{position:absolute;right:0;top:0;width:40px;height:40px;border-radius:50%;border:1px solid #444;background:#111;color:white;font-size:20px;cursor:pointer}
+.wartex-premium-heading{font-size:clamp(22px,4vw,39px);font-weight:900;letter-spacing:.1em;color:#fff;margin:8px 0}.wartex-premium-heading span{color:#8f8f8f}
+.wartex-premium-subtitle{font-size:12px;color:#999;margin:0 0 38px}
+.wartex-premium-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,2.5vw,28px);align-items:center}
+.wartex-premium-card{position:relative;min-height:300px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;text-align:left;padding:25px 22px;border:1px solid #484848;border-radius:23px;background:radial-gradient(ellipse at 85% 10%,#ffffff1c,transparent 45%),linear-gradient(145deg,#222,#090909 68%);box-shadow:0 30px 60px #000a,inset 0 1px #ffffff22;transform-style:preserve-3d;animation:wartexCardFloat 4.8s ease-in-out infinite;transition:border-color .35s,box-shadow .35s}
+.wartex-premium-card:nth-child(2){animation-delay:-1.6s;background:radial-gradient(ellipse at 85% 10%,#d5d5d51c,transparent 45%),linear-gradient(145deg,#1a1a1a,#050505 70%)}
+.wartex-premium-card:nth-child(3){animation-delay:-3.2s;background:radial-gradient(ellipse at 85% 10%,#aaa1 0%,transparent 48%),linear-gradient(145deg,#292929,#080808 70%)}
+.wartex-premium-card:before{content:"";position:absolute;inset:-80% -40%;background:linear-gradient(100deg,transparent 40%,#ffffff13 48%,transparent 56%);transform:translateX(-60%) rotate(18deg);animation:wartexCardShine 5.5s ease-in-out infinite;pointer-events:none}
+.wartex-premium-card:hover{transform:rotateY(-5deg) rotateX(4deg) translateY(-8px);border-color:#ddd;box-shadow:0 35px 70px #000,0 0 28px #fff1}
+.wartex-premium-card:nth-child(2):hover{transform:rotateY(0deg) rotateX(5deg) translateY(-8px)}
+.wartex-premium-card:nth-child(3):hover{transform:rotateY(5deg) rotateX(4deg) translateY(-8px)}
+.wartex-premium-card-top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;color:#a3a3a3;font-size:9px;font-weight:800;letter-spacing:.17em}
+.wartex-premium-logo{position:relative;z-index:1;display:grid;place-items:center;align-self:center;width:110px;height:110px;margin:12px auto;border:1px solid #ffffff35;border-radius:28px;background:linear-gradient(145deg,#ffffff19,#ffffff03);box-shadow:inset 0 1px #ffffff26,0 20px 45px #0009;transform:translateZ(40px) rotate(-7deg);font-size:51px;font-weight:1000;color:#fff;text-shadow:0 5px 24px #fff3}
+.wartex-premium-card:nth-child(2) .wartex-premium-logo{font-size:24px;letter-spacing:-.08em;transform:translateZ(40px) rotate(5deg)}
+.wartex-premium-card:nth-child(3) .wartex-premium-logo{transform:translateZ(40px) rotate(0deg);border-radius:50%}
+.wartex-premium-card h3{position:relative;z-index:1;font-size:clamp(15px,2vw,22px);font-weight:900;letter-spacing:.035em;margin:12px 0 5px;color:white}
+.wartex-premium-card p{position:relative;z-index:1;font-size:11px;line-height:1.6;color:#a1a1aa;margin:0}
+.wartex-premium-card-bottom{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;margin-top:23px;padding-top:13px;border-top:1px solid #ffffff1b;font-size:9px;letter-spacing:.12em;color:#bbb}
+.wartex-premium-card-bottom b{color:#fff;font-size:10px}
+.wartex-premium-progress{height:2px;width:100%;max-width:500px;background:#333;margin:35px auto 0;overflow:hidden}.wartex-premium-progress span{display:block;height:100%;width:35%;background:#fff;animation:wartexProgress 6s linear infinite}
+.wartex-premium-foot{font-size:10px;color:#777;margin-top:13px;letter-spacing:.1em}
+@keyframes wartexCardFloat{0%,100%{translate:0 0;rotate:-1deg}50%{translate:0 -11px;rotate:1deg}}
+@keyframes wartexCardShine{0%,30%{transform:translateX(-65%) rotate(18deg)}65%,100%{transform:translateX(65%) rotate(18deg)}}
+@keyframes wartexShowcaseFade{from{opacity:0}to{opacity:1}}
+@keyframes wartexProgress{from{transform:translateX(-110%)}to{transform:translateX(300%)}}
+@media(max-width:700px){#wartexPremiumShowcase{padding:12px}.wartex-premium-stage{padding:45px 3px 15px}.wartex-premium-subtitle{margin-bottom:23px}.wartex-premium-cards{grid-template-columns:1fr;gap:14px;max-width:410px;margin:auto}.wartex-premium-card{min-height:215px;padding:17px 18px;display:grid;grid-template-columns:86px 1fr;grid-template-rows:auto 1fr auto;column-gap:17px;align-items:center}.wartex-premium-card-top{grid-column:1/-1}.wartex-premium-logo{width:76px;height:76px;font-size:35px;margin:8px auto;grid-row:2/4;grid-column:1}.wartex-premium-card:nth-child(2) .wartex-premium-logo{font-size:18px}.wartex-premium-card h3{font-size:17px;align-self:end}.wartex-premium-card p{align-self:start}.wartex-premium-card-bottom{grid-column:2;margin-top:10px}.wartex-premium-progress{margin-top:20px}}
+@media(prefers-reduced-motion:reduce){.wartex-premium-card,.wartex-premium-card:before,.wartex-premium-progress span{animation:none!important;transition:none!important}}
+</style>
+<div id="wartexPremiumShowcase" role="dialog" aria-modal="true" aria-label="WARTEX 3D ürün vitrini" onclick="if(event.target===this)closeWartexPremiumShowcase()">
+ <div class="wartex-premium-stage">
+  <button type="button" class="wartex-premium-close" onclick="closeWartexPremiumShowcase()" aria-label="Animasyonu kapat">×</button>
+  <div class="wartex-premium-heading">WARTEX <span>ECOSYSTEM</span></div>
+  <p class="wartex-premium-subtitle">Üç ürün. Tek ekosistem. Tasarlandı ve geliştiriliyor.</p>
+  <div class="wartex-premium-cards">
+   <article class="wartex-premium-card"><div class="wartex-premium-card-top"><span>01 / EXECUTION</span><span>W·01</span></div><div class="wartex-premium-logo">W</div><div><h3>WARTEX EXECUTOR</h3><p>Modern arayüz, kişiselleştirme ve tek merkezden ürün deneyimi.</p></div><div class="wartex-premium-card-bottom"><span>DESKTOP PRODUCT</span><b>01</b></div></article>
+   <article class="wartex-premium-card"><div class="wartex-premium-card-top"><span>02 / DISCOVERY</span><span>W·02</span></div><div class="wartex-premium-logo">SCRIPT<br>HUB</div><div><h3>WARTEX SCRIPT HUB</h3><p>Script keşfi ve oyun odaklı katalog deneyimi.</p></div><div class="wartex-premium-card-bottom"><span>SCRIPT LIBRARY</span><b>02</b></div></article>
+   <article class="wartex-premium-card"><div class="wartex-premium-card-top"><span>03 / MAINTENANCE</span><span>W·03</span></div><div class="wartex-premium-logo">W</div><div><h3>WARTEX SPOOFER</h3><p>Windows bakım araçları için ayrı ve kontrollü uygulama deneyimi.</p></div><div class="wartex-premium-card-bottom"><span>PC TOOLKIT</span><b>03</b></div></article>
+  </div>
+  <div class="wartex-premium-progress"><span></span></div><div class="wartex-premium-foot">PREMIUM 3D SHOWCASE · WARTEX HUB</div>
+ </div>
+</div>
+<script>
+function openWartexPremiumShowcase(){const el=document.getElementById('wartexPremiumShowcase');if(!el)return;el.classList.add('is-open');document.body.style.overflow='hidden';}
+function closeWartexPremiumShowcase(){const el=document.getElementById('wartexPremiumShowcase');if(!el)return;el.classList.remove('is-open');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexPremiumShowcase();});
+</script>
+
 </body>
 </html>
