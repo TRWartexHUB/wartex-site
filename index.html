@@ -3317,18 +3317,24 @@ button:active,.wartex-nav-button:active,[role="button"]:active{transform:scale(.
 
             </a>
 
-            <a href="https://discord.gg/KdyFHaVts"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="bg-white hover:bg-zinc-200
-                      text-black px-4 py-2 rounded-xl text-xs
-                      font-extrabold transition flex items-center
-                      space-x-2">
-
-                <i class="fa-solid fa-right-to-bracket"></i>
+            <a id="wartexDiscordLogin"
+               href="https://wartex-auth-apiyaz.mustimoruk11.workers.dev/api/auth/discord/start"
+               class="bg-white hover:bg-zinc-200 text-black px-4 py-2 rounded-xl text-xs font-extrabold transition flex items-center space-x-2">
+                <i class="fa-brands fa-discord"></i>
                 <span>Login with Discord</span>
-
             </a>
+
+            <div id="wartexDiscordAccount" class="hidden relative">
+                <button id="wartexDiscordAccountButton" type="button" class="flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-900/80 p-1.5 pr-3 hover:border-zinc-500 transition" aria-label="Discord hesabı">
+                    <img id="wartexDiscordAvatar" alt="Discord profil fotoğrafı" class="h-8 w-8 rounded-full object-cover" src="" />
+                    <span id="wartexDiscordName" class="max-w-[130px] truncate text-xs font-bold text-white"></span>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-zinc-400"></i>
+                </button>
+                <div id="wartexDiscordAccountMenu" class="hidden absolute right-0 mt-2 w-48 rounded-xl border border-zinc-800 bg-zinc-950 p-2 shadow-2xl z-[9999]">
+                    <div class="px-3 py-2 text-xs text-zinc-400">Discord hesabın bağlandı</div>
+                    <button id="wartexDiscordLogout" type="button" class="w-full rounded-lg px-3 py-2 text-left text-sm text-white hover:bg-zinc-800">Çıkış yap</button>
+                </div>
+            </div>
 
         </div>
 
@@ -11782,6 +11788,101 @@ document.addEventListener("click", function(event) {
 function openWartexPremiumShowcase(){const el=document.getElementById('wartexPremiumShowcase');if(!el)return;el.classList.add('is-open');document.body.style.overflow='hidden';}
 function closeWartexPremiumShowcase(){const el=document.getElementById('wartexPremiumShowcase');if(!el)return;el.classList.remove('is-open');document.body.style.overflow='';}
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexPremiumShowcase();});
+</script>
+
+
+<script>
+(() => {
+  const API = "https://wartex-auth-apiyaz.mustimoruk11.workers.dev";
+  const login = document.getElementById("wartexDiscordLogin");
+  const account = document.getElementById("wartexDiscordAccount");
+  const avatar = document.getElementById("wartexDiscordAvatar");
+  const name = document.getElementById("wartexDiscordName");
+  const menu = document.getElementById("wartexDiscordAccountMenu");
+  const menuButton = document.getElementById("wartexDiscordAccountButton");
+  const logout = document.getElementById("wartexDiscordLogout");
+  if (!login || !account || !avatar || !name) return;
+
+  const clearCallbackParams = () => {
+    const clean = new URL(window.location.href);
+    clean.searchParams.delete("discord_code");
+    clean.searchParams.delete("discord_error");
+    window.history.replaceState({}, document.title, clean.pathname + clean.search + clean.hash);
+  };
+
+  const showUser = (user) => {
+    if (!user || !user.id) return;
+    const avatarUrl = user.avatar
+      ? "https://cdn.discordapp.com/avatars/" + encodeURIComponent(user.id) + "/" + encodeURIComponent(user.avatar) + (user.avatar.startsWith("a_") ? ".gif" : ".png") + "?size=96"
+      : "https://cdn.discordapp.com/embed/avatars/0.png";
+    avatar.src = avatarUrl;
+    avatar.onerror = () => { avatar.onerror = null; avatar.src = "https://cdn.discordapp.com/embed/avatars/0.png"; };
+    name.textContent = user.global_name || user.username || "Discord hesabı";
+    login.classList.add("hidden");
+    account.classList.remove("hidden");
+  };
+
+  const token = () => sessionStorage.getItem("wartex_discord_session");
+
+  async function loadProfile() {
+    const saved = token();
+    if (!saved) return;
+    try {
+      const response = await fetch(API + "/api/auth/me", {
+        headers: { "Authorization": "Bearer " + saved },
+        cache: "no-store"
+      });
+      if (!response.ok) { sessionStorage.removeItem("wartex_discord_session"); return; }
+      const data = await response.json();
+      showUser(data.user);
+    } catch (error) {
+      console.error("WARTEX Discord profile could not load:", error);
+    }
+  }
+
+  async function exchangeCallbackCode() {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("discord_code");
+    if (!code) return;
+    clearCallbackParams();
+    try {
+      const response = await fetch(API + "/api/auth/discord/exchange", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code })
+      });
+      const data = await response.json();
+      if (!response.ok || !data.token || !data.user) {
+        console.error("WARTEX Discord login failed:", data.error || "Unknown error");
+        return;
+      }
+      sessionStorage.setItem("wartex_discord_session", data.token);
+      showUser(data.user);
+    } catch (error) {
+      console.error("WARTEX Discord login failed:", error);
+    }
+  }
+
+  menuButton?.addEventListener("click", () => menu?.classList.toggle("hidden"));
+  document.addEventListener("click", (event) => {
+    if (menu && account && !account.contains(event.target)) menu.classList.add("hidden");
+  });
+  logout?.addEventListener("click", async () => {
+    const saved = token();
+    try {
+      if (saved) await fetch(API + "/api/auth/logout", {
+        method: "POST",
+        headers: { "Authorization": "Bearer " + saved }
+      });
+    } catch (_) {}
+    sessionStorage.removeItem("wartex_discord_session");
+    account.classList.add("hidden");
+    login.classList.remove("hidden");
+    menu?.classList.add("hidden");
+  });
+
+  exchangeCallbackCode().then(loadProfile);
+})();
 </script>
 
 </body>
