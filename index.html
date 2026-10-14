@@ -3484,15 +3484,48 @@ button:active,.wartex-nav-button:active,[role="button"]:active{transform:scale(.
 
     <!-- WARTEX PREMIUM 3D PROMO BANNERS -->
     <section class="wartex-promo-stage" aria-label="WARTEX ürün tanıtımları">
-      <article class="wartex-promo-card" data-wartex-tilt>
+      <article class="wartex-promo-card wartex-showcase-cycle" data-wartex-tilt aria-label="WARTEX Executor ve Wartex.peek script tanıtımı">
         <div class="wartex-promo-orbit" aria-hidden="true"></div>
-        <div class="wartex-promo-content">
-          <span class="wartex-promo-kicker"><span class="wartex-promo-dot"></span> WARTEX SYSTEM</span>
-          <h2>WARTEX <strong>EXECUTOR</strong></h2>
-          <p>Özelleştirilebilir arayüz, gelişmiş araçlar ve Script Hub deneyimi.</p>
-          <button type="button" class="wartex-promo-cta" onclick="openModal('executorExternalModal')">Executor'ı İncele <span aria-hidden="true">↗</span></button>
+        <div class="wartex-showcase-slide wartex-showcase-executor">
+          <div class="wartex-promo-content">
+            <span class="wartex-promo-kicker"><span class="wartex-promo-dot"></span> WARTEX SYSTEM</span>
+            <h2>WARTEX <strong>EXECUTOR</strong></h2>
+            <p>Özelleştirilebilir arayüz, gelişmiş araçlar ve Script Hub deneyimi.</p>
+            <button type="button" class="wartex-promo-cta" onclick="openModal('executorExternalModal')">Executor'ı İncele <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="wartex-promo-mark" aria-hidden="true">W<span>/</span></div>
         </div>
-        <div class="wartex-promo-mark" aria-hidden="true">W<span>/</span></div><div class="wartex-promo-reflection" aria-hidden="true"></div>
+        <div class="wartex-showcase-slide wartex-showcase-features">
+          <span class="wartex-promo-kicker"><span class="wartex-promo-dot"></span> EXECUTOR FEATURES</span>
+          <h2>GÜÇLÜ <strong>ÖZELLİKLER</strong></h2>
+          <p>WARTEX deneyimi için tasarlanan temel özellikler.</p>
+          <ul class="wartex-showcase-feature-list">
+            <li><i class="fa-solid fa-check"></i><span><strong>%88 UNC</strong><small>Uyumluluk hedefi</small></span></li>
+            <li><i class="fa-solid fa-sliders"></i><span><strong>Özelleştirilebilir UI</strong><small>Arayüz ve menü ayarları</small></span></li>
+            <li><i class="fa-solid fa-key"></i><span><strong>Key System</strong><small>Lisans anahtarı sistemi</small></span></li>
+            <li><i class="fa-solid fa-code"></i><span><strong>Script Hub</strong><small>Scriptleri keşfetme alanı</small></span></li>
+          </ul>
+          <button type="button" class="wartex-promo-cta" onclick="openModal('executorExternalModal')">Tüm özellikler <span aria-hidden="true">↗</span></button>
+        </div>
+        <div class="wartex-showcase-slide wartex-showcase-script">
+          <span class="wartex-promo-kicker"><span class="wartex-promo-dot"></span> WARTEX.PEEK · FALLEN SURVIVAL</span>
+          <div class="wartex-showcase-script-layout">
+            <img src="./wartecscript1.png" alt="Wartex.peek Fallen script önizlemesi" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
+            <div class="wartex-showcase-image-fallback" aria-hidden="true"><i class="fa-regular fa-image"></i></div>
+            <div class="wartex-showcase-script-copy"><h2>Wartex.peek <strong>Fallen Script</strong></h2><p>Best Fallen script</p><span class="wartex-showcase-game-label">FALLEN SURVIVAL</span></div>
+          </div>
+          <button type="button" class="wartex-promo-cta" onclick="document.querySelector('.wartex-script-showcase')?.scrollIntoView({behavior:'smooth',block:'start'})">Scripti İncele <span aria-hidden="true">↗</span></button>
+        </div>
+        <div class="wartex-showcase-slide wartex-showcase-script wartex-showcase-trident">
+          <span class="wartex-promo-kicker"><span class="wartex-promo-dot"></span> WARTEX.PEEK · TRIDENT SURVIVAL</span>
+          <div class="wartex-showcase-script-layout">
+            <img src="./wartecscript2.png" alt="Wartex.peek Trident Survival script önizlemesi" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
+            <div class="wartex-showcase-image-fallback" aria-hidden="true"><i class="fa-regular fa-image"></i></div>
+            <div class="wartex-showcase-script-copy"><h2>Wartex.peek <strong>Trident Survival</strong></h2><p>Trident Survival için WARTEX scripti</p><span class="wartex-showcase-game-label">TRIDENT SURVIVAL</span></div>
+          </div>
+          <button type="button" class="wartex-promo-cta" onclick="document.querySelector('.wartex-script-showcase')?.scrollIntoView({behavior:'smooth',block:'start'})">Scripti İncele <span aria-hidden="true">↗</span></button>
+        </div>
+        <div class="wartex-promo-reflection" aria-hidden="true"></div>
       </article>
       <article class="wartex-promo-card wartex-promo-card-alt wartex-intro-host" data-wartex-tilt>
         <div class="wartex-promo-orbit" aria-hidden="true"></div>
@@ -11696,6 +11729,40 @@ function wartexCopyScript(script) {
 @media(max-width:700px){.wartex-intro-host{min-height:245px}.wartex-inline-intro{min-height:200px}.wartex-inline-window{height:100px}.wartex-inline-scene h2{font-size:1.35rem!important}.wartex-inline-eyebrow{font-size:.5rem}.wartex-promo-stage{grid-template-columns:1fr;gap:1rem;margin-bottom:2.2rem}.wartex-promo-card{min-height:245px;padding:1.4rem;border-radius:18px}}
 @media(prefers-reduced-motion:reduce){.wartex-inline-scene{animation:none;opacity:1}.wartex-inline-scene-b,.wartex-inline-scene-c{display:none}}
 
+</style>
+<style id="wartex-executor-script-sequence">
+.wartex-showcase-cycle{min-height:340px!important;padding:0!important;overflow:hidden}
+.wartex-showcase-cycle .wartex-promo-orbit{z-index:0}
+.wartex-showcase-slide{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:clamp(1.25rem,2.6vw,2rem);opacity:0;visibility:hidden;animation:wartexShowcaseSequence 24s infinite both;backface-visibility:hidden}
+.wartex-showcase-executor{animation-delay:0s}
+.wartex-showcase-features{animation-delay:6s}
+.wartex-showcase-script:nth-of-type(3){animation-delay:12s}
+.wartex-showcase-trident{animation-delay:18s}
+.wartex-showcase-cycle .wartex-promo-content{max-width:82%;transform:translateZ(36px)}
+.wartex-showcase-cycle .wartex-promo-mark{z-index:0;right:1.15rem;bottom:.75rem;font-size:clamp(5rem,9vw,8rem)}
+.wartex-showcase-cycle .wartex-promo-reflection{z-index:1}
+.wartex-showcase-features h2{margin:0 0 .55rem;color:#f8fafc;font-size:clamp(1.35rem,2.5vw,1.85rem);line-height:1.08;letter-spacing:-.045em;font-weight:500}
+.wartex-showcase-features h2 strong{display:block;font-weight:950}
+.wartex-showcase-features>p{margin:0 0 .7rem;color:#b8bdc4;font-size:.78rem;line-height:1.5}
+.wartex-showcase-feature-list{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem;margin:0 0 .85rem;padding:0;list-style:none}
+.wartex-showcase-feature-list li{display:flex;align-items:center;gap:.55rem;min-width:0;padding:.55rem .6rem;border:1px solid rgba(255,255,255,.11);border-radius:9px;background:rgba(0,0,0,.24)}
+.wartex-showcase-feature-list li>i{flex:0 0 auto;color:#f0f1f3;font-size:.85rem}
+.wartex-showcase-feature-list li span{display:flex;flex-direction:column;min-width:0;gap:3px}
+.wartex-showcase-feature-list li strong{color:#f5f5f5;font-size:.68rem;line-height:1.25;overflow-wrap:anywhere}
+.wartex-showcase-feature-list li small{color:#92969e;font-size:.58rem;line-height:1.25}
+.wartex-showcase-script-layout{display:grid;grid-template-columns:minmax(95px,.8fr) minmax(0,1.2fr);align-items:center;gap:1rem;width:100%;margin:.25rem 0 .8rem}
+.wartex-showcase-script-layout>img,.wartex-showcase-image-fallback{grid-column:1;grid-row:1;width:100%;height:clamp(100px,13vw,145px);object-fit:cover;border:1px solid rgba(255,255,255,.18);border-radius:12px;background:linear-gradient(135deg,#282a2d,#08090a);box-shadow:0 12px 24px rgba(0,0,0,.3)}
+.wartex-showcase-image-fallback{display:none;place-items:center;color:#8c929a;font-size:1.5rem}
+.wartex-showcase-script-copy{grid-column:2;min-width:0}
+.wartex-showcase-script-copy h2{margin:0 0 .45rem;color:#f8fafc;font-size:clamp(1.05rem,2.1vw,1.5rem);line-height:1.08;letter-spacing:-.045em;font-weight:500;overflow-wrap:anywhere}
+.wartex-showcase-script-copy h2 strong{display:block;font-weight:950}
+.wartex-showcase-script-copy p{margin:0 0 .6rem;color:#b8bdc4;font-size:.75rem;line-height:1.45}
+.wartex-showcase-game-label{display:inline-flex;padding:.35rem .5rem;border:1px solid rgba(255,255,255,.15);border-radius:7px;color:#d6d8dc;font-size:.58rem;font-weight:850;letter-spacing:.1em}
+.wartex-showcase-cycle .wartex-promo-cta{position:relative;z-index:3}
+@keyframes wartexShowcaseSequence{0%,2%{opacity:0;visibility:hidden;transform:translateY(15px) rotateX(5deg) scale(.985)}5%,20%{opacity:1;visibility:visible;transform:translateY(0) rotateX(0) scale(1)}24%,100%{opacity:0;visibility:hidden;transform:translateY(-12px) rotateX(-3deg) scale(.99)}}
+@media(max-width:700px){.wartex-showcase-cycle{min-height:350px!important}.wartex-showcase-slide{padding:1.15rem}.wartex-showcase-cycle .wartex-promo-content{max-width:88%}.wartex-showcase-feature-list{gap:.4rem}.wartex-showcase-feature-list li{padding:.5rem}.wartex-showcase-feature-list li strong{font-size:.63rem}.wartex-showcase-feature-list li small{font-size:.54rem}.wartex-showcase-script-layout{grid-template-columns:minmax(80px,.75fr) minmax(0,1.25fr);gap:.75rem}.wartex-showcase-script-layout>img,.wartex-showcase-image-fallback{height:110px}.wartex-showcase-script-copy h2{font-size:1.12rem}.wartex-showcase-script-copy p{font-size:.68rem}}
+@media(max-width:390px){.wartex-showcase-cycle{min-height:365px!important}.wartex-showcase-feature-list{grid-template-columns:1fr;gap:.35rem}.wartex-showcase-feature-list li{padding:.38rem .5rem}.wartex-showcase-feature-list li small{display:none}.wartex-showcase-script-layout{grid-template-columns:1fr;gap:.65rem}.wartex-showcase-script-layout>img,.wartex-showcase-image-fallback{height:95px;max-width:100%}.wartex-showcase-script-copy{grid-column:1}.wartex-showcase-script-copy h2{font-size:1.05rem}.wartex-showcase-script-copy p{font-size:.65rem}.wartex-showcase-script .wartex-promo-cta{min-height:36px;padding:.55rem .75rem;font-size:.7rem}}
+@media(prefers-reduced-motion:reduce){.wartex-showcase-slide{animation:none!important}.wartex-showcase-executor{opacity:1;visibility:visible}.wartex-showcase-features,.wartex-showcase-script{display:none}}
 </style>
 <script id="wartex-premium-3d-promo-script">(()=>{const cards=document.querySelectorAll('[data-wartex-tilt]');const fine=window.matchMedia('(hover:hover) and (pointer:fine)').matches;if(!fine||window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;cards.forEach(card=>{let frame=0;card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{card.style.setProperty('--tilt-y',((x-.5)*10).toFixed(2)+'deg');card.style.setProperty('--tilt-x',((.5-y)*8).toFixed(2)+'deg');card.style.setProperty('--glint-x',(x*100).toFixed(1)+'%');card.style.setProperty('--glint-y',(y*100).toFixed(1)+'%')})});card.addEventListener('pointerleave',()=>{cancelAnimationFrame(frame);card.style.setProperty('--tilt-x','0deg');card.style.setProperty('--tilt-y','0deg');card.style.setProperty('--glint-x','50%');card.style.setProperty('--glint-y','50%')})})})();</script>
 
