@@ -4312,44 +4312,20 @@ use of third-party scripts.
             </div>
 
 
-            <!-- ARAMA -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
-
-                <div class="md:col-span-2 relative">
-
-                    <i class="fa-solid fa-magnifying-glass
-                              absolute left-4 top-1/2
-                              -translate-y-1/2
-                              text-zinc-500 text-sm"></i>
-
-                    <input id="scriptHubSearch"
-                           type="text"
-                           oninput="filterWartexScripts()"
-                           placeholder="Oyun veya script ara..."
-                           class="w-full bg-zinc-900
-                                  border border-zinc-800
-                                  rounded-xl py-3 pl-11 pr-4
-                                  text-sm text-white
-                                  placeholder:text-zinc-600
-                                  outline-none
-                                  focus:border-purple-500/50">
-
-                </div>
-
-                <input id="scriptHubBrand"
-                       type="text"
-                       oninput="filterWartexScripts()"
-                       placeholder="Marka ara..."
-                       class="w-full bg-zinc-900
-                              border border-zinc-800
-                              rounded-xl px-4 py-3
-                              text-sm text-white
-                              placeholder:text-zinc-600
-                              outline-none
-                              focus:border-purple-500/50">
-
+            <!-- GELİŞMİŞ KATALOG FİLTRELERİ -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+                <div class="sm:col-span-2 relative"><i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-sm"></i><input id="scriptHubSearch" type="search" oninput="filterWartexScripts()" placeholder="Oyun, script veya marka ara..." class="w-full bg-zinc-900 border border-zinc-800 rounded-xl py-3 pl-11 pr-4 text-sm text-white placeholder:text-zinc-600 outline-none focus:border-zinc-500"></div>
+                <select id="scriptHubGameFilter" onchange="filterWartexScripts()" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-zinc-500"><option value="">Tüm oyunlar</option></select>
+                <select id="scriptHubSort" onchange="filterWartexScripts()" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-zinc-500"><option value="relevance">Varsayılan sıralama</option><option value="views">En çok görüntülenen</option><option value="name">İsme göre A–Z</option><option value="game">Oyuna göre A–Z</option></select>
             </div>
-
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" id="scriptHubAllFilter" onclick="setWartexScriptView('all')" class="wartex-catalog-filter is-active"><i class="fa-solid fa-layer-group"></i> Tümü</button>
+                    <button type="button" id="scriptHubFavoritesFilter" onclick="setWartexScriptView('favorites')" class="wartex-catalog-filter"><i class="fa-solid fa-star"></i> Favorilerim <span id="scriptHubFavoriteCount">0</span></button>
+                    <button type="button" id="scriptHubKeylessFilter" onclick="setWartexScriptView('keyless')" class="wartex-catalog-filter"><i class="fa-solid fa-unlock-keyhole"></i> Keyless</button>
+                </div>
+                <button type="button" onclick="resetWartexScriptFilters()" class="text-[11px] font-bold text-zinc-500 hover:text-white transition"><i class="fa-solid fa-rotate-left mr-1"></i> Filtreleri sıfırla</button>
+            </div>
 
             <!-- SONUÇ SAYISI -->
             <div class="flex items-center justify-between mb-3">
@@ -4378,52 +4354,8 @@ use of third-party scripts.
             </div>
 
 
-            <!-- TABLO -->
-            <div class="border border-zinc-800
-                        rounded-2xl overflow-hidden">
-
-                <div class="overflow-x-auto">
-
-                    <table class="w-full text-left">
-
-                        <thead class="bg-zinc-900">
-
-                            <tr class="text-[9px]
-                                       uppercase tracking-wider
-                                       text-zinc-500">
-
-                                <th class="px-4 py-3">
-                                   Game
-                                </th>
-
-                                <th class="px-4 py-3">
-                                    Script
-                                </th>
-
-                                <th class="px-4 py-3">
-                                  Brand
-                                </th>
-
-                                <th class="px-4 py-3">
-                                    Key
-                                </th>
-
-                                <th class="px-4 py-3 text-right">
-                                    Action
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody id="scriptHubResults">
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
+            <!-- SCRIPT KART KATALOĞU -->
+            <div id="scriptHubResults" class="wartex-script-catalog-grid"></div>
 <!-- SAYFALAMA -->
 <div id="wartexPagination"
      class="w-full flex items-center justify-center gap-3
@@ -4816,8 +4748,8 @@ console.log(
          * Listeyi yeniden çiz
          */
 
-        if (typeof renderWartexScripts === "function") {
-            renderWartexScripts(wartexScripts);
+        if (typeof filterWartexScripts === "function") {
+            filterWartexScripts();
         }
 
 
@@ -4844,196 +4776,43 @@ loadWartexScriptsFromAPI();
    SCRIPT LİSTELE
 ========================================================= */
 
-function renderWartexScripts(list = wartexScripts) {
-
-   const results = document.getElementById("scriptHubResults");
-    const count = document.getElementById("scriptHubCount");
-    
-    if (!results || !count) return;
-
-    count.textContent = list.length + " SONUÇ";
-
-    if (list.length === 0) {
-
-        results.innerHTML = `
-            <tr>
-                <td colspan="5"
-                    class="px-4 py-8 text-center
-                           text-xs text-zinc-600">
-
-                    <i class="fa-solid fa-magnifying-glass
-                              text-lg mb-2 block"></i>
-
-                    Script bulunamadı.
-
-                </td>
-            </tr>
-        `;
-
-        return;
-    }
-
-
-    results.innerHTML = list.map((script, index) => `
-
-        <tr class="border-t border-zinc-800
-                   hover:bg-zinc-900/70 transition">
-
-            <td class="px-4 py-3">
-
-                <span class="text-xs
-                             font-bold text-white">
-
-                    ${escapeWartexHTML(script.game)}
-
-                </span>
-
-            </td>
-
-
-            <td class="px-4 py-3">
-
-                <span class="text-xs
-                             font-semibold text-zinc-300">
-
-                    ${escapeWartexHTML(script.name)}
-
-                </span>
-
-            </td>
-
-
-            <td class="px-4 py-3">
-
-                <span class="text-[9px]
-                             font-bold px-2 py-1
-                             rounded-full
-                             bg-purple-500/10
-                             border border-purple-500/20
-                             text-purple-300">
-
-                    ${escapeWartexHTML(script.brand)}
-
-                </span>
-
-            </td>
-
-
-            <td class="px-4 py-3">
-
-                <span class="text-[9px]
-                             font-bold
-                             ${script.key === "Keyless"
-                                ? "text-emerald-400"
-                                : "text-amber-400"}">
-
-                    ${escapeWartexHTML(script.key)}
-
-                </span>
-
-            </td>
-
-
-            <td class="px-4 py-3 text-right">
-
-               <button onclick='wartexOpenScriptDetails(${JSON.stringify(script).replace(/'/g, "&#039;")})'
-                        class="bg-zinc-800
-                               hover:bg-purple-600
-                               text-white
-                               border border-zinc-700
-                               hover:border-purple-500
-                               px-3 py-2
-                               rounded-lg
-                               text-[9px]
-                               font-bold transition">
-
-                    İncele
-
-                </button>
-
-            </td>
-
-        </tr>
-
-    `).join("");
-// SAYFALAMA
-const pagination = document.getElementById("wartexPagination");
-
-if (pagination) {
-
-    pagination.innerHTML = `
-        <button
-            onclick="wartexChangePage(${wartexCurrentPage - 1})"
-            ${wartexCurrentPage <= 1 ? "disabled" : ""}
-            class="px-4 py-2 rounded-lg
-                   bg-zinc-800
-                   hover:bg-purple-600
-                   disabled:opacity-40
-                   disabled:cursor-not-allowed
-                   text-white text-xs font-bold">
-            Önceki
-        </button>
-
-        <span class="px-4 py-2
-                     text-xs font-bold
-                     text-zinc-300">
-            Sayfa ${wartexCurrentPage} / ${wartexTotalPages}
-        </span>
-
-        <button
-            onclick="wartexChangePage(${wartexCurrentPage + 1})"
-            ${wartexCurrentPage >= wartexTotalPages ? "disabled" : ""}
-            class="px-4 py-2 rounded-lg
-                   bg-zinc-800
-                   hover:bg-purple-600
-                   disabled:opacity-40
-                   disabled:cursor-not-allowed
-                   text-white text-xs font-bold">
-            Sonraki
-        </button>
-    `;
-
+const wartexScriptViewState = { view: "all", displayed: [] };
+let wartexFavoriteScripts = new Set();
+try { wartexFavoriteScripts = new Set(JSON.parse(localStorage.getItem("wartexScriptFavorites") || "[]")); } catch (e) { wartexFavoriteScripts = new Set(); }
+function wartexScriptId(script) { const original = script.originalScript || {}; return String(original._id || original.id || [script.game, script.name, script.brand].join("::")).toLowerCase(); }
+function saveWartexFavorites() { try { localStorage.setItem("wartexScriptFavorites", JSON.stringify([...wartexFavoriteScripts])); } catch (e) {} const count = document.getElementById("scriptHubFavoriteCount"); if (count) count.textContent = String(wartexFavoriteScripts.size); }
+function setWartexScriptView(view) { wartexScriptViewState.view = view; ["all","favorites","keyless"].forEach(key => { const id = key === "all" ? "scriptHubAllFilter" : key === "favorites" ? "scriptHubFavoritesFilter" : "scriptHubKeylessFilter"; const button = document.getElementById(id); if (button) button.classList.toggle("is-active", key === view); }); filterWartexScripts(); }
+function toggleWartexFavorite(id, event) { if (event) event.stopPropagation(); if (wartexFavoriteScripts.has(id)) wartexFavoriteScripts.delete(id); else wartexFavoriteScripts.add(id); saveWartexFavorites(); filterWartexScripts(); }
+function resetWartexScriptFilters() { ["scriptHubSearch","scriptHubGameFilter","scriptHubSort"].forEach(id => { const el = document.getElementById(id); if (el) el.value = id === "scriptHubSort" ? "relevance" : ""; }); setWartexScriptView("all"); }
+function updateWartexGameOptions() { const select = document.getElementById("scriptHubGameFilter"); if (!select) return; const current = select.value; const games = [...new Set(wartexScripts.map(script => String(script.game || "Universal")).filter(Boolean))].sort((a,b) => a.localeCompare(b)); select.innerHTML = '<option value="">Tüm oyunlar</option>' + games.map(game => '<option value="' + escapeWartexHTML(game) + '">' + escapeWartexHTML(game) + '</option>').join(""); if (games.includes(current)) select.value = current; }
+function getFilteredWartexScripts() {
+ const search = (document.getElementById("scriptHubSearch")?.value || "").toLowerCase().trim();
+ const game = document.getElementById("scriptHubGameFilter")?.value || "";
+ const sort = document.getElementById("scriptHubSort")?.value || "relevance";
+ let list = wartexScripts.filter(script => {
+  const haystack = [script.game,script.name,script.brand,script.description].map(value => String(value || "")).join(" ").toLowerCase();
+  const matchesView = wartexScriptViewState.view === "favorites" ? wartexFavoriteScripts.has(wartexScriptId(script)) : wartexScriptViewState.view === "keyless" ? String(script.key || "").toLowerCase() === "keyless" : true;
+  return (!search || haystack.includes(search)) && (!game || String(script.game || "Universal") === game) && matchesView;
+ });
+ if (sort === "views") list.sort((a,b) => Number(b.views || 0) - Number(a.views || 0));
+ if (sort === "name") list.sort((a,b) => String(a.name || "").localeCompare(String(b.name || "")));
+ if (sort === "game") list.sort((a,b) => String(a.game || "").localeCompare(String(b.game || "")));
+ return list;
 }
+function wartexOpenScriptAt(index) { const script = wartexScriptViewState.displayed[index]; if (script) wartexOpenScriptDetails(script.originalScript || script); }
+function renderWartexScripts(list) {
+ const results = document.getElementById("scriptHubResults"), count = document.getElementById("scriptHubCount");
+ if (!results || !count) return;
+ updateWartexGameOptions(); saveWartexFavorites();
+ const scripts = Array.isArray(list) ? list : getFilteredWartexScripts();
+ wartexScriptViewState.displayed = scripts; count.textContent = scripts.length + " SONUÇ";
+ if (!scripts.length) { results.innerHTML = '<div class="wartex-script-empty"><i class="fa-solid fa-magnifying-glass"></i><strong>Script bulunamadı</strong><span>Arama veya filtrelerini değiştirmeyi deneyebilirsin.</span></div>'; return; }
+ results.innerHTML = scripts.map((script,index) => {
+  const id = wartexScriptId(script), favorite = wartexFavoriteScripts.has(id), game = escapeWartexHTML(script.game || "Universal"), name = escapeWartexHTML(script.name || "İsimsiz Script"), brand = escapeWartexHTML(script.brand || "Bilinmiyor"), keyless = String(script.key || "").toLowerCase() === "keyless", verified = script.verified === true, views = Number(script.views || 0), description = escapeWartexHTML(script.description || "Script açıklaması henüz eklenmemiş.");
+  return '<article class="wartex-script-card"><div class="wartex-script-card-top"><span class="wartex-script-game"><i class="fa-solid fa-gamepad"></i> ' + game + '</span><button type="button" class="wartex-script-favorite ' + (favorite ? 'is-favorite' : '') + '" aria-label="' + (favorite ? 'Favorilerden çıkar' : 'Favorilere ekle') + '" onclick="toggleWartexFavorite(' + JSON.stringify(id).replace(/</g, '\\u003c') + ',event)"><i class="fa-' + (favorite ? 'solid' : 'regular') + ' fa-star"></i></button></div><div class="wartex-script-card-icon"><i class="fa-solid fa-code"></i></div><h5>' + name + '</h5><p class="wartex-script-card-description">' + description + '</p><div class="wartex-script-tags"><span>' + brand + '</span><span class="' + (keyless ? 'is-keyless' : '') + '">' + escapeWartexHTML(script.key || "Key bilgisi yok") + '</span>' + (verified ? '<span class="is-verified"><i class="fa-solid fa-circle-check"></i> Doğrulanmış</span>' : '') + '</div><div class="wartex-script-card-meta"><span><i class="fa-solid fa-eye"></i> ' + views.toLocaleString() + '</span><span class="' + (String(script.status || "").toLowerCase() === "pasif" ? 'is-inactive' : '') + '"><i class="fa-solid fa-circle"></i> ' + escapeWartexHTML(script.status || "Durum belirtilmedi") + '</span></div><button type="button" class="wartex-script-inspect" onclick="wartexOpenScriptAt(' + index + ')">Scripti İncele <i class="fa-solid fa-arrow-right"></i></button></article>';
+ }).join("");
 }
-
-
-/* =========================================================
-   ARAMA
-========================================================= */
-
-function filterWartexScripts() {
-
-    const search =
-        document.getElementById("scriptHubSearch")
-        ?.value
-        .toLowerCase()
-        .trim() || "";
-
-    const brand =
-        document.getElementById("scriptHubBrand")
-        ?.value
-        .toLowerCase()
-        .trim() || "";
-
-
-    const filtered = wartexScripts.filter(script => {
-
-        const matchesSearch =
-            script.game.toLowerCase().includes(search) ||
-            script.name.toLowerCase().includes(search);
-
-        const matchesBrand =
-            script.brand.toLowerCase().includes(brand);
-
-        return matchesSearch && matchesBrand;
-
-    });
-
-
-    renderWartexScripts(filtered);
-
-}
-
+function filterWartexScripts() { renderWartexScripts(getFilteredWartexScripts()); }
 
 /* =========================================================
    SCRIPT DETAY
@@ -5278,6 +5057,11 @@ window.openModal = function(id) {
 };
 
 </script>
+
+<style>
+.wartex-catalog-filter{display:inline-flex;align-items:center;gap:7px;padding:9px 12px;border:1px solid #303030;border-radius:10px;background:#111;color:#aaa;font-size:10px;font-weight:800;transition:all .2s}.wartex-catalog-filter:hover,.wartex-catalog-filter.is-active{color:#fff;background:#242424;border-color:#777}.wartex-catalog-filter.is-active{box-shadow:inset 0 0 0 1px #ffffff12}
+.wartex-script-catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.wartex-script-card{position:relative;display:flex;min-width:0;flex-direction:column;padding:17px;border:1px solid #292929;border-radius:17px;background:linear-gradient(150deg,#171717,#090909 75%);box-shadow:inset 0 1px #ffffff09;transition:transform .25s,border-color .25s,box-shadow .25s;animation:wartexScriptCardIn .35s ease both}.wartex-script-card:hover{transform:translateY(-4px);border-color:#666;box-shadow:0 18px 35px #0007,inset 0 1px #ffffff12}.wartex-script-card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.wartex-script-game{display:inline-flex;align-items:center;gap:6px;min-width:0;color:#a3a3a3;font-size:9px;font-weight:800;letter-spacing:.05em;overflow-wrap:anywhere}.wartex-script-favorite{display:grid;place-items:center;flex-shrink:0;width:31px;height:31px;border:1px solid #333;border-radius:9px;background:#111;color:#777;cursor:pointer;transition:all .2s}.wartex-script-favorite:hover,.wartex-script-favorite.is-favorite{color:#fff;border-color:#777;background:#292929}.wartex-script-card-icon{display:grid;place-items:center;width:46px;height:46px;margin:17px 0 12px;border:1px solid #3b3b3b;border-radius:13px;background:linear-gradient(145deg,#303030,#111);color:#eee;font-size:17px;box-shadow:inset 0 1px #ffffff17}.wartex-script-card h5{font-size:14px;line-height:1.45;font-weight:900;color:#f5f5f5;overflow-wrap:anywhere}.wartex-script-card-description{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px;margin-top:7px;color:#888;font-size:10px;line-height:1.65;overflow-wrap:anywhere}.wartex-script-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}.wartex-script-tags span{padding:5px 7px;border:1px solid #333;border-radius:7px;background:#111;color:#aaa;font-size:8px;font-weight:800;overflow-wrap:anywhere}.wartex-script-tags span.is-keyless{color:#ddd;border-color:#555}.wartex-script-tags span.is-verified{color:#e5e5e5}.wartex-script-card-meta{display:flex;justify-content:space-between;gap:8px;margin-top:15px;padding-top:11px;border-top:1px solid #242424;color:#777;font-size:9px}.wartex-script-card-meta span{display:inline-flex;align-items:center;gap:5px}.wartex-script-card-meta span.is-inactive{color:#aaa}.wartex-script-inspect{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin-top:14px;padding:11px 12px;border:1px solid #414141;border-radius:10px;background:#202020;color:#fff;font-size:10px;font-weight:900;transition:background .2s,border-color .2s}.wartex-script-inspect:hover{background:#333;border-color:#777}.wartex-script-inspect i{transition:transform .2s}.wartex-script-inspect:hover i{transform:translateX(3px)}.wartex-script-empty{grid-column:1/-1;display:flex;align-items:center;flex-direction:column;gap:9px;padding:45px 15px;border:1px dashed #333;border-radius:16px;color:#777;text-align:center}.wartex-script-empty>i{font-size:23px;color:#aaa}.wartex-script-empty strong{font-size:13px;color:#eee}.wartex-script-empty span{font-size:10px}@keyframes wartexScriptCardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@media(max-width:900px){.wartex-script-catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:540px){.wartex-script-catalog-grid{grid-template-columns:1fr}.wartex-script-card{padding:15px}.wartex-script-card-icon{margin-top:13px}}@media(prefers-reduced-motion:reduce){.wartex-script-card{animation:none;transition:none}}
+</style>
 
 <!-- WARTEX EXECUTOR — SINGLE PRODUCT CATALOG -->
 <div id="executorExternalModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-5 hidden">
