@@ -3330,9 +3330,17 @@ button:active,.wartex-nav-button:active,[role="button"]:active{transform:scale(.
                     <span id="wartexDiscordName" class="max-w-[130px] truncate text-xs font-bold text-white"></span>
                     <i class="fa-solid fa-chevron-down text-[10px] text-zinc-400"></i>
                 </button>
-                <div id="wartexDiscordAccountMenu" class="hidden absolute right-0 mt-2 w-48 rounded-xl border border-zinc-800 bg-zinc-950 p-2 shadow-2xl z-[9999]">
-                    <div class="px-3 py-2 text-xs text-zinc-400">Discord hesabın bağlandı</div>
-                    <button id="wartexDiscordLogout" type="button" class="w-full rounded-lg px-3 py-2 text-left text-sm text-white hover:bg-zinc-800">Çıkış yap</button>
+                <div id="wartexDiscordAccountMenu" class="hidden absolute right-0 mt-2 w-64 rounded-2xl border border-zinc-800 bg-zinc-950 p-2 shadow-2xl z-[9999]">
+                    <div class="flex items-center gap-3 border-b border-zinc-800 px-3 py-3">
+                        <img id="wartexMenuAvatar" class="h-10 w-10 rounded-full border border-zinc-700 object-cover" alt="Profil fotoğrafı" src="">
+                        <div class="min-w-0"><div id="wartexMenuName" class="truncate text-sm font-bold text-white"></div><div id="wartexMenuDiscordId" class="truncate text-[10px] text-zinc-500"></div></div>
+                    </div>
+                    <button id="wartexViewProfile" type="button" class="w-full rounded-lg px-3 py-2.5 text-left text-sm text-white hover:bg-zinc-800"><i class="fa-regular fa-user mr-2 text-zinc-400"></i>Profili Görüntüle</button>
+                    <button id="wartexSwitchAccount" type="button" class="w-full rounded-lg px-3 py-2.5 text-left text-sm text-white hover:bg-zinc-800"><i class="fa-solid fa-repeat mr-2 text-zinc-400"></i>Hesap Değiştir</button>
+                    <div id="wartexAccountList" class="hidden space-y-1 border-t border-zinc-800 py-2"></div>
+                    <button id="wartexAddAccount" type="button" class="w-full rounded-lg px-3 py-2.5 text-left text-sm text-white hover:bg-zinc-800"><i class="fa-solid fa-plus mr-2 text-zinc-400"></i>Başka Hesap Ekle</button>
+                    <div class="my-1 border-t border-zinc-800"></div>
+                    <button id="wartexDiscordLogout" type="button" class="w-full rounded-lg px-3 py-2.5 text-left text-sm text-red-300 hover:bg-red-950/40"><i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>Çıkış Yap</button>
                 </div>
             </div>
 
@@ -11791,6 +11799,46 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
 </script>
 
 
+<!-- WARTEX kullanıcı profili -->
+<style id="wartex-user-profile-style">
+#wartexProfileModal{position:fixed;inset:0;z-index:10020;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.82);backdrop-filter:blur(12px)}
+#wartexProfileModal.is-open{display:flex;animation:wartexProfileFade .2s ease}
+.wartex-profile-card{width:min(760px,100%);max-height:90vh;overflow:auto;border:1px solid #303034;border-radius:22px;background:linear-gradient(145deg,#151517,#080809 68%);box-shadow:0 28px 90px #000b;color:#f4f4f5}
+.wartex-profile-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:24px;border-bottom:1px solid #29292d}
+.wartex-profile-identity{min-width:0}.wartex-profile-kicker{font-size:10px;letter-spacing:.2em;font-weight:900;color:#8b8b93}.wartex-profile-name{margin:8px 0 4px;font-size:clamp(22px,4vw,32px);font-weight:900;overflow-wrap:anywhere}.wartex-profile-id{font-size:11px;color:#92929b;overflow-wrap:anywhere}
+.wartex-profile-avatar-side{display:flex;flex-direction:column;align-items:center;gap:9px;flex-shrink:0}.wartex-profile-avatar{width:88px;height:88px;border-radius:50%;border:2px solid #555;object-fit:cover;box-shadow:0 0 0 6px #ffffff08}
+.wartex-profile-level{padding:5px 10px;border:1px solid #3c3c42;border-radius:999px;background:#202023;font-size:11px;font-weight:900;white-space:nowrap}
+.wartex-profile-body{padding:22px 24px 24px}.wartex-profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.wartex-profile-stat{padding:16px;border:1px solid #29292e;border-radius:14px;background:linear-gradient(145deg,#171719,#0d0d0f);min-width:0}
+.wartex-profile-stat small{display:block;margin-bottom:8px;font-size:10px;color:#92929b;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.wartex-profile-stat strong{display:block;font-size:18px;font-weight:850;overflow-wrap:anywhere}.wartex-profile-stat p{margin:7px 0 0;font-size:10px;line-height:1.5;color:#777780}
+.wartex-profile-xp{height:7px;margin-top:12px;border-radius:99px;background:#29292e;overflow:hidden}.wartex-profile-xp span{display:block;height:100%;width:0;background:linear-gradient(90deg,#777,#fff);transition:width .3s}
+.wartex-profile-note{margin-top:14px;padding:12px 14px;border:1px solid #29292e;border-radius:12px;color:#8f8f98;font-size:11px;line-height:1.6}
+.wartex-profile-close{display:grid;place-items:center;width:36px;height:36px;flex-shrink:0;border:1px solid #35353a;border-radius:10px;background:#1a1a1d;color:#bbb;cursor:pointer}
+.wartex-account-choice{display:flex;width:100%;align-items:center;gap:10px;padding:8px;border-radius:9px;text-align:left;color:#eee;background:transparent}.wartex-account-choice:hover{background:#27272a}.wartex-account-choice img{width:28px;height:28px;border-radius:50%;object-fit:cover}.wartex-account-choice span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
+@keyframes wartexProfileFade{from{opacity:0}to{opacity:1}}
+@media(max-width:540px){.wartex-profile-head{padding:18px}.wartex-profile-body{padding:16px}.wartex-profile-avatar{width:68px;height:68px}.wartex-profile-grid{grid-template-columns:1fr 1fr;gap:8px}.wartex-profile-stat{padding:12px}.wartex-profile-stat strong{font-size:15px}}
+@media(prefers-reduced-motion:reduce){#wartexProfileModal{animation:none}.wartex-profile-xp span{transition:none}}
+</style>
+<div id="wartexProfileModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="wartexProfileName">
+ <section class="wartex-profile-card">
+  <header class="wartex-profile-head">
+   <div class="wartex-profile-identity"><div class="wartex-profile-kicker">WARTEX HUB / HESAP</div><h2 id="wartexProfileName" class="wartex-profile-name">Discord kullanıcısı</h2><div id="wartexProfileDiscordId" class="wartex-profile-id">Discord ID: —</div></div>
+   <div class="wartex-profile-avatar-side"><img id="wartexProfileAvatar" class="wartex-profile-avatar" alt="Discord profil fotoğrafı" src=""><div id="wartexProfileLevel" class="wartex-profile-level">LEVEL 1</div></div>
+   <button id="wartexProfileClose" class="wartex-profile-close" type="button" aria-label="Profili kapat"><i class="fa-solid fa-xmark"></i></button>
+  </header>
+  <div class="wartex-profile-body">
+   <div class="wartex-profile-grid">
+    <article class="wartex-profile-stat"><small><i class="fa-regular fa-clock mr-1"></i> Sitede geçirilen süre</small><strong id="wartexProfileTime">0 dakika</strong><p>Bu tarayıcıda WARTEX sitesi açık ve görünürken ölçülür.</p></article>
+    <article class="wartex-profile-stat"><small><i class="fa-brands fa-discord mr-1"></i> İlk giriş kaydı</small><strong id="wartexProfileJoined">—</strong><p>Şimdilik bu tarayıcıda hesabın ilk görüldüğü tarih.</p></article>
+    <article class="wartex-profile-stat"><small><i class="fa-solid fa-star mr-1"></i> Toplam XP</small><strong id="wartexProfileXP">0 XP</strong><div class="wartex-profile-xp"><span id="wartexProfileXPBar"></span></div><p id="wartexProfileXPNext">Sonraki seviyeye ilerleme</p></article>
+    <article class="wartex-profile-stat"><small><i class="fa-solid fa-signal mr-1"></i> Son aktivite</small><strong id="wartexProfileLastActive">Şimdi</strong><p>Sayfada etkinlik olduğunda güncellenir.</p></article>
+   </div>
+   <div class="wartex-profile-note"><i class="fa-solid fa-circle-info mr-1"></i> Aktivite süresi ve XP şu anda bu tarayıcıda tutulur. Cihazlar arasında ortak ve kalıcı kayıt için sunucu tarafı kayıt bağlantısı ayrıca eklenmelidir.</div>
+  </div>
+ </section>
+</div>
+
 <script>
 (() => {
   const API = "https://wartex-auth-apiyaz.mustimoruk11.workers.dev";
@@ -11804,57 +11852,112 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
   if (!login || !account || !avatar || !name) return;
 
   const tokenKey = "wartex_discord_session";
+  const accountsKey = "wartex_discord_accounts";
+  const statsPrefix = "wartex_profile_stats_";
   const token = () => sessionStorage.getItem(tokenKey);
+  let currentUser = null;
+  let activeTick = null;
 
+  const readAccounts = () => {
+    try { return JSON.parse(sessionStorage.getItem(accountsKey) || "[]"); } catch (_) { return []; }
+  };
+  const writeAccounts = list => sessionStorage.setItem(accountsKey, JSON.stringify(list.slice(-8)));
+  const profileStats = id => {
+    const key = statsPrefix + id;
+    let data;
+    try { data = JSON.parse(localStorage.getItem(key) || "null"); } catch (_) { data = null; }
+    if (!data || typeof data !== "object") {
+      data = { joinedAt: Date.now(), activeSeconds: 0, xp: 0, lastActiveAt: Date.now() };
+      localStorage.setItem(key, JSON.stringify(data));
+    }
+    return data;
+  };
+  const saveAccount = (user, sessionToken) => {
+    if (!user || !user.id || !sessionToken) return;
+    const list = readAccounts().filter(x => x && x.id !== user.id);
+    list.push({ id: user.id, name: user.global_name || user.username || "Discord hesabı", username: user.username || "", avatar: user.avatar || null, token: sessionToken });
+    writeAccounts(list);
+  };
+  function avatarUrl(user, size = 96) {
+    return user && user.avatar
+      ? "https://cdn.discordapp.com/avatars/" + encodeURIComponent(user.id) + "/" + encodeURIComponent(user.avatar) + (user.avatar.startsWith("a_") ? ".gif" : ".png") + "?size=" + size
+      : "https://cdn.discordapp.com/embed/avatars/0.png";
+  }
   function showLogin() {
     account.classList.add("hidden");
     login.classList.remove("hidden");
   }
-
   function showUser(user) {
     if (!user || !user.id) { showLogin(); return; }
-    const avatarUrl = user.avatar
-      ? "https://cdn.discordapp.com/avatars/" + encodeURIComponent(user.id) + "/" + encodeURIComponent(user.avatar) + (user.avatar.startsWith("a_") ? ".gif" : ".png") + "?size=96"
-      : "https://cdn.discordapp.com/embed/avatars/0.png";
-    avatar.onerror = () => {
-      avatar.onerror = null;
-      avatar.src = "https://cdn.discordapp.com/embed/avatars/0.png";
-    };
-    avatar.src = avatarUrl;
+    currentUser = user;
+    const src = avatarUrl(user);
+    avatar.onerror = () => { avatar.onerror = null; avatar.src = "https://cdn.discordapp.com/embed/avatars/0.png"; };
+    avatar.src = src;
     name.textContent = user.global_name || user.username || "Discord hesabı";
+    const menuAvatar = document.getElementById("wartexMenuAvatar");
+    if (menuAvatar) menuAvatar.src = src;
+    const menuName = document.getElementById("wartexMenuName");
+    if (menuName) menuName.textContent = user.global_name || user.username || "Discord hesabı";
+    const menuId = document.getElementById("wartexMenuDiscordId");
+    if (menuId) menuId.textContent = "Discord ID: " + user.id;
     login.classList.add("hidden");
     account.classList.remove("hidden");
+    profileStats(user.id);
+    renderAccountList();
+    if (document.getElementById("wartexProfileModal")?.classList.contains("is-open")) renderProfile();
   }
-
   function clearCallbackParams() {
     const clean = new URL(window.location.href);
     clean.searchParams.delete("discord_code");
     clean.searchParams.delete("discord_error");
     window.history.replaceState({}, document.title, clean.pathname + clean.search + clean.hash);
   }
-
+  function renderAccountList() {
+    const listEl = document.getElementById("wartexAccountList");
+    const switchButton = document.getElementById("wartexSwitchAccount");
+    if (!listEl || !currentUser) return;
+    const list = readAccounts();
+    if (switchButton) switchButton.classList.toggle("hidden", list.length < 2);
+    listEl.replaceChildren();
+    list.filter(item => item.id !== currentUser.id).forEach(item => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "wartex-account-choice";
+      const img = document.createElement("img");
+      img.src = item.avatar ? "https://cdn.discordapp.com/avatars/" + encodeURIComponent(item.id) + "/" + encodeURIComponent(item.avatar) + ".png?size=64" : "https://cdn.discordapp.com/embed/avatars/0.png";
+      img.alt = "";
+      const label = document.createElement("span");
+      label.textContent = item.name || item.username || item.id;
+      button.append(img, label);
+      button.addEventListener("click", async () => {
+        if (!item.token) return;
+        sessionStorage.setItem(tokenKey, item.token);
+        listEl.classList.add("hidden");
+        menu?.classList.add("hidden");
+        await loadProfile();
+      });
+      listEl.append(button);
+    });
+  }
   async function loadProfile() {
     const saved = token();
     if (!saved) { showLogin(); return; }
     try {
-      const response = await fetch(API + "/api/auth/me", {
-        headers: { "Authorization": "Bearer " + saved },
-        cache: "no-store"
-      });
+      const response = await fetch(API + "/api/auth/me", { headers: { "Authorization": "Bearer " + saved }, cache: "no-store" });
       const data = await response.json().catch(() => ({}));
       if (!response.ok || !data.user || !data.user.id) {
         sessionStorage.removeItem(tokenKey);
         showLogin();
-        console.error("WARTEX Discord profile error:", data.error || response.status);
+        console.error("WARTEX Discord profil hatası:", data.error || response.status);
         return;
       }
+      saveAccount(data.user, saved);
       showUser(data.user);
     } catch (error) {
-      console.error("WARTEX Discord profile could not load:", error);
+      console.error("WARTEX Discord profili yüklenemedi:", error);
       showLogin();
     }
   }
-
   async function exchangeCallbackCode() {
     const params = new URLSearchParams(window.location.search);
     const code = params.get("discord_code");
@@ -11862,50 +11965,107 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
     clearCallbackParams();
     try {
       const response = await fetch(API + "/api/auth/discord/exchange", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code })
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code })
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok || !data.token || !data.user) {
-        console.error("WARTEX Discord login failed:", data.error || response.status);
+        console.error("WARTEX Discord girişi başarısız:", data.error || response.status);
         showLogin();
         return false;
       }
       sessionStorage.setItem(tokenKey, data.token);
+      saveAccount(data.user, data.token);
       showUser(data.user);
       return true;
     } catch (error) {
-      console.error("WARTEX Discord login failed:", error);
+      console.error("WARTEX Discord girişi başarısız:", error);
       showLogin();
       return false;
     }
   }
-
-  menuButton?.addEventListener("click", (event) => {
+  function formatDuration(seconds) {
+    seconds = Math.max(0, Math.floor(seconds || 0));
+    const hours = Math.floor(seconds / 3600), minutes = Math.floor((seconds % 3600) / 60);
+    if (hours) return hours + " saat " + minutes + " dakika";
+    if (minutes) return minutes + " dakika";
+    return seconds + " saniye";
+  }
+  function levelFromXP(xp) {
+    let level = 1, remaining = Math.max(0, xp);
+    while (remaining >= level * 100 && level < 999) { remaining -= level * 100; level++; }
+    return { level, into: remaining, needed: level * 100 };
+  }
+  function renderProfile() {
+    if (!currentUser) return;
+    const stats = profileStats(currentUser.id);
+    const lvl = levelFromXP(stats.xp || 0);
+    document.getElementById("wartexProfileName").textContent = currentUser.global_name || currentUser.username || "Discord kullanıcısı";
+    document.getElementById("wartexProfileDiscordId").textContent = "Discord ID: " + currentUser.id;
+    document.getElementById("wartexProfileAvatar").src = avatarUrl(currentUser, 256);
+    document.getElementById("wartexProfileLevel").textContent = "LEVEL " + lvl.level;
+    document.getElementById("wartexProfileTime").textContent = formatDuration(stats.activeSeconds);
+    document.getElementById("wartexProfileJoined").textContent = new Date(stats.joinedAt).toLocaleDateString("tr-TR", { day:"2-digit", month:"short", year:"numeric" });
+    document.getElementById("wartexProfileXP").textContent = (stats.xp || 0) + " XP";
+    document.getElementById("wartexProfileXPBar").style.width = Math.min(100, (lvl.into / lvl.needed) * 100) + "%";
+    document.getElementById("wartexProfileXPNext").textContent = (lvl.needed - lvl.into) + " XP sonra Level " + (lvl.level + 1);
+    document.getElementById("wartexProfileLastActive").textContent = "Şimdi";
+  }
+  function openProfile() {
+    if (!currentUser) return;
+    renderProfile();
+    const modal = document.getElementById("wartexProfileModal");
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+  function closeProfile() {
+    const modal = document.getElementById("wartexProfileModal");
+    if (!modal) return;
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+  function recordActiveTime() {
+    if (!currentUser || document.hidden) return;
+    const stats = profileStats(currentUser.id);
+    stats.activeSeconds = (stats.activeSeconds || 0) + 1;
+    stats.xp = Math.floor(stats.activeSeconds / 300) * 10;
+    stats.lastActiveAt = Date.now();
+    localStorage.setItem(statsPrefix + currentUser.id, JSON.stringify(stats));
+    if (document.getElementById("wartexProfileModal")?.classList.contains("is-open")) renderProfile();
+  }
+  menuButton?.addEventListener("click", event => {
     event.stopPropagation();
     menu?.classList.toggle("hidden");
+    document.getElementById("wartexAccountList")?.classList.add("hidden");
   });
-  document.addEventListener("click", (event) => {
+  document.addEventListener("click", event => {
     if (menu && account && !account.contains(event.target)) menu.classList.add("hidden");
+  });
+  document.getElementById("wartexViewProfile")?.addEventListener("click", () => { menu?.classList.add("hidden"); openProfile(); });
+  document.getElementById("wartexProfileClose")?.addEventListener("click", closeProfile);
+  document.getElementById("wartexProfileModal")?.addEventListener("click", event => { if (event.target.id === "wartexProfileModal") closeProfile(); });
+  document.addEventListener("keydown", event => { if (event.key === "Escape") closeProfile(); });
+  document.getElementById("wartexSwitchAccount")?.addEventListener("click", () => document.getElementById("wartexAccountList")?.classList.toggle("hidden"));
+  document.getElementById("wartexAddAccount")?.addEventListener("click", () => {
+    if (token() && currentUser) saveAccount(currentUser, token());
+    menu?.classList.add("hidden");
+    window.location.href = API + "/api/auth/discord/start";
   });
   logout?.addEventListener("click", async () => {
     const saved = token();
     sessionStorage.removeItem(tokenKey);
+    sessionStorage.removeItem(accountsKey);
+    currentUser = null;
     showLogin();
     menu?.classList.add("hidden");
-    try {
-      if (saved) await fetch(API + "/api/auth/logout", {
-        method: "POST",
-        headers: { "Authorization": "Bearer " + saved }
-      });
-    } catch (_) {}
+    try { if (saved) await fetch(API + "/api/auth/logout", { method:"POST", headers:{ "Authorization":"Bearer " + saved } }); } catch (_) {}
   });
-
-  (async () => {
-    const exchanged = await exchangeCallbackCode();
-    if (!exchanged) await loadProfile();
-  })();
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) return;
+  });
+  activeTick = window.setInterval(recordActiveTime, 1000);
+  (async () => { const exchanged = await exchangeCallbackCode(); if (!exchanged) await loadProfile(); })();
 })();
 </script>
 
