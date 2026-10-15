@@ -7037,13 +7037,8 @@ window.openModal = function(id) {
      WARTEX SCRIPT HUB
 ========================================================= -->
 
-<div id="wartexScriptHubModal"
-     class="fixed inset-0 bg-black/80 backdrop-blur-sm
-            z-50 flex items-center justify-center p-4 hidden">
-
-    <div class="modal-box bg-zinc-950 border border-zinc-800
-                rounded-2xl max-w-6xl w-full max-h-[90vh]
-                flex flex-col shadow-2xl overflow-hidden">
+<div id="wartexScriptHubModal" class="fixed inset-0 bg-black/90 backdrop-blur-xl z-50 flex items-stretch justify-stretch p-0 hidden wartex-script-hub-fullscreen">
+    <div class="modal-box wartex-script-hub-shell w-full max-w-none h-full max-h-none min-h-0 flex flex-col shadow-2xl overflow-hidden">
 
         <!-- BAŞLIK -->
 
@@ -7076,13 +7071,10 @@ window.openModal = function(id) {
 
             </div>
 
-            <button onclick="closeWartexScriptHub()"
-                    class="text-zinc-500 hover:text-white
-                           transition">
-
-                <i class="fa-solid fa-xmark text-xl"></i>
-
-            </button>
+            <div class="flex items-center gap-2">
+                <button type="button" id="wartexSavedScriptsButton" onclick="wartexToggleSavedPanel(true)" class="wartex-saved-top-button"><i class="fa-regular fa-bookmark"></i><span class="wartex-saved-button-label">Kaydedilenler</span><span id="wartexSavedScriptCount" class="wartex-saved-count">0</span></button>
+                <button onclick="closeWartexScriptHub()" aria-label="Script Hub'ı kapat" class="wartex-hub-close-button"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
 
         </div>
 
@@ -7203,8 +7195,17 @@ window.openModal = function(id) {
             </div>
 
         </div>
-
-
+        <div class="wartex-hub-filter-bar" aria-label="Script filtreleri">
+            <div class="wartex-hub-filter-heading"><span>HIZLI FİLTRELER</span><small>Seçim anında uygulanır</small></div>
+            <div class="wartex-hub-filter-options">
+                <button type="button" class="wartex-hub-filter is-active" data-filter="all" onclick="wartexSetHubFilter('all')"><i class="fa-solid fa-layer-group"></i> Tümü</button>
+                <button type="button" class="wartex-hub-filter" data-filter="verified" onclick="wartexSetHubFilter('verified')"><i class="fa-solid fa-circle-check"></i> Verified</button>
+                <button type="button" class="wartex-hub-filter" data-filter="keyless" onclick="wartexSetHubFilter('keyless')"><i class="fa-solid fa-unlock-keyhole"></i> Keyless</button>
+                <button type="button" class="wartex-hub-filter" data-filter="key-system" onclick="wartexSetHubFilter('key-system')"><i class="fa-solid fa-key"></i> Key System</button>
+                <button type="button" class="wartex-hub-filter" data-filter="confirmed" onclick="wartexSetHubFilter('confirmed')"><i class="fa-solid fa-shield-halved"></i> Doğrulanmış</button>
+            </div>
+            <div id="wartexHubFilterSummary" class="wartex-hub-filter-summary">Tüm scriptler gösteriliyor.</div>
+        </div>
             <div class="mt-4 flex flex-wrap items-center justify-between gap-2">
                 <span class="text-[10px] text-zinc-500">Ek script kaynağı: RScripts</span>
                 <a href="https://rscripts.net/" target="_blank" rel="noopener noreferrer"
@@ -7261,6 +7262,14 @@ window.openModal = function(id) {
     </div>
 
 </div>
+<div id="wartexSavedScriptsPanel" class="wartex-saved-overlay" aria-hidden="true">
+  <button type="button" class="wartex-saved-backdrop" aria-label="Kaydedilen scriptler panelini kapat" onclick="wartexToggleSavedPanel(false)"></button>
+  <aside class="wartex-saved-drawer" role="dialog" aria-modal="true" aria-labelledby="wartexSavedScriptsTitle">
+    <header class="wartex-saved-drawer-head"><div><span class="wartex-saved-kicker"><i class="fa-solid fa-bookmark"></i> WARTEX LIBRARY</span><h2 id="wartexSavedScriptsTitle">Kaydedilen Scriptler</h2><p>Kaydettiklerin bu tarayıcıda saklanır.</p></div><button type="button" class="wartex-saved-close" onclick="wartexToggleSavedPanel(false)" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></header>
+    <div class="wartex-saved-drawer-tools"><span id="wartexSavedPanelCount">0 kayıt</span><button type="button" onclick="wartexClearSavedScripts()"><i class="fa-solid fa-trash-can"></i> Tümünü temizle</button></div>
+    <div id="wartexSavedScriptList" class="wartex-saved-list"></div>
+  </aside>
+</div>
 
 <!-- =========================================================
      JAVASCRIPT
@@ -7291,6 +7300,21 @@ let wartexHubPage = 1;
 let wartexHubTotalPages = 1;
 let wartexHubQuery = "";
 let wartexHubLoading = false;
+let wartexHubPageScripts = [], wartexHubActiveFilter = "all", wartexHubSavedScripts = [];
+try { wartexHubSavedScripts = JSON.parse(localStorage.getItem("wartexHubSavedScriptsV1") || "[]"); if (!Array.isArray(wartexHubSavedScripts)) wartexHubSavedScripts = []; } catch (_) { wartexHubSavedScripts = []; }
+function wartexHubScriptId(x){const g=typeof x.game==="string"?x.game:(x.game?.name||"Universal");return String(x._id||x.id||x.slug||(x.title||"script")+"::"+g).toLowerCase();}
+function wartexHubSavedPayload(x){const g=typeof x.game==="string"?{name:x.game}:(x.game||{name:"Universal"}),c=String(x.code||x.script||x.originalScript?.script||"");return {_id:x._id||x.id||wartexHubScriptId(x),title:String(x.title||"İsimsiz Script").slice(0,240),game:g,views:Number(x.views||0),verified:x.verified===true,description:String(x.description||"").slice(0,3000),keySystem:String(x.keySystem||x.key||"Belirtilmemiş").slice(0,100),key:String(x.key||x.keySystem||"Belirtilmemiş").slice(0,100),code:c.slice(0,100000),script:c.slice(0,100000),image:String(x.image||"").slice(0,2000),_wartexDisplayImage:String(x._wartexDisplayImage||"").slice(0,2000),_wartexSource:String(x._wartexSource||""),author:x.author&&typeof x.author==="object"?{name:String(x.author.name||"").slice(0,120),verified:x.author.verified===true}:undefined,features:Array.isArray(x.features)?x.features.slice(0,20).map(v=>String(v).slice(0,160)):[]};}
+function wartexSaveHubSaved(){try{localStorage.setItem("wartexHubSavedScriptsV1",JSON.stringify(wartexHubSavedScripts));}catch(e){if(typeof showToast==="function")showToast("Tarayıcı depolama alanı dolu. Eski kayıtları silmeyi dene.");}const c=document.getElementById("wartexSavedScriptCount"),p=document.getElementById("wartexSavedPanelCount");if(c)c.textContent=String(wartexHubSavedScripts.length);if(p)p.textContent=wartexHubSavedScripts.length+" kayıt";}
+function wartexIsHubScriptSaved(x){return wartexHubSavedScripts.some(y=>wartexHubScriptId(y)===wartexHubScriptId(x));}
+function wartexToggleSavedScriptByIndex(i,e){if(e){e.preventDefault();e.stopPropagation();}const x=wartexHubPageScripts[Number(i)];if(!x)return;const id=wartexHubScriptId(x),at=wartexHubSavedScripts.findIndex(y=>wartexHubScriptId(y)===id);if(at>=0){wartexHubSavedScripts.splice(at,1);if(typeof showToast==="function")showToast("Script kaydedilenlerden çıkarıldı.");}else{wartexHubSavedScripts.unshift(wartexHubSavedPayload(x));if(typeof showToast==="function")showToast("Script kaydedildi.");}wartexSaveHubSaved();wartexRenderSavedScripts();wartexApplyHubFilter();}
+function wartexToggleSavedPanel(open){const p=document.getElementById("wartexSavedScriptsPanel");if(!p)return;const on=typeof open==="boolean"?open:!p.classList.contains("is-open");p.classList.toggle("is-open",on);p.setAttribute("aria-hidden",on?"false":"true");document.body.classList.toggle("overflow-hidden",on||!document.getElementById("wartexScriptHubModal")?.classList.contains("hidden"));if(on)wartexRenderSavedScripts();}
+function wartexRenderSavedScripts(){const el=document.getElementById("wartexSavedScriptList");if(!el)return;wartexSaveHubSaved();if(!wartexHubSavedScripts.length){el.innerHTML='<div class="wartex-saved-empty"><span><i class="fa-regular fa-bookmark"></i></span><strong>Henüz script kaydetmedin</strong><p>Script kartlarındaki yer imi düğmesine bas. Kaydettiklerin burada görünecek.</p></div>';return;}el.innerHTML=wartexHubSavedScripts.map((x,i)=>{const t=wartexEscape(x.title||"İsimsiz Script"),g=wartexEscape(typeof x.game==="string"?x.game:(x.game?.name||"Universal")),im=x._wartexDisplayImage||x.image||x.game?.imageUrl||"",th=im?'<img src="'+wartexEscape(im)+'" alt="" loading="lazy" onerror="this.style.display=\'none\'">':'<span class="wartex-saved-item-icon"><i class="fa-solid fa-code"></i></span>';return '<article class="wartex-saved-item">'+th+'<div class="wartex-saved-item-copy"><span>'+g+'</span><strong>'+t+'</strong><small>'+(x.verified?'Doğrulanmış işareti var':'Kaydedilen script')+'</small></div><button type="button" class="wartex-saved-open" onclick="wartexOpenSavedScript('+i+')">Aç <i class="fa-solid fa-arrow-up-right-from-square"></i></button><button type="button" class="wartex-saved-remove" aria-label="Kaydı sil" onclick="wartexRemoveSavedScript('+i+')"><i class="fa-solid fa-trash-can"></i></button></article>';}).join("");}
+function wartexOpenSavedScript(i){const x=wartexHubSavedScripts[Number(i)];if(!x)return;wartexToggleSavedPanel(false);wartexOpenScriptDetails(x);}
+function wartexRemoveSavedScript(i){wartexHubSavedScripts.splice(Number(i),1);wartexSaveHubSaved();wartexRenderSavedScripts();wartexApplyHubFilter();}
+function wartexClearSavedScripts(){if(!wartexHubSavedScripts.length)return;wartexHubSavedScripts=[];wartexSaveHubSaved();wartexRenderSavedScripts();wartexApplyHubFilter();}
+function wartexSetHubFilter(f){wartexHubActiveFilter=f;document.querySelectorAll(".wartex-hub-filter").forEach(b=>b.classList.toggle("is-active",b.dataset.filter===f));wartexApplyHubFilter();}
+function wartexApplyHubFilter(){const f=wartexHubActiveFilter,a=wartexHubPageScripts.filter(x=>{const k=String(x.keySystem||x.key||x.keyType||"").toLowerCase();if(f==="verified")return x.author?.verified===true;if(f==="keyless")return /keyless|no.?key|without.?key|key yok/.test(k);if(f==="key-system")return !!k&&!/keyless|no.?key|without.?key|key yok/.test(k)&&!/belirtilmemiş|unknown|n\/a/.test(k);if(f==="confirmed")return x.verified===true;return true;});const summary=document.getElementById("wartexHubFilterSummary"),labels={all:"Tüm scriptler gösteriliyor.",verified:"Verified geliştirici işaretine sahip scriptler.",keyless:"Key gerektirmediği belirtilen scriptler.","key-system":"Key System bilgisi bulunan scriptler.",confirmed:"Kaynakta doğrulanmış olarak işaretlenen scriptler."};if(summary)summary.textContent=labels[f]+" "+a.length+" sonuç";wartexRenderScripts(a);}
+
 
 function openWartexScriptHub() {
     const modal = document.getElementById("wartexScriptHubModal");
