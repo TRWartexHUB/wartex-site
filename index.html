@@ -12131,6 +12131,10 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
   const adminCredentialsForm = document.getElementById("wartexAdminCredentialsForm");
   const adminOtpForm = document.getElementById("wartexAdminOtpForm");
   let adminChallengeId = null, adminToken = null;
+  const adminSessionKey = "wartexAdminSession";
+  const adminSessionExpiryKey = "wartexAdminSessionExpiresAt";
+  const clearSavedAdminSession = () => { sessionStorage.removeItem(adminSessionKey); sessionStorage.removeItem(adminSessionExpiryKey); };
+  const adminSessionIsValid = () => Number(sessionStorage.getItem(adminSessionExpiryKey) || 0) > Date.now() && Boolean(sessionStorage.getItem(adminSessionKey));
   const showAdminLoginMessage = message => { adminLoginMessage.textContent = message; adminLoginMessage.classList.remove("hidden"); };
   const resetAdminLogin = () => { adminChallengeId=null; adminToken=null; adminCredentialsForm?.reset(); adminOtpForm?.reset(); adminOtpForm?.classList.add("hidden"); adminCredentialsForm?.classList.remove("hidden"); adminLoginMessage?.classList.add("hidden"); adminLogin?.classList.remove("hidden"); adminDashboard?.classList.add("hidden"); };
   const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[char]));
@@ -12163,6 +12167,15 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
   }
   async function loadAdminUsers() {
     if (!currentUser || !token()) return;
+    if (adminToken && !adminSessionIsValid()) {
+      clearSavedAdminSession();
+      adminToken = null;
+      if (adminRefreshTimer) clearInterval(adminRefreshTimer);
+      adminRefreshTimer = null;
+      resetAdminLogin();
+      showAdminLoginMessage("Yönetici oturumunun 30 dakikalık süresi doldu. Yeniden giriş yap.");
+      return;
+    }
     const savedToken = token();
     adminStatus.textContent = "Sunucudan kullanıcılar yükleniyor…";
     adminError.classList.add("hidden");
@@ -12228,12 +12241,20 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
     adminModal.classList.add("is-open");
     adminModal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
+    if (adminSessionIsValid()) {
+      adminToken = sessionStorage.getItem(adminSessionKey);
+      adminLogin?.classList.add("hidden");
+      adminDashboard?.classList.remove("hidden");
+      loadAdminUsers();
+      if (adminRefreshTimer) clearInterval(adminRefreshTimer);
+      adminRefreshTimer = window.setInterval(loadAdminUsers, 60000);
+    } else {
+      clearSavedAdminSession();
+      adminToken = null;
+    }
   }
   async function closeAdminPanel() {
     if (!adminModal) return;
-    if (adminToken && token()) {
-      try { await fetch(API + "/api/admin/logout", { method:"POST", headers:{ "Authorization":"Bearer " + token(), "X-Admin-Token":adminToken } }); } catch (_) {}
-    }
     adminModal.classList.remove("is-open");
     adminModal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
@@ -12261,7 +12282,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
       const response=await fetch(API+"/api/admin/verify",{method:"POST",headers:{"Authorization":"Bearer "+token(),"Content-Type":"application/json"},body:JSON.stringify({challengeId:adminChallengeId,code:document.getElementById("wartexAdminOtp").value.trim()}),cache:"no-store"});
       const data=await response.json().catch(()=>({}));
       if(!response.ok||!data.success||!data.adminToken) throw new Error(data.error||"Kod doğrulanamadı.");
-      adminToken=data.adminToken; adminChallengeId=null; adminLogin.classList.add("hidden"); adminDashboard.classList.remove("hidden");
+      adminToken=data.adminToken; sessionStorage.setItem(adminSessionKey, adminToken); sessionStorage.setItem(adminSessionExpiryKey, String(Date.now() + 30 * 60 * 1000)); adminChallengeId=null; adminLogin.classList.add("hidden"); adminDashboard.classList.remove("hidden");
       await loadAdminUsers();
       if(adminRefreshTimer) clearInterval(adminRefreshTimer); adminRefreshTimer=window.setInterval(loadAdminUsers,60000);
     } catch(error) { showAdminLoginMessage(error.message||"Kod doğrulanamadı."); }
