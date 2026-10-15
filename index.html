@@ -7313,7 +7313,7 @@ function wartexOpenSavedScript(i){const x=wartexHubSavedScripts[Number(i)];if(!x
 function wartexRemoveSavedScript(i){wartexHubSavedScripts.splice(Number(i),1);wartexSaveHubSaved();wartexRenderSavedScripts();wartexApplyHubFilter();}
 function wartexClearSavedScripts(){if(!wartexHubSavedScripts.length)return;wartexHubSavedScripts=[];wartexSaveHubSaved();wartexRenderSavedScripts();wartexApplyHubFilter();}
 function wartexSetHubFilter(f){wartexHubActiveFilter=f;document.querySelectorAll(".wartex-hub-filter").forEach(b=>b.classList.toggle("is-active",b.dataset.filter===f));wartexApplyHubFilter();}
-function wartexApplyHubFilter(){const f=wartexHubActiveFilter,a=wartexHubPageScripts.filter(x=>{const k=String(x.keySystem||x.key||x.keyType||"").toLowerCase();if(f==="verified")return x.author?.verified===true;if(f==="keyless")return /keyless|no.?key|without.?key|key yok/.test(k);if(f==="key-system")return !!k&&!/keyless|no.?key|without.?key|key yok/.test(k)&&!/belirtilmemiş|unknown|n\/a/.test(k);if(f==="confirmed")return x.verified===true;return true;});const summary=document.getElementById("wartexHubFilterSummary"),labels={all:"Tüm scriptler gösteriliyor.",verified:"Verified geliştirici işaretine sahip scriptler.",keyless:"Key gerektirmediği belirtilen scriptler.","key-system":"Key System bilgisi bulunan scriptler.",confirmed:"Kaynakta doğrulanmış olarak işaretlenen scriptler."};if(summary)summary.textContent=labels[f]+" "+a.length+" sonuç";wartexRenderScripts(a);}
+function wartexApplyHubFilter(){const f=wartexHubActiveFilter,a=wartexHubPageScripts.filter(x=>{const raw=x.keySystem??x.key??x.keyType??x.requiresKey??x.hasKey??"";const k=String(raw).toLowerCase();const keyless=raw===false||/keyless|no.?key|without.?key|key yok|false/.test(k);const hasKey=raw===true||/key system|key required|keyed|key var|true/.test(k);if(f==="verified")return x.author?.verified===true;if(f==="keyless")return keyless;if(f==="key-system")return hasKey;if(f==="confirmed")return x.verified===true;return true;});const summary=document.getElementById("wartexHubFilterSummary"),labels={all:"Tüm scriptler gösteriliyor.",verified:"Verified geliştirici işaretine sahip scriptler.",keyless:"Key gerektirmediği belirtilen scriptler.","key-system":"Key System bilgisi bulunan scriptler.",confirmed:"Kaynakta doğrulanmış olarak işaretlenen scriptler."};if(summary)summary.textContent=labels[f]+" "+a.length+" sonuç";wartexRenderScripts(a);}
 
 
 function openWartexScriptHub() {
@@ -7321,6 +7321,9 @@ function openWartexScriptHub() {
     if (!modal) { console.error("WARTEX Script Hub modalı bulunamadı."); return; }
     modal.classList.remove("hidden");
     document.body.classList.add("overflow-hidden");
+    wartexSaveHubSaved(); wartexRenderSavedScripts();
+    wartexHubActiveFilter = "all";
+    document.querySelectorAll(".wartex-hub-filter").forEach(item => item.classList.toggle("is-active", item.dataset.filter === "all"));
     wartexHubPage = 1;
     wartexHubQuery = "";
     wartexLoadTrending();
@@ -7329,6 +7332,8 @@ function closeWartexScriptHub() {
     const modal = document.getElementById("wartexScriptHubModal");
     if (!modal) return;
     modal.classList.add("hidden");
+    const savedPanel = document.getElementById("wartexSavedScriptsPanel");
+    if (savedPanel) { savedPanel.classList.remove("is-open"); savedPanel.setAttribute("aria-hidden","true"); }
     document.body.classList.remove("overflow-hidden");
 }
 function wartexShowScriptLoading(message = "Scriptler yükleniyor...") {
@@ -7395,7 +7400,8 @@ async function wartexRequestScriptPage(page, query = "") {
         });
         wartexHubTotalPages = Math.max(1, ...pageCounts);
         if (wartexHubPage > wartexHubTotalPages) wartexHubPage = wartexHubTotalPages;
-        await wartexRenderScripts(scripts);
+        wartexHubPageScripts = scripts;
+        wartexApplyHubFilter();
     } catch (error) {
         console.error("WARTEX Script Hub yükleme hatası:", error);
         const results = document.getElementById("wartexScriptResults");
@@ -7430,7 +7436,7 @@ async function wartexRenderScripts(scripts) {
         results.innerHTML = `<div class="text-center py-16"><i class="fa-solid fa-folder-open text-zinc-600 text-4xl mb-4"></i><p class="text-zinc-400 text-sm font-bold">Bu sayfada script bulunamadı.</p><p class="text-zinc-600 text-xs mt-2">Başka bir sayfayı deneyebilir veya aramayı değiştirebilirsin.</p></div>`;
         return;
     }
-    const cards = await Promise.all(scripts.map(script => wartexCreateScriptCard(script)));
+    const cards = await Promise.all(scripts.map(script => wartexCreateScriptCard(script, wartexHubPageScripts.indexOf(script))));
     const pageButtons = [];
     const first = Math.max(1, wartexHubPage - 2);
     const last = Math.min(wartexHubTotalPages, wartexHubPage + 2);
@@ -7446,7 +7452,8 @@ async function wartexRenderScripts(scripts) {
         pageButtons.push(`<button onclick="wartexSetPage(${wartexHubTotalPages})" class="px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-xs text-zinc-300 hover:text-white">${wartexHubTotalPages}</button>`);
     }
     results.innerHTML = `
-        <div class="grid grid-cols-4 gap-3">${cards.join("")}</div>
+        <div class="wartex-hub-results-head"><span>${scripts.length} SCRIPT</span><small>Filtreler mevcut sayfaya uygulanır</small></div>
+        <div class="wartex-hub-card-grid">${cards.join("")}</div>
         <div class="mt-6 pt-4 border-t border-zinc-800 flex flex-wrap items-center justify-between gap-3">
             <p class="text-[10px] text-zinc-500">Sayfa <span class="text-white font-bold">${wartexHubPage}</span> / ${wartexHubTotalPages} · Sayfa başına en fazla 40 script · Kaynaklar: ScriptBlox + RobloxScripts.com</p>
             <div class="flex items-center justify-center gap-1 flex-wrap">
@@ -7515,7 +7522,7 @@ async function wartexGetRobloxGameImage(gameName) {
     }
 }
 
-async function wartexCreateScriptCard(script) {
+async function wartexCreateScriptCard(script, sourceIndex = -1) {
 
     const title =
         wartexEscape(script.title || "İsimsiz Script");
@@ -7567,6 +7574,7 @@ if (!image) {
                     hover:-translate-y-1
                     hover:shadow-xl
                     hover:shadow-indigo-500/10">
+            <button type="button" class="wartex-hub-card-save ${wartexIsHubScriptSaved(script) ? "is-saved" : ""}" aria-label="${wartexIsHubScriptSaved(script) ? "Kaydedilenlerden çıkar" : "Scripti kaydet"}" title="${wartexIsHubScriptSaved(script) ? "Kaydedildi" : "Scripti kaydet"}" onclick="wartexToggleSavedScriptByIndex(${sourceIndex},event)"><i class="${wartexIsHubScriptSaved(script) ? "fa-solid" : "fa-regular"} fa-bookmark"></i></button>
 
             ${
     image
@@ -12326,5 +12334,22 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
 })();
 </script>
 
+
+<style id="wartex-script-hub-professional-ui">
+#wartexScriptHubModal.wartex-script-hub-fullscreen{width:100vw;height:100vh;height:100dvh;padding:0!important;overflow:hidden;align-items:stretch;justify-content:stretch}
+#wartexScriptHubModal .wartex-script-hub-shell{width:100%;max-width:none;height:100%;max-height:none;min-height:0;border:0;border-radius:0;background:radial-gradient(ellipse at 15% -15%,rgba(255,255,255,.08),transparent 38%),#080808}
+#wartexScriptHubModal .wartex-hub-close-button{display:grid;place-items:center;width:42px;height:42px;border:1px solid #333;border-radius:12px;background:#111;color:#aaa;transition:all .2s}#wartexScriptHubModal .wartex-hub-close-button:hover{background:#262626;color:#fff;border-color:#777;transform:rotate(90deg)}
+.wartex-saved-top-button{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 13px;border:1px solid #393939;border-radius:12px;background:linear-gradient(135deg,#1b1b1b,#0b0b0b);color:#eee;font-size:11px;font-weight:800;transition:all .22s}.wartex-saved-top-button:hover{transform:translateY(-1px);border-color:#888;background:#242424}.wartex-saved-count{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:6px;background:#eee;color:#111;font-size:9px;font-weight:950}
+.wartex-hub-filter-bar{margin:0 20px;padding:14px 16px;border:1px solid #242424;border-radius:15px;background:linear-gradient(120deg,#121212,#090909);animation:wartexHubFilterEnter .38s ease both}.wartex-hub-filter-heading{display:flex;align-items:center;gap:10px;margin-bottom:11px}.wartex-hub-filter-heading>span{font-size:9px;font-weight:950;letter-spacing:.16em;color:#e5e5e5}.wartex-hub-filter-heading small{color:#686868;font-size:9px}.wartex-hub-filter-options{display:flex;flex-wrap:wrap;gap:8px}
+.wartex-hub-filter{position:relative;display:inline-flex;align-items:center;gap:7px;padding:10px 13px;border:1px solid #303030;border-radius:10px;background:#0c0c0c;color:#a1a1a1;font-size:10px;font-weight:850;transition:transform .18s,border-color .18s,background .18s,color .18s;overflow:hidden}.wartex-hub-filter:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent,rgba(255,255,255,.07),transparent);transform:translateX(-120%);transition:transform .45s}.wartex-hub-filter:hover:before{transform:translateX(120%)}.wartex-hub-filter:hover{transform:translateY(-1px);border-color:#777;color:#fff}.wartex-hub-filter.is-active{border-color:#eee;background:#eee;color:#080808;box-shadow:0 5px 20px #fff1;animation:wartexHubSelect .28s ease both}.wartex-hub-filter-summary{margin-top:10px;color:#777;font-size:9px}
+@keyframes wartexHubSelect{0%{transform:scale(.96)}65%{transform:scale(1.035)}100%{transform:scale(1)}}@keyframes wartexHubFilterEnter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.wartex-hub-results-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px;color:#d4d4d4;font-size:10px;font-weight:950;letter-spacing:.12em}.wartex-hub-results-head small{color:#656565;font-size:9px;font-weight:600;letter-spacing:0}.wartex-hub-card-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.wartex-hub-card-grid>.wartex-script-card{position:relative;min-width:0;animation:wartexHubCardIn .36s cubic-bezier(.2,.8,.2,1) both}.wartex-hub-card-grid>.wartex-script-card:nth-child(2){animation-delay:.035s}.wartex-hub-card-grid>.wartex-script-card:nth-child(3){animation-delay:.07s}.wartex-hub-card-grid>.wartex-script-card:nth-child(4){animation-delay:.105s}@keyframes wartexHubCardIn{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+.wartex-hub-card-save{position:absolute;top:11px;right:11px;z-index:5;display:grid;place-items:center;width:36px;height:36px;border:1px solid #ffffff40;border-radius:11px;background:rgba(8,8,8,.82);backdrop-filter:blur(10px);color:#ddd;box-shadow:0 5px 20px #0008;transition:transform .2s,border-color .2s,background .2s,color .2s}.wartex-hub-card-save:hover{transform:translateY(-2px) scale(1.04);border-color:#fff;color:#fff}.wartex-hub-card-save.is-saved{background:#eee;color:#080808;border-color:#fff;animation:wartexHubSelect .25s ease both}
+.wartex-saved-overlay{position:fixed;inset:0;z-index:80;display:flex;justify-content:flex-end;visibility:hidden;pointer-events:none}.wartex-saved-overlay.is-open{visibility:visible;pointer-events:auto}.wartex-saved-backdrop{position:absolute;inset:0;width:100%;height:100%;border:0;background:rgba(0,0,0,.72);opacity:0;backdrop-filter:blur(7px);transition:opacity .28s}.wartex-saved-overlay.is-open .wartex-saved-backdrop{opacity:1}.wartex-saved-drawer{position:relative;z-index:1;display:flex;flex-direction:column;width:min(540px,100%);height:100%;background:linear-gradient(145deg,#151515,#070707);border-left:1px solid #333;box-shadow:-25px 0 80px #0008;transform:translateX(100%);transition:transform .32s cubic-bezier(.2,.8,.2,1)}.wartex-saved-overlay.is-open .wartex-saved-drawer{transform:translateX(0)}
+.wartex-saved-drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:26px 24px 22px;border-bottom:1px solid #262626;background:linear-gradient(120deg,#1b1b1b,#090909)}.wartex-saved-kicker{color:#aaa;font-size:9px;font-weight:950;letter-spacing:.18em}.wartex-saved-kicker i{margin-right:6px;color:#eee}.wartex-saved-drawer-head h2{margin-top:9px;color:#fff;font-size:clamp(23px,3vw,32px);font-weight:950;letter-spacing:-.05em}.wartex-saved-drawer-head p{margin-top:6px;color:#858585;font-size:11px;line-height:1.6}.wartex-saved-close{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border:1px solid #333;border-radius:11px;background:#101010;color:#aaa;transition:all .2s}.wartex-saved-close:hover{background:#eee;color:#080808}
+.wartex-saved-drawer-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 22px;border-bottom:1px solid #222;color:#888;font-size:10px}.wartex-saved-drawer-tools button{display:inline-flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid #303030;border-radius:8px;background:#111;color:#aaa;font-size:9px;font-weight:800;transition:all .2s}.wartex-saved-drawer-tools button:hover{border-color:#777;color:#fff}.wartex-saved-list{display:flex;flex:1;min-height:0;flex-direction:column;gap:10px;overflow:auto;padding:18px}
+.wartex-saved-item{display:flex;align-items:center;gap:11px;padding:12px;border:1px solid #292929;border-radius:13px;background:linear-gradient(120deg,#171717,#0b0b0b);animation:wartexHubCardIn .28s ease both}.wartex-saved-item>img,.wartex-saved-item-icon{display:grid;place-items:center;flex:0 0 54px;width:54px;height:54px;object-fit:cover;border:1px solid #333;border-radius:10px;background:#111;color:#ddd}.wartex-saved-item-copy{display:flex;min-width:0;flex:1;flex-direction:column;gap:4px}.wartex-saved-item-copy>span{color:#999;font-size:9px}.wartex-saved-item-copy>strong{overflow:hidden;color:#eee;font-size:11px;text-overflow:ellipsis;white-space:nowrap}.wartex-saved-item-copy>small{color:#666;font-size:8px}.wartex-saved-open,.wartex-saved-remove{display:inline-flex;align-items:center;justify-content:center;gap:6px;flex-shrink:0;padding:9px;border:1px solid #3a3a3a;border-radius:8px;background:#1b1b1b;color:#eee;font-size:9px;font-weight:850;transition:all .2s}.wartex-saved-open:hover{background:#eee;color:#090909}.wartex-saved-remove{width:34px;color:#aaa}.wartex-saved-remove:hover{border-color:#888;color:#fff;background:#303030}.wartex-saved-empty{display:flex;flex:1;min-height:260px;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:24px;text-align:center}.wartex-saved-empty>span{display:grid;place-items:center;width:58px;height:58px;border:1px solid #333;border-radius:17px;background:#111;color:#ddd;font-size:20px}.wartex-saved-empty strong{color:#eee;font-size:14px}.wartex-saved-empty p{max-width:290px;color:#777;font-size:10px;line-height:1.7}
+@media(max-width:1050px){.wartex-hub-card-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:760px){#wartexScriptHubModal .wartex-script-hub-shell>div:nth-child(2){padding:15px}.wartex-hub-filter-bar{margin:0 12px;padding:12px}.wartex-hub-card-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.wartex-saved-drawer-head{padding:20px 16px}.wartex-saved-list{padding:12px}.wartex-saved-item{gap:8px;padding:9px}.wartex-saved-item>img,.wartex-saved-item-icon{flex-basis:42px;width:42px;height:42px}.wartex-saved-open{padding:8px}}@media(max-width:480px){.wartex-saved-button-label{display:none}.wartex-saved-top-button{padding:0 10px}.wartex-hub-filter-options{gap:6px}.wartex-hub-filter{padding:9px 10px;font-size:9px}.wartex-hub-filter-heading small{display:none}.wartex-hub-card-grid{grid-template-columns:1fr}.wartex-hub-results-head{align-items:flex-start;flex-direction:column;gap:4px}.wartex-saved-item-copy>strong{max-width:130px}}@media(prefers-reduced-motion:reduce){.wartex-hub-filter,.wartex-hub-card-grid>.wartex-script-card,.wartex-saved-drawer,.wartex-saved-backdrop,.wartex-saved-item{animation:none!important;transition:none!important}}
+</style>
 </body>
 </html>
