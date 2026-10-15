@@ -7195,8 +7195,12 @@ window.openModal = function(id) {
             </div>
 
         </div>
-        <div class="wartex-hub-filter-bar" aria-label="Script filtreleri">
-            <div class="wartex-hub-filter-heading"><span>HIZLI FİLTRELER</span><small>Seçim anında uygulanır</small></div>
+        <div id="wartexHubFilterBar" class="wartex-hub-filter-bar" aria-label="Script filtreleri">
+            <div class="wartex-hub-filter-heading">
+                <div class="wartex-hub-filter-title"><span>HIZLI FİLTRELER</span><small>Seçim anında uygulanır</small></div>
+                <button type="button" class="wartex-hub-filter-toggle" aria-controls="wartexHubFilterContent" aria-expanded="true" onclick="wartexToggleHubFilters()" title="Filtreleri aç/kapat"><span id="wartexHubFilterToggleLabel">Gizle</span><i id="wartexHubFilterToggleIcon" class="fa-solid fa-chevron-up"></i></button>
+            </div>
+            <div id="wartexHubFilterContent" class="wartex-hub-filter-content">
             <div class="wartex-hub-filter-options">
                 <button type="button" class="wartex-hub-filter is-active" data-filter="all" onclick="wartexSetHubFilter('all')"><i class="fa-solid fa-layer-group"></i> Tümü</button>
                 <button type="button" class="wartex-hub-filter" data-filter="verified" onclick="wartexSetHubFilter('verified')"><i class="fa-solid fa-circle-check"></i> Verified</button>
@@ -7205,6 +7209,7 @@ window.openModal = function(id) {
                 <button type="button" class="wartex-hub-filter" data-filter="confirmed" onclick="wartexSetHubFilter('confirmed')"><i class="fa-solid fa-shield-halved"></i> Doğrulanmış</button>
             </div>
             <div id="wartexHubFilterSummary" class="wartex-hub-filter-summary">Tüm scriptler gösteriliyor.</div>
+            </div>
         </div>
             <div class="mt-4 flex flex-wrap items-center justify-between gap-2">
                 <span class="text-[10px] text-zinc-500">Ek script kaynağı: RScripts</span>
@@ -7300,7 +7305,7 @@ let wartexHubPage = 1;
 let wartexHubTotalPages = 1;
 let wartexHubQuery = "";
 let wartexHubLoading = false;
-let wartexHubPageScripts = [], wartexHubActiveFilter = "all", wartexHubSavedScripts = [];
+let wartexHubPageScripts = [], wartexHubActiveFilter = "all", wartexHubSavedScripts = [], wartexHubFiltersCollapsed = false;
 try { wartexHubSavedScripts = JSON.parse(localStorage.getItem("wartexHubSavedScriptsV1") || "[]"); if (!Array.isArray(wartexHubSavedScripts)) wartexHubSavedScripts = []; } catch (_) { wartexHubSavedScripts = []; }
 function wartexHubScriptId(x){const g=typeof x.game==="string"?x.game:(x.game?.name||"Universal");return String(x._id||x.id||x.slug||(x.title||"script")+"::"+g).toLowerCase();}
 function wartexHubSavedPayload(x){const g=typeof x.game==="string"?{name:x.game}:(x.game||{name:"Universal"}),c=String(x.code||x.script||x.originalScript?.script||"");return {_id:x._id||x.id||wartexHubScriptId(x),title:String(x.title||"İsimsiz Script").slice(0,240),game:g,views:Number(x.views||0),verified:x.verified===true,description:String(x.description||"").slice(0,3000),keySystem:String(x.keySystem||x.key||"Belirtilmemiş").slice(0,100),key:String(x.key||x.keySystem||"Belirtilmemiş").slice(0,100),code:c.slice(0,100000),script:c.slice(0,100000),image:String(x.image||"").slice(0,2000),_wartexDisplayImage:String(x._wartexDisplayImage||"").slice(0,2000),_wartexSource:String(x._wartexSource||""),author:x.author&&typeof x.author==="object"?{name:String(x.author.name||"").slice(0,120),verified:x.author.verified===true}:undefined,features:Array.isArray(x.features)?x.features.slice(0,20).map(v=>String(v).slice(0,160)):[]};}
@@ -7312,6 +7317,7 @@ function wartexRenderSavedScripts(){const el=document.getElementById("wartexSave
 function wartexOpenSavedScript(i){const x=wartexHubSavedScripts[Number(i)];if(!x)return;wartexToggleSavedPanel(false);wartexOpenScriptDetails(x);}
 function wartexRemoveSavedScript(i){wartexHubSavedScripts.splice(Number(i),1);wartexSaveHubSaved();wartexRenderSavedScripts();wartexApplyHubFilter();}
 function wartexClearSavedScripts(){if(!wartexHubSavedScripts.length)return;wartexHubSavedScripts=[];wartexSaveHubSaved();wartexRenderSavedScripts();wartexApplyHubFilter();}
+function wartexToggleHubFilters(){const bar=document.getElementById("wartexHubFilterBar");if(!bar)return;wartexHubFiltersCollapsed=!wartexHubFiltersCollapsed;bar.classList.toggle("is-collapsed",wartexHubFiltersCollapsed);const btn=bar.querySelector(".wartex-hub-filter-toggle");if(btn)btn.setAttribute("aria-expanded",wartexHubFiltersCollapsed?"false":"true");const label=document.getElementById("wartexHubFilterToggleLabel"),icon=document.getElementById("wartexHubFilterToggleIcon");if(label)label.textContent=wartexHubFiltersCollapsed?"Filtreler":"Gizle";if(icon)icon.className="fa-solid "+(wartexHubFiltersCollapsed?"fa-chevron-down":"fa-chevron-up");}
 function wartexSetHubFilter(f){wartexHubActiveFilter=f;document.querySelectorAll(".wartex-hub-filter").forEach(b=>b.classList.toggle("is-active",b.dataset.filter===f));wartexApplyHubFilter();}
 function wartexApplyHubFilter(){const f=wartexHubActiveFilter,a=wartexHubPageScripts.filter(x=>{const raw=x.keySystem??x.key??x.keyType??x.requiresKey??x.hasKey??"";const k=String(raw).toLowerCase();const keyless=raw===false||/keyless|no.?key|without.?key|key yok|false/.test(k);const hasKey=raw===true||/key system|key required|keyed|key var|true/.test(k);if(f==="verified")return x.author?.verified===true;if(f==="keyless")return keyless;if(f==="key-system")return hasKey;if(f==="confirmed")return x.verified===true;return true;});const summary=document.getElementById("wartexHubFilterSummary"),labels={all:"Tüm scriptler gösteriliyor.",verified:"Verified geliştirici işaretine sahip scriptler.",keyless:"Key gerektirmediği belirtilen scriptler.","key-system":"Key System bilgisi bulunan scriptler.",confirmed:"Kaynakta doğrulanmış olarak işaretlenen scriptler."};if(summary)summary.textContent=labels[f]+" "+a.length+" sonuç";wartexRenderScripts(a);}
 
@@ -7380,7 +7386,12 @@ async function wartexRequestScriptPage(page, query = "") {
                 title: item.title || "İsimsiz Script",
                 game: typeof item.game === "string" ? {name:item.game} : {name:item.game?.name || "Universal", imageUrl:item.game?.iconUrl || item.image || ""},
                 views: Number(item.views || 0),
-                verified: item.author?.verified === true,
+                verified: item.verified === true || item.author?.verified === true,
+                key: item.key ?? item.keySystem ?? item.requiresKey ?? item.hasKey,
+                keySystem: item.keySystem ?? item.key,
+                isPatched: item.isPatched === true || item.patched === true,
+                safe: item.safe === true || item.isSafe === true,
+                features: Array.isArray(item.features) ? item.features : [],
                 script: item.script || "",
                 code: item.script || "",
                 _wartexSource:"RobloxScripts.com"
@@ -7558,8 +7569,19 @@ if (!image) {
     const code =
     script.code || script.script || "";
 
-    const verified =
-        script.verified === true;
+    const verified = script.verified === true || script.author?.verified === true;
+    const keyRaw = script.keySystem ?? script.key ?? script.keyType ?? script.requiresKey ?? script.hasKey;
+    const keyText = String(keyRaw ?? "").toLowerCase();
+    const isKeyless = keyRaw === false || /keyless|no.?key|without.?key|key yok/.test(keyText);
+    const hasKeySystem = keyRaw === true || /key system|key required|keyed|key var/.test(keyText);
+    const isPatched = script.isPatched === true || script.patched === true;
+    const isSafe = script.safe === true || script.isSafe === true || (Array.isArray(script.features) && script.features.some(v => /^(safe|güvenli)$/i.test(String(v).trim())));
+    const statusBadges = [];
+    if (verified) statusBadges.push('<span class="wartex-script-status wartex-status-verified"><i class="fa-solid fa-circle-check"></i> Verified</span>');
+    if (isKeyless) statusBadges.push('<span class="wartex-script-status wartex-status-keyless"><i class="fa-solid fa-unlock-keyhole"></i> Keyless</span>');
+    else if (hasKeySystem) statusBadges.push('<span class="wartex-script-status wartex-status-key"><i class="fa-solid fa-key"></i> Key System</span>');
+    if (isPatched) statusBadges.push('<span class="wartex-script-status wartex-status-patched"><i class="fa-solid fa-screwdriver-wrench"></i> Patched</span>');
+    if (isSafe) statusBadges.push('<span class="wartex-script-status wartex-status-safe"><i class="fa-solid fa-shield-halved"></i> Safe</span>');
 
     return `
         <div class="wartex-script-card
@@ -7729,57 +7751,9 @@ if (!image) {
                     </div>
 
 
-                    ${
-                        verified
-                        ? `
-                            <div class="flex items-center gap-2
-                                        bg-emerald-500/10
-                                        border border-emerald-500/20
-                                        px-2.5 py-1.5
-                                        rounded-lg">
-
-                                <span class="relative flex h-2 w-2">
-
-                                    <span class="animate-ping
-                                                 absolute
-                                                 inline-flex
-                                                 h-full
-                                                 w-full
-                                                 rounded-full
-                                                 bg-emerald-400
-                                                 opacity-75">
-                                    </span>
-
-                                    <span class="relative
-                                                 inline-flex
-                                                 rounded-full
-                                                 h-2 w-2
-                                                 bg-emerald-500">
-                                    </span>
-
-                                </span>
-
-                                <span class="text-[9px]
-                                             font-black
-                                             text-emerald-400
-                                             uppercase">
-
-                                    Doğrulanmış
-
-                                </span>
-
-                            </div>
-                        `
-                        : `
-                            <span class="text-[9px]
-                                         text-zinc-600
-                                         font-bold">
-
-                                Doğrulanmamış
-
-                            </span>
-                        `
-                    }
+                    <div class="wartex-script-status-list" aria-label="Script özellikleri">
+                        ${statusBadges.join("")}
+                    </div>
 
                 </div>
 
@@ -12340,11 +12314,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
 #wartexScriptHubModal .wartex-script-hub-shell{width:100%;max-width:none;height:100%;max-height:none;min-height:0;border:0;border-radius:0;background:radial-gradient(ellipse at 15% -15%,rgba(255,255,255,.08),transparent 38%),#080808}
 #wartexScriptHubModal .wartex-hub-close-button{display:grid;place-items:center;width:42px;height:42px;border:1px solid #333;border-radius:12px;background:#111;color:#aaa;transition:all .2s}#wartexScriptHubModal .wartex-hub-close-button:hover{background:#262626;color:#fff;border-color:#777;transform:rotate(90deg)}
 .wartex-saved-top-button{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 13px;border:1px solid #393939;border-radius:12px;background:linear-gradient(135deg,#1b1b1b,#0b0b0b);color:#eee;font-size:11px;font-weight:800;transition:all .22s}.wartex-saved-top-button:hover{transform:translateY(-1px);border-color:#888;background:#242424}.wartex-saved-count{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:6px;background:#eee;color:#111;font-size:9px;font-weight:950}
-.wartex-hub-filter-bar{margin:0 20px;padding:14px 16px;border:1px solid #242424;border-radius:15px;background:linear-gradient(120deg,#121212,#090909);animation:wartexHubFilterEnter .38s ease both}.wartex-hub-filter-heading{display:flex;align-items:center;gap:10px;margin-bottom:11px}.wartex-hub-filter-heading>span{font-size:9px;font-weight:950;letter-spacing:.16em;color:#e5e5e5}.wartex-hub-filter-heading small{color:#686868;font-size:9px}.wartex-hub-filter-options{display:flex;flex-wrap:wrap;gap:8px}
+.wartex-hub-filter-bar{margin:0 20px;padding:14px 16px;border:1px solid #242424;border-radius:15px;background:linear-gradient(120deg,#121212,#090909);animation:wartexHubFilterEnter .38s ease both;transition:border-color .25s,background .25s}.wartex-hub-filter-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:11px}.wartex-hub-filter-title{display:flex;align-items:center;flex-wrap:wrap;gap:10px}.wartex-hub-filter-title>span{font-size:9px;font-weight:950;letter-spacing:.16em;color:#e5e5e5}.wartex-hub-filter-heading small{color:#686868;font-size:9px}.wartex-hub-filter-toggle{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:32px;padding:0 11px;border:1px solid #353535;border-radius:9px;background:#151515;color:#d4d4d4;font-size:9px;font-weight:900;transition:all .2s;flex-shrink:0}.wartex-hub-filter-toggle:hover{background:#eee;color:#080808;border-color:#eee;transform:translateY(-1px)}.wartex-hub-filter-toggle i{transition:transform .28s}.wartex-hub-filter-content{display:grid;grid-template-rows:1fr;opacity:1;overflow:hidden;transition:grid-template-rows .3s ease,opacity .22s ease,margin .3s ease}.wartex-hub-filter-content>*{min-height:0}.wartex-hub-filter-bar.is-collapsed .wartex-hub-filter-content{grid-template-rows:0fr;opacity:0;pointer-events:none;margin-top:-11px}.wartex-hub-filter-bar.is-collapsed .wartex-hub-filter-options,.wartex-hub-filter-bar.is-collapsed .wartex-hub-filter-summary{visibility:hidden}.wartex-hub-filter-bar.is-collapsed .wartex-hub-filter-toggle i{transform:rotate(180deg)}.wartex-hub-filter-options{display:flex;flex-wrap:wrap;gap:8px}
 .wartex-hub-filter{position:relative;display:inline-flex;align-items:center;gap:7px;padding:10px 13px;border:1px solid #303030;border-radius:10px;background:#0c0c0c;color:#a1a1a1;font-size:10px;font-weight:850;transition:transform .18s,border-color .18s,background .18s,color .18s;overflow:hidden}.wartex-hub-filter:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent,rgba(255,255,255,.07),transparent);transform:translateX(-120%);transition:transform .45s}.wartex-hub-filter:hover:before{transform:translateX(120%)}.wartex-hub-filter:hover{transform:translateY(-1px);border-color:#777;color:#fff}.wartex-hub-filter.is-active{border-color:#eee;background:#eee;color:#080808;box-shadow:0 5px 20px #fff1;animation:wartexHubSelect .28s ease both}.wartex-hub-filter-summary{margin-top:10px;color:#777;font-size:9px}
 @keyframes wartexHubSelect{0%{transform:scale(.96)}65%{transform:scale(1.035)}100%{transform:scale(1)}}@keyframes wartexHubFilterEnter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
 .wartex-hub-results-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px;color:#d4d4d4;font-size:10px;font-weight:950;letter-spacing:.12em}.wartex-hub-results-head small{color:#656565;font-size:9px;font-weight:600;letter-spacing:0}.wartex-hub-card-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.wartex-hub-card-grid>.wartex-script-card{position:relative;min-width:0;animation:wartexHubCardIn .36s cubic-bezier(.2,.8,.2,1) both}.wartex-hub-card-grid>.wartex-script-card:nth-child(2){animation-delay:.035s}.wartex-hub-card-grid>.wartex-script-card:nth-child(3){animation-delay:.07s}.wartex-hub-card-grid>.wartex-script-card:nth-child(4){animation-delay:.105s}@keyframes wartexHubCardIn{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
-.wartex-hub-card-save{position:absolute;top:11px;right:11px;z-index:5;display:grid;place-items:center;width:36px;height:36px;border:1px solid #ffffff40;border-radius:11px;background:rgba(8,8,8,.82);backdrop-filter:blur(10px);color:#ddd;box-shadow:0 5px 20px #0008;transition:transform .2s,border-color .2s,background .2s,color .2s}.wartex-hub-card-save:hover{transform:translateY(-2px) scale(1.04);border-color:#fff;color:#fff}.wartex-hub-card-save.is-saved{background:#eee;color:#080808;border-color:#fff;animation:wartexHubSelect .25s ease both}
+ .wartex-script-status-list{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:6px;max-width:72%;min-height:28px}.wartex-script-status{position:relative;display:inline-flex;align-items:center;gap:5px;padding:6px 8px;border:1px solid currentColor;border-radius:8px;font-size:8px;font-weight:950;letter-spacing:.035em;white-space:nowrap;isolation:isolate;animation:wartexStatusPulse 2.2s ease-in-out infinite}.wartex-script-status:before{content:"";position:absolute;inset:-1px;border-radius:inherit;z-index:-1;opacity:.15;background:currentColor;animation:wartexStatusGlow 2.2s ease-in-out infinite}.wartex-status-verified{color:#4ade80;border-color:#22c55e70}.wartex-status-keyless{color:#67e8f9;border-color:#22d3ee70}.wartex-status-key{color:#fbbf24;border-color:#f59e0b70}.wartex-status-patched{color:#fb7185;border-color:#fb718570}.wartex-status-safe{color:#86efac;border-color:#4ade8070}@keyframes wartexStatusPulse{0%,100%{filter:brightness(.82);box-shadow:0 0 0 transparent}50%{filter:brightness(1.2);box-shadow:0 0 13px currentColor}}@keyframes wartexStatusGlow{0%,100%{opacity:.08}50%{opacity:.23}}@media(prefers-reduced-motion:reduce){.wartex-script-status,.wartex-script-status:before{animation:none}}.wartex-hub-card-save{position:absolute;top:11px;right:11px;z-index:5;display:grid;place-items:center;width:36px;height:36px;border:1px solid #ffffff40;border-radius:11px;background:rgba(8,8,8,.82);backdrop-filter:blur(10px);color:#ddd;box-shadow:0 5px 20px #0008;transition:transform .2s,border-color .2s,background .2s,color .2s}.wartex-hub-card-save:hover{transform:translateY(-2px) scale(1.04);border-color:#fff;color:#fff}.wartex-hub-card-save.is-saved{background:#eee;color:#080808;border-color:#fff;animation:wartexHubSelect .25s ease both}
 .wartex-saved-overlay{position:fixed;inset:0;z-index:80;display:flex;justify-content:flex-end;visibility:hidden;pointer-events:none}.wartex-saved-overlay.is-open{visibility:visible;pointer-events:auto}.wartex-saved-backdrop{position:absolute;inset:0;width:100%;height:100%;border:0;background:rgba(0,0,0,.72);opacity:0;backdrop-filter:blur(7px);transition:opacity .28s}.wartex-saved-overlay.is-open .wartex-saved-backdrop{opacity:1}.wartex-saved-drawer{position:relative;z-index:1;display:flex;flex-direction:column;width:min(540px,100%);height:100%;background:linear-gradient(145deg,#151515,#070707);border-left:1px solid #333;box-shadow:-25px 0 80px #0008;transform:translateX(100%);transition:transform .32s cubic-bezier(.2,.8,.2,1)}.wartex-saved-overlay.is-open .wartex-saved-drawer{transform:translateX(0)}
 .wartex-saved-drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:26px 24px 22px;border-bottom:1px solid #262626;background:linear-gradient(120deg,#1b1b1b,#090909)}.wartex-saved-kicker{color:#aaa;font-size:9px;font-weight:950;letter-spacing:.18em}.wartex-saved-kicker i{margin-right:6px;color:#eee}.wartex-saved-drawer-head h2{margin-top:9px;color:#fff;font-size:clamp(23px,3vw,32px);font-weight:950;letter-spacing:-.05em}.wartex-saved-drawer-head p{margin-top:6px;color:#858585;font-size:11px;line-height:1.6}.wartex-saved-close{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border:1px solid #333;border-radius:11px;background:#101010;color:#aaa;transition:all .2s}.wartex-saved-close:hover{background:#eee;color:#080808}
 .wartex-saved-drawer-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 22px;border-bottom:1px solid #222;color:#888;font-size:10px}.wartex-saved-drawer-tools button{display:inline-flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid #303030;border-radius:8px;background:#111;color:#aaa;font-size:9px;font-weight:800;transition:all .2s}.wartex-saved-drawer-tools button:hover{border-color:#777;color:#fff}.wartex-saved-list{display:flex;flex:1;min-height:0;flex-direction:column;gap:10px;overflow:auto;padding:18px}
