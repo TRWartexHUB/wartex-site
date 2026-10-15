@@ -3339,6 +3339,7 @@ button:active,.wartex-nav-button:active,[role="button"]:active{transform:scale(.
                     <button id="wartexSwitchAccount" type="button" class="w-full rounded-lg px-3 py-2.5 text-left text-sm text-white hover:bg-zinc-800"><i class="fa-solid fa-repeat mr-2 text-zinc-400"></i>Hesap Değiştir</button>
                     <div id="wartexAccountList" class="hidden space-y-1 border-t border-zinc-800 py-2"></div>
                     <button id="wartexAddAccount" type="button" class="w-full rounded-lg px-3 py-2.5 text-left text-sm text-white hover:bg-zinc-800"><i class="fa-solid fa-plus mr-2 text-zinc-400"></i>Başka Hesap Ekle</button>
+                    <button id="wartexAdminOpen" type="button" class="hidden w-full rounded-lg px-3 py-2.5 text-left text-sm text-white hover:bg-zinc-800"><i class="fa-solid fa-shield-halved mr-2 text-zinc-300"></i>Yönetici Paneli</button>
                     <div class="my-1 border-t border-zinc-800"></div>
                     <button id="wartexDiscordLogout" type="button" class="w-full rounded-lg px-3 py-2.5 text-left text-sm text-red-300 hover:bg-red-950/40"><i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>Çıkış Yap</button>
                 </div>
@@ -11839,6 +11840,45 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
  </section>
 </div>
 
+
+<!-- WARTEX yönetici paneli: API yetkisi doğrulanınca görünür -->
+<style id="wartex-admin-style">
+#wartexAdminModal{position:fixed;inset:0;z-index:10030;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.86);backdrop-filter:blur(12px)}
+#wartexAdminModal.is-open{display:flex}
+.wartex-admin-card{width:min(1120px,100%);max-height:92vh;overflow:auto;background:#09090b;color:#f4f4f5;border:1px solid #343438;border-radius:20px;box-shadow:0 30px 100px #000c}
+.wartex-admin-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px;border-bottom:1px solid #27272a}
+.wartex-admin-body{padding:20px}.wartex-admin-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.wartex-admin-stat{border:1px solid #29292e;background:#111113;border-radius:14px;padding:16px}.wartex-admin-stat small{display:block;color:#92929b;font-size:10px;text-transform:uppercase;letter-spacing:.1em}.wartex-admin-stat strong{display:block;font-size:24px;margin-top:7px}
+.wartex-admin-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.wartex-admin-table-wrap{overflow:auto;border:1px solid #29292e;border-radius:12px}
+.wartex-admin-table{width:100%;border-collapse:collapse;min-width:760px;font-size:12px}.wartex-admin-table th,.wartex-admin-table td{text-align:left;padding:12px;border-bottom:1px solid #242428;vertical-align:middle}.wartex-admin-table th{color:#a1a1aa;font-size:10px;text-transform:uppercase;letter-spacing:.08em;background:#111113}.wartex-admin-table tr:last-child td{border-bottom:0}
+.wartex-admin-user{display:flex;align-items:center;gap:9px;min-width:160px}.wartex-admin-user img{width:30px;height:30px;border-radius:50%;object-fit:cover}.wartex-admin-muted{color:#92929b}.wartex-admin-button{border:1px solid #3f3f46;background:#18181b;border-radius:9px;padding:8px 11px;font-size:11px;font-weight:800}.wartex-admin-button:hover{background:#27272a}.wartex-admin-message{padding:14px;border:1px solid #303036;border-radius:12px;color:#a1a1aa;font-size:12px}
+@media(max-width:600px){.wartex-admin-stats{grid-template-columns:1fr}.wartex-admin-head{padding:16px}.wartex-admin-body{padding:12px}}
+</style>
+<div id="wartexAdminModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="wartexAdminTitle">
+ <section class="wartex-admin-card">
+  <header class="wartex-admin-head">
+   <div><div class="wartex-profile-kicker">WARTEX HUB / GÜVENLİ YÖNETİM</div><h2 id="wartexAdminTitle" class="text-2xl font-black mt-2">Yönetici Paneli</h2><p class="text-xs text-zinc-500 mt-1">Kullanıcı ve site aktivitesi</p></div>
+   <button id="wartexAdminClose" class="wartex-profile-close" type="button" aria-label="Yönetici panelini kapat"><i class="fa-solid fa-xmark"></i></button>
+  </header>
+  <div class="wartex-admin-body">
+   <div class="wartex-admin-stats">
+    <article class="wartex-admin-stat"><small>Kaydedilen kullanıcı</small><strong id="wartexAdminTotal">—</strong></article>
+    <article class="wartex-admin-stat"><small>Son 15 dakikada aktif</small><strong id="wartexAdminOnline">—</strong></article>
+    <article class="wartex-admin-stat"><small>Toplam kayıtlı aktif süre</small><strong id="wartexAdminTime">—</strong></article>
+   </div>
+   <div class="wartex-admin-toolbar"><p id="wartexAdminStatus" class="text-xs text-zinc-400">Sunucu verileri bekleniyor…</p><button id="wartexAdminRefresh" class="wartex-admin-button" type="button"><i class="fa-solid fa-rotate mr-1"></i>Yenile</button></div>
+   <div id="wartexAdminError" class="wartex-admin-message hidden mb-3" role="status"></div>
+   <div class="wartex-admin-table-wrap">
+    <table class="wartex-admin-table">
+     <thead><tr><th>Kullanıcı</th><th>Discord ID</th><th>Seviye</th><th>Aktif süre</th><th>Son görülme</th><th>İlk görülme</th></tr></thead>
+     <tbody id="wartexAdminRows"><tr><td colspan="6" class="wartex-admin-muted">Henüz veri yüklenmedi.</td></tr></tbody>
+    </table>
+   </div>
+  </div>
+ </section>
+</div>
+
 <script>
 (() => {
   const API = "https://wartex-auth-apiyaz.mustimoruk11.workers.dev";
@@ -11857,6 +11897,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
   const token = () => sessionStorage.getItem(tokenKey);
   let currentUser = null;
   let activeTick = null;
+  let adminCheckDone = false;
+  let adminRefreshTimer = null;
+  let serverPingTimer = null;
 
   const readAccounts = () => {
     try { return JSON.parse(sessionStorage.getItem(accountsKey) || "[]"); } catch (_) { return []; }
@@ -11905,6 +11948,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
     profileStats(user.id);
     renderAccountList();
     if (document.getElementById("wartexProfileModal")?.classList.contains("is-open")) renderProfile();
+    checkAdminAccess();
+    sendActivityPing();
   }
   function clearCallbackParams() {
     const clean = new URL(window.location.href);
@@ -12064,6 +12109,133 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) return;
   });
+
+  const adminModal = document.getElementById("wartexAdminModal");
+  const adminOpenButton = document.getElementById("wartexAdminOpen");
+  const adminRows = document.getElementById("wartexAdminRows");
+  const adminError = document.getElementById("wartexAdminError");
+  const adminStatus = document.getElementById("wartexAdminStatus");
+  const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[char]));
+  function dateLabel(value) {
+    if (!value) return "—";
+    const date = new Date(Number(value));
+    return Number.isNaN(date.getTime()) ? "—" : date.toLocaleString("tr-TR", { dateStyle:"short", timeStyle:"short" });
+  }
+  function durationLabel(ms) {
+    const minutes = Math.max(0, Math.floor(Number(ms || 0) / 60000));
+    const hours = Math.floor(minutes / 60);
+    return hours ? hours + " sa " + (minutes % 60) + " dk" : minutes + " dk";
+  }
+  async function checkAdminAccess() {
+    if (!currentUser || !token()) { adminOpenButton?.classList.add("hidden"); adminCheckDone = false; return; }
+    try {
+      const response = await fetch(API + "/api/admin/users", { headers:{ "Authorization":"Bearer " + token() }, cache:"no-store" });
+      adminCheckDone = response.ok;
+      adminOpenButton?.classList.toggle("hidden", !response.ok);
+    } catch (_) {
+      adminCheckDone = false;
+      adminOpenButton?.classList.add("hidden");
+    }
+  }
+  async function sendActivityPing() {
+    if (!currentUser || !token() || document.hidden) return;
+    try {
+      await fetch(API + "/api/activity/ping", {
+        method:"POST",
+        headers:{ "Authorization":"Bearer " + token(), "Content-Type":"application/json" },
+        body:"{}",
+        cache:"no-store"
+      });
+    } catch (error) {
+      console.debug("WARTEX aktivite kaydı henüz kullanılamıyor:", error);
+    }
+  }
+  async function loadAdminUsers() {
+    if (!currentUser || !token()) return;
+    const savedToken = token();
+    adminStatus.textContent = "Sunucudan kullanıcılar yükleniyor…";
+    adminError.classList.add("hidden");
+    adminRows.innerHTML = '<tr><td colspan="6" class="wartex-admin-muted">Yükleniyor…</td></tr>';
+    try {
+      const response = await fetch(API + "/api/admin/users", {
+        headers:{ "Authorization":"Bearer " + savedToken },
+        cache:"no-store"
+      });
+      const data = await response.json().catch(() => ({}));
+      if (response.status === 401) throw new Error("Oturumun sona ermiş. Discord ile tekrar giriş yap.");
+      if (response.status === 403) {
+        adminOpenButton?.classList.add("hidden");
+        throw new Error("Bu Discord hesabının yönetici erişimi yok.");
+      }
+      if (!response.ok || !Array.isArray(data.users)) throw new Error(data.error || "Kullanıcı listesi alınamadı. Worker API güncellendi mi?");
+      const users = data.users;
+      const now = Date.now();
+      const online = users.filter(user => now - Number(user.last_seen || 0) <= 15 * 60 * 1000).length;
+      const totalMs = users.reduce((sum, user) => sum + Math.max(0, Number(user.total_active_ms || 0)), 0);
+      document.getElementById("wartexAdminTotal").textContent = String(users.length);
+      document.getElementById("wartexAdminOnline").textContent = String(online);
+      document.getElementById("wartexAdminTime").textContent = durationLabel(totalMs);
+      adminRows.replaceChildren();
+      if (!users.length) {
+        const tr = document.createElement("tr"), td = document.createElement("td");
+        td.colSpan = 6; td.className = "wartex-admin-muted"; td.textContent = "Henüz kullanıcı aktivitesi kaydedilmedi.";
+        tr.append(td); adminRows.append(tr);
+      } else {
+        for (const user of users) {
+          const tr = document.createElement("tr");
+          const label = user.global_name || user.username || "Discord kullanıcısı";
+          const image = user.avatar && user.discord_id
+            ? "https://cdn.discordapp.com/avatars/" + encodeURIComponent(user.discord_id) + "/" + encodeURIComponent(user.avatar) + (String(user.avatar).startsWith("a_") ? ".gif" : ".png") + "?size=64"
+            : "https://cdn.discordapp.com/embed/avatars/0.png";
+          const cells = [
+            '<div class="wartex-admin-user"><img src="' + escapeHtml(image) + '" alt=""><span>' + escapeHtml(label) + '</span></div>',
+            escapeHtml(user.discord_id),
+            "Level " + escapeHtml(user.level ?? 1),
+            durationLabel(user.total_active_ms),
+            dateLabel(user.last_seen),
+            dateLabel(user.first_seen)
+          ];
+          for (const content of cells) {
+            const td = document.createElement("td");
+            td.innerHTML = content;
+            tr.append(td);
+          }
+          adminRows.append(tr);
+        }
+      }
+      adminStatus.textContent = "Son güncelleme: " + new Date().toLocaleTimeString("tr-TR");
+    } catch (error) {
+      adminRows.innerHTML = '<tr><td colspan="6" class="wartex-admin-muted">Veriler yüklenemedi.</td></tr>';
+      adminError.textContent = error.message || "Yönetici paneli yüklenemedi.";
+      adminError.classList.remove("hidden");
+      adminStatus.textContent = "Bağlantı hatası";
+    }
+  }
+  function openAdminPanel() {
+    if (!currentUser || !adminCheckDone) return;
+    adminModal.classList.add("is-open");
+    adminModal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    loadAdminUsers();
+    if (adminRefreshTimer) clearInterval(adminRefreshTimer);
+    adminRefreshTimer = window.setInterval(loadAdminUsers, 60000);
+  }
+  function closeAdminPanel() {
+    if (!adminModal) return;
+    adminModal.classList.remove("is-open");
+    adminModal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (adminRefreshTimer) clearInterval(adminRefreshTimer);
+    adminRefreshTimer = null;
+  }
+  adminOpenButton?.addEventListener("click", () => { menu?.classList.add("hidden"); openAdminPanel(); });
+  document.getElementById("wartexAdminClose")?.addEventListener("click", closeAdminPanel);
+  document.getElementById("wartexAdminRefresh")?.addEventListener("click", loadAdminUsers);
+  adminModal?.addEventListener("click", event => { if (event.target === adminModal) closeAdminPanel(); });
+  document.addEventListener("keydown", event => { if (event.key === "Escape") closeAdminPanel(); });
+  serverPingTimer = window.setInterval(sendActivityPing, 60000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) sendActivityPing(); });
+
   activeTick = window.setInterval(recordActiveTime, 1000);
   (async () => { const exchanged = await exchangeCallbackCode(); if (!exchanged) await loadProfile(); })();
 })();
