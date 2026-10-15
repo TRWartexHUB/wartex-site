@@ -11853,6 +11853,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
 .wartex-admin-table-wrap{overflow:auto;border:1px solid #29292e;border-radius:12px}
 .wartex-admin-table{width:100%;border-collapse:collapse;min-width:760px;font-size:12px}.wartex-admin-table th,.wartex-admin-table td{text-align:left;padding:12px;border-bottom:1px solid #242428;vertical-align:middle}.wartex-admin-table th{color:#a1a1aa;font-size:10px;text-transform:uppercase;letter-spacing:.08em;background:#111113}.wartex-admin-table tr:last-child td{border-bottom:0}
 .wartex-admin-user{display:flex;align-items:center;gap:9px;min-width:160px}.wartex-admin-user img{width:30px;height:30px;border-radius:50%;object-fit:cover}.wartex-admin-muted{color:#92929b}.wartex-admin-button{border:1px solid #3f3f46;background:#18181b;border-radius:9px;padding:8px 11px;font-size:11px;font-weight:800}.wartex-admin-button:hover{background:#27272a}.wartex-admin-message{padding:14px;border:1px solid #303036;border-radius:12px;color:#a1a1aa;font-size:12px}
+.wartex-admin-login{max-width:460px;margin:0 auto;padding:22px;border:1px solid #303036;border-radius:16px;background:#101012}.wartex-admin-login label{display:block;margin:12px 0 6px;color:#a1a1aa;font-size:12px}.wartex-admin-login input{display:block;width:100%;box-sizing:border-box;padding:12px;border:1px solid #3f3f46;border-radius:9px;background:#09090b;color:#fafafa;outline:none}.wartex-admin-login input:focus{border-color:#a1a1aa}.wartex-admin-login button{margin-top:14px;width:100%;padding:12px;border:1px solid #52525b;border-radius:9px;background:#f4f4f5;color:#09090b;font-weight:800}.wartex-admin-login .hint{font-size:12px;color:#a1a1aa;margin-top:10px}
 @media(max-width:600px){.wartex-admin-stats{grid-template-columns:1fr}.wartex-admin-head{padding:16px}.wartex-admin-body{padding:12px}}
 </style>
 <div id="wartexAdminModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="wartexAdminTitle">
@@ -11862,6 +11863,14 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
    <button id="wartexAdminClose" class="wartex-profile-close" type="button" aria-label="Yönetici panelini kapat"><i class="fa-solid fa-xmark"></i></button>
   </header>
   <div class="wartex-admin-body">
+   <section id="wartexAdminLogin" class="wartex-admin-login">
+    <div class="wartex-profile-kicker">EK GÜVENLİK DOĞRULAMASI</div><h3 class="text-xl font-black mt-2">Yönetici girişi</h3>
+    <p class="hint">Yönetici hesabını doğrula. E-posta adresin bu ekranda gösterilmez.</p>
+    <form id="wartexAdminCredentialsForm"><label for="wartexAdminUsername">Kullanıcı adı</label><input id="wartexAdminUsername" name="username" autocomplete="username" required maxlength="120"><label for="wartexAdminPassword">Şifre</label><input id="wartexAdminPassword" name="password" type="password" autocomplete="current-password" required maxlength="300"><button id="wartexAdminCredentialsSubmit" type="submit">Giriş yap ve kod gönder</button></form>
+    <form id="wartexAdminOtpForm" class="hidden"><label for="wartexAdminOtp">E-posta doğrulama kodu</label><input id="wartexAdminOtp" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required><button id="wartexAdminOtpSubmit" type="submit">Kodu doğrula</button><p class="hint">Kod 10 dakika geçerlidir. E-posta adresi gizli tutulur.</p></form>
+    <div id="wartexAdminLoginMessage" class="wartex-admin-message hidden mt-3" role="status"></div>
+   </section>
+   <div id="wartexAdminDashboard" class="hidden">
    <div class="wartex-admin-stats">
     <article class="wartex-admin-stat"><small>Kaydedilen kullanıcı</small><strong id="wartexAdminTotal">—</strong></article>
     <article class="wartex-admin-stat"><small>Son 15 dakikada aktif</small><strong id="wartexAdminOnline">—</strong></article>
@@ -11874,6 +11883,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
      <thead><tr><th>Kullanıcı</th><th>Discord ID</th><th>Seviye</th><th>Aktif süre</th><th>Son görülme</th><th>İlk görülme</th></tr></thead>
      <tbody id="wartexAdminRows"><tr><td colspan="6" class="wartex-admin-muted">Henüz veri yüklenmedi.</td></tr></tbody>
     </table>
+   </div>
    </div>
   </div>
  </section>
@@ -12115,6 +12125,14 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
   const adminRows = document.getElementById("wartexAdminRows");
   const adminError = document.getElementById("wartexAdminError");
   const adminStatus = document.getElementById("wartexAdminStatus");
+  const adminLogin = document.getElementById("wartexAdminLogin");
+  const adminDashboard = document.getElementById("wartexAdminDashboard");
+  const adminLoginMessage = document.getElementById("wartexAdminLoginMessage");
+  const adminCredentialsForm = document.getElementById("wartexAdminCredentialsForm");
+  const adminOtpForm = document.getElementById("wartexAdminOtpForm");
+  let adminChallengeId = null, adminToken = null;
+  const showAdminLoginMessage = message => { adminLoginMessage.textContent = message; adminLoginMessage.classList.remove("hidden"); };
+  const resetAdminLogin = () => { adminChallengeId=null; adminToken=null; adminCredentialsForm?.reset(); adminOtpForm?.reset(); adminOtpForm?.classList.add("hidden"); adminCredentialsForm?.classList.remove("hidden"); adminLoginMessage?.classList.add("hidden"); adminLogin?.classList.remove("hidden"); adminDashboard?.classList.add("hidden"); };
   const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[char]));
   function dateLabel(value) {
     if (!value) return "—";
@@ -12127,15 +12145,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
     return hours ? hours + " sa " + (minutes % 60) + " dk" : minutes + " dk";
   }
   async function checkAdminAccess() {
-    if (!currentUser || !token()) { adminOpenButton?.classList.add("hidden"); adminCheckDone = false; return; }
-    try {
-      const response = await fetch(API + "/api/admin/users", { headers:{ "Authorization":"Bearer " + token() }, cache:"no-store" });
-      adminCheckDone = response.ok;
-      adminOpenButton?.classList.toggle("hidden", !response.ok);
-    } catch (_) {
-      adminCheckDone = false;
-      adminOpenButton?.classList.add("hidden");
-    }
+    adminCheckDone = Boolean(currentUser && token());
+    adminOpenButton?.classList.toggle("hidden", !adminCheckDone);
   }
   async function sendActivityPing() {
     if (!currentUser || !token() || document.hidden) return;
@@ -12158,7 +12169,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
     adminRows.innerHTML = '<tr><td colspan="6" class="wartex-admin-muted">Yükleniyor…</td></tr>';
     try {
       const response = await fetch(API + "/api/admin/users", {
-        headers:{ "Authorization":"Bearer " + savedToken },
+        headers:{ "Authorization":"Bearer " + savedToken, "X-Admin-Token": adminToken || "" },
         cache:"no-store"
       });
       const data = await response.json().catch(() => ({}));
@@ -12213,26 +12224,54 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
   }
   function openAdminPanel() {
     if (!currentUser || !adminCheckDone) return;
+    resetAdminLogin();
     adminModal.classList.add("is-open");
     adminModal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
-    loadAdminUsers();
-    if (adminRefreshTimer) clearInterval(adminRefreshTimer);
-    adminRefreshTimer = window.setInterval(loadAdminUsers, 60000);
   }
-  function closeAdminPanel() {
+  async function closeAdminPanel() {
     if (!adminModal) return;
+    if (adminToken && token()) {
+      try { await fetch(API + "/api/admin/logout", { method:"POST", headers:{ "Authorization":"Bearer " + token(), "X-Admin-Token":adminToken } }); } catch (_) {}
+    }
     adminModal.classList.remove("is-open");
     adminModal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
     if (adminRefreshTimer) clearInterval(adminRefreshTimer);
     adminRefreshTimer = null;
+    resetAdminLogin();
   }
+  adminCredentialsForm?.addEventListener("submit", async event => {
+    event.preventDefault();
+    if (!currentUser || !token()) { showAdminLoginMessage("Önce Discord hesabınla giriş yap."); return; }
+    const button=document.getElementById("wartexAdminCredentialsSubmit"); button.disabled=true; button.textContent="Kontrol ediliyor…";
+    try {
+      const response=await fetch(API+"/api/admin/login",{method:"POST",headers:{"Authorization":"Bearer "+token(),"Content-Type":"application/json"},body:JSON.stringify({username:document.getElementById("wartexAdminUsername").value,password:document.getElementById("wartexAdminPassword").value}),cache:"no-store"});
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok||!data.success||!data.challengeId) throw new Error(data.error||"Yönetici girişi başarısız.");
+      adminChallengeId=data.challengeId; adminCredentialsForm.classList.add("hidden"); adminOtpForm.classList.remove("hidden"); document.getElementById("wartexAdminOtp").focus(); showAdminLoginMessage("Kod gönderme isteği kabul edildi. E-postana gelen 6 haneli kodu gir.");
+    } catch(error) { showAdminLoginMessage(error.message||"Giriş başarısız."); }
+    finally { button.disabled=false; button.textContent="Giriş yap ve kod gönder"; }
+  });
+  adminOtpForm?.addEventListener("submit", async event => {
+    event.preventDefault();
+    if(!adminChallengeId||!token()){showAdminLoginMessage("Giriş isteği sona erdi. Yeniden dene.");return;}
+    const button=document.getElementById("wartexAdminOtpSubmit"); button.disabled=true; button.textContent="Doğrulanıyor…";
+    try {
+      const response=await fetch(API+"/api/admin/verify",{method:"POST",headers:{"Authorization":"Bearer "+token(),"Content-Type":"application/json"},body:JSON.stringify({challengeId:adminChallengeId,code:document.getElementById("wartexAdminOtp").value.trim()}),cache:"no-store"});
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok||!data.success||!data.adminToken) throw new Error(data.error||"Kod doğrulanamadı.");
+      adminToken=data.adminToken; adminChallengeId=null; adminLogin.classList.add("hidden"); adminDashboard.classList.remove("hidden");
+      await loadAdminUsers();
+      if(adminRefreshTimer) clearInterval(adminRefreshTimer); adminRefreshTimer=window.setInterval(loadAdminUsers,60000);
+    } catch(error) { showAdminLoginMessage(error.message||"Kod doğrulanamadı."); }
+    finally { button.disabled=false; button.textContent="Kodu doğrula"; }
+  });
   adminOpenButton?.addEventListener("click", () => { menu?.classList.add("hidden"); openAdminPanel(); });
   document.getElementById("wartexAdminClose")?.addEventListener("click", closeAdminPanel);
   document.getElementById("wartexAdminRefresh")?.addEventListener("click", loadAdminUsers);
   adminModal?.addEventListener("click", event => { if (event.target === adminModal) closeAdminPanel(); });
-  document.addEventListener("keydown", event => { if (event.key === "Escape") closeAdminPanel(); });
+  document.addEventListener("keydown", event => { if (event.key === "Escape" && adminModal?.classList.contains("is-open")) closeAdminPanel(); });
   serverPingTimer = window.setInterval(sendActivityPing, 60000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) sendActivityPing(); });
 
