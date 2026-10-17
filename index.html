@@ -12325,5 +12325,33 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
 .wartex-saved-item{display:flex;align-items:center;gap:11px;padding:12px;border:1px solid #292929;border-radius:13px;background:linear-gradient(120deg,#171717,#0b0b0b);animation:wartexHubCardIn .28s ease both}.wartex-saved-item>img,.wartex-saved-item-icon{display:grid;place-items:center;flex:0 0 54px;width:54px;height:54px;object-fit:cover;border:1px solid #333;border-radius:10px;background:#111;color:#ddd}.wartex-saved-item-copy{display:flex;min-width:0;flex:1;flex-direction:column;gap:4px}.wartex-saved-item-copy>span{color:#999;font-size:9px}.wartex-saved-item-copy>strong{overflow:hidden;color:#eee;font-size:11px;text-overflow:ellipsis;white-space:nowrap}.wartex-saved-item-copy>small{color:#666;font-size:8px}.wartex-saved-open,.wartex-saved-remove{display:inline-flex;align-items:center;justify-content:center;gap:6px;flex-shrink:0;padding:9px;border:1px solid #3a3a3a;border-radius:8px;background:#1b1b1b;color:#eee;font-size:9px;font-weight:850;transition:all .2s}.wartex-saved-open:hover{background:#eee;color:#090909}.wartex-saved-remove{width:34px;color:#aaa}.wartex-saved-remove:hover{border-color:#888;color:#fff;background:#303030}.wartex-saved-empty{display:flex;flex:1;min-height:260px;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:24px;text-align:center}.wartex-saved-empty>span{display:grid;place-items:center;width:58px;height:58px;border:1px solid #333;border-radius:17px;background:#111;color:#ddd;font-size:20px}.wartex-saved-empty strong{color:#eee;font-size:14px}.wartex-saved-empty p{max-width:290px;color:#777;font-size:10px;line-height:1.7}
 @media(max-width:1050px){.wartex-hub-card-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:760px){#wartexScriptHubModal .wartex-script-hub-shell>div:nth-child(2){padding:15px}.wartex-hub-filter-bar{margin:0 12px;padding:12px}.wartex-hub-card-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.wartex-saved-drawer-head{padding:20px 16px}.wartex-saved-list{padding:12px}.wartex-saved-item{gap:8px;padding:9px}.wartex-saved-item>img,.wartex-saved-item-icon{flex-basis:42px;width:42px;height:42px}.wartex-saved-open{padding:8px}}@media(max-width:480px){.wartex-saved-button-label{display:none}.wartex-saved-top-button{padding:0 10px}.wartex-hub-filter-options{gap:6px}.wartex-hub-filter{padding:9px 10px;font-size:9px}.wartex-hub-filter-heading small{display:none}.wartex-hub-card-grid{grid-template-columns:1fr}.wartex-hub-results-head{align-items:flex-start;flex-direction:column;gap:4px}.wartex-saved-item-copy>strong{max-width:130px}}@media(prefers-reduced-motion:reduce){.wartex-hub-filter,.wartex-hub-card-grid>.wartex-script-card,.wartex-saved-drawer,.wartex-saved-backdrop,.wartex-saved-item{animation:none!important;transition:none!important}}
 </style>
+
+<!-- WARTEX FIX: Keep footer content clear of the fixed left category sidebar. -->
+<style id="wartex-footer-sidebar-alignment">
+@media (min-width: 901px) {
+  footer.site-footer > .max-w-7xl {
+    width: calc(100% - 276px) !important;
+    max-width: none !important;
+    margin-left: 256px !important;
+    margin-right: 20px !important;
+  }
+  footer.site-footer .max-w-2xl {
+    margin-left: 0 !important;
+    max-width: 100% !important;
+  }
+  footer.site-footer .mt-6.pt-4 {
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+  }
+}
+@media (max-width: 900px) {
+  footer.site-footer > .max-w-7xl {
+    width: 100% !important;
+    max-width: 80rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+</style>
 </body>
 </html>
