@@ -12442,5 +12442,57 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
 }
 </style>
 
+
+<!-- WARTEX sidebar final correction: silver category buttons and content-height panel -->
+<style id="wartex-sidebar-final-fix">
+@media (min-width:901px) {
+  nav.main-menu-animated {
+    bottom:auto!important;
+    height:auto!important;
+    max-height:calc(100vh - 104px)!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    border:1px solid rgba(220,226,235,.13)!important;
+    border-left:0!important;
+    border-radius:0 0 15px 0!important;
+    background:rgba(8,9,11,.94)!important;
+    box-shadow:0 14px 34px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.035)!important;
+  }
+  nav.main-menu-animated>div { padding-bottom:14px!important; }
+  nav.main-menu-animated .max-w-7xl>button:not(.wartex-sidebar-toggle),
+  nav.main-menu-animated .max-w-7xl>button.wartex-more-trigger,
+  nav.main-menu-animated button.wartex-nav-button,
+  nav.main-menu-animated button.wartex-catalog-nav {
+    border:1px solid rgba(218,225,235,.17)!important;
+    background:linear-gradient(115deg,rgba(235,240,248,.065),rgba(185,195,210,.018))!important;
+    color:#d8dce3!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.045)!important;
+    text-shadow:none!important;
+    filter:none!important;
+  }
+  nav.main-menu-animated .max-w-7xl>button:not(.wartex-sidebar-toggle):hover,
+  nav.main-menu-animated .max-w-7xl>button.wartex-more-trigger:hover,
+  nav.main-menu-animated button.wartex-nav-button:hover,
+  nav.main-menu-animated button.wartex-catalog-nav:hover {
+    border-color:rgba(235,240,248,.42)!important;
+    background:linear-gradient(115deg,rgba(235,240,248,.13),rgba(185,195,210,.045))!important;
+    color:#fff!important;
+    box-shadow:0 0 14px rgba(220,230,245,.075),inset 0 1px 0 rgba(255,255,255,.09)!important;
+  }
+  nav.main-menu-animated .max-w-7xl>button:not(.wartex-sidebar-toggle)>i,
+  nav.main-menu-animated button.wartex-nav-button>i,
+  nav.main-menu-animated button.wartex-catalog-nav>i {
+    color:#cbd2dc!important;
+    filter:none!important;
+  }
+  nav.main-menu-animated .max-w-7xl>button:not(.wartex-sidebar-toggle) span { color:#d8dce3!important; }
+  nav.main-menu-animated button.wartex-sidebar-toggle {
+    border-color:rgba(225,232,242,.3)!important;
+    background:linear-gradient(145deg,rgba(235,240,248,.14),rgba(190,200,215,.045))!important;
+    color:#f4f5f7!important;
+  }
+}
+</style>
+
 </body>
 </html>
