@@ -12612,5 +12612,95 @@ body::after {
 }
 </style>
 
+
+<!-- WARTEX PREMIUM DASHBOARD VISUAL REFRESH: appearance only; layout/content/actions preserved -->
+<style id="wartex-premium-dashboard-skin">
+:root {
+  --wartex-glass-top: rgba(43,46,51,.94);
+  --wartex-glass-bottom: rgba(16,18,21,.97);
+  --wartex-glass-border: rgba(225,232,242,.13);
+  --wartex-glass-highlight: rgba(255,255,255,.075);
+  --wartex-muted-text: #aeb4bd;
+}
+.glow-card,
+.executor-product,
+.executor-stat,
+.executor-panel,
+.site-footer-card,
+.payment-glow,
+.modal-box {
+  background-image:
+    linear-gradient(145deg,rgba(255,255,255,.055),transparent 38%),
+    linear-gradient(145deg,var(--wartex-glass-top),var(--wartex-glass-bottom)) !important;
+  border-color:var(--wartex-glass-border)!important;
+  box-shadow:
+    inset 0 1px 0 var(--wartex-glass-highlight),
+    0 12px 32px rgba(0,0,0,.24),
+    0 2px 8px rgba(0,0,0,.18)!important;
+  backdrop-filter:blur(16px) saturate(115%);
+  -webkit-backdrop-filter:blur(16px) saturate(115%);
+}
+.glow-card:hover,
+.executor-product:hover {
+  border-color:rgba(230,236,245,.27)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.10),
+    0 16px 38px rgba(0,0,0,.32),
+    0 0 22px rgba(210,220,235,.045)!important;
+}
+.executor-panel {
+  background:
+    radial-gradient(ellipse at 18% 0%,rgba(220,228,240,.09),transparent 42%),
+    linear-gradient(145deg,#202328,#0d0f12 78%)!important;
+}
+.executor-stat {
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(0,0,0,.25))!important;
+}
+.step-card,
+.wartex-nav-button,
+.wartex-menu-item,
+.wartex-catalog-nav {
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 5px 16px rgba(0,0,0,.16);
+}
+.step-card:hover {
+  border-color:rgba(225,232,242,.3)!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(15,17,20,.96))!important;
+}
+.site-footer {
+  background:linear-gradient(180deg,rgba(24,26,30,.94),rgba(9,10,12,.99))!important;
+  border-top-color:rgba(225,232,242,.12)!important;
+}
+.site-footer-card {
+  background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(10,11,13,.82))!important;
+}
+.wartex-more-panel,
+.wartex-saved-drawer {
+  background:linear-gradient(150deg,#24272c 0%,#111316 48%,#090a0c 100%)!important;
+  border-color:rgba(225,232,242,.15)!important;
+  box-shadow:0 24px 70px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.06)!important;
+}
+.wartex-more-header,
+.wartex-saved-drawer-head {
+  background:linear-gradient(120deg,rgba(255,255,255,.065),rgba(10,11,13,.35))!important;
+  border-bottom-color:rgba(225,232,242,.11)!important;
+}
+.wartex-saved-item {
+  background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(10,11,13,.8))!important;
+  border-color:rgba(225,232,242,.13)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 8px 22px rgba(0,0,0,.2);
+}
+.wartex-original-intro {
+  border:1px solid rgba(235,240,248,.17)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 18px 42px rgba(0,0,0,.28)!important;
+}
+main h1,main h2,main h3 { text-shadow:0 1px 14px rgba(255,255,255,.035); }
+::selection { background:rgba(220,228,240,.28);color:#fff; }
+@media(prefers-reduced-transparency:reduce) {
+  .glow-card,.executor-product,.executor-stat,.executor-panel,.site-footer-card,.payment-glow,.modal-box {
+    backdrop-filter:none;-webkit-backdrop-filter:none;
+  }
+}
+</style>
+
 </body>
 </html>
