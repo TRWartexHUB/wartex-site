@@ -12520,5 +12520,39 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
 }
 </style>
 
+
+<!-- WARTEX GLOBAL SITE BACKGROUND: soft sky blue + turquoise -->
+<style id="wartex-global-sky-turquoise-background">
+html, body {
+  min-height:100%;
+  background-color:#78b9c8!important;
+}
+body {
+  background-image:
+    radial-gradient(ellipse at 12% 8%,rgba(195,239,249,.82),transparent 38%),
+    radial-gradient(ellipse at 88% 24%,rgba(126,222,211,.58),transparent 40%),
+    radial-gradient(ellipse at 48% 92%,rgba(150,215,231,.55),transparent 44%),
+    linear-gradient(145deg,#8fc9d9 0%,#75b9c7 48%,#83cfc4 100%)!important;
+  background-attachment:fixed!important;
+  background-repeat:no-repeat!important;
+  color:#f4f4f5;
+}
+body::before {
+  background-image:
+    radial-gradient(circle,rgba(245,253,255,.48) 1.1px,transparent 1.4px),
+    radial-gradient(circle,rgba(225,250,250,.32) 1px,transparent 1.4px)!important;
+  background-size:110px 110px,170px 170px!important;
+  opacity:.22!important;
+}
+body::after {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  background:linear-gradient(115deg,rgba(232,249,255,.07),transparent 45%,rgba(210,250,242,.08));
+}
+</style>
+
 </body>
 </html>
