@@ -12408,5 +12408,39 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
 })();
 </script>
 
+
+<!-- WARTEX: neutral silver navigation buttons (override legacy purple accents) -->
+<style id="wartex-neutral-category-buttons">
+@media (min-width:901px) {
+  nav.main-menu-animated button:not(.wartex-sidebar-toggle) {
+    border:1px solid rgba(220,226,235,.16)!important;
+    background:linear-gradient(120deg,rgba(235,240,248,.065),rgba(190,200,215,.018))!important;
+    color:#d1d5db!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.045)!important;
+    text-shadow:none!important;
+  }
+  nav.main-menu-animated button:not(.wartex-sidebar-toggle):hover {
+    border-color:rgba(235,240,248,.38)!important;
+    background:linear-gradient(120deg,rgba(235,240,248,.12),rgba(190,200,215,.045))!important;
+    color:#fff!important;
+    box-shadow:0 0 15px rgba(220,230,245,.075),inset 0 1px 0 rgba(255,255,255,.08)!important;
+  }
+  nav.main-menu-animated button:not(.wartex-sidebar-toggle) i {
+    color:#c4cbd5!important;
+  }
+  nav.main-menu-animated button:not(.wartex-sidebar-toggle) .wartex-nav-soon {
+    border-color:rgba(220,226,235,.22)!important;
+    color:#cbd1da!important;
+    background:rgba(220,226,235,.07)!important;
+  }
+  nav.main-menu-animated button.wartex-sidebar-toggle {
+    border-color:rgba(225,232,242,.28)!important;
+    background:linear-gradient(145deg,rgba(235,240,248,.14),rgba(190,200,215,.045))!important;
+    color:#f4f5f7!important;
+    box-shadow:0 0 16px rgba(220,230,245,.07),inset 0 1px 0 rgba(255,255,255,.1)!important;
+  }
+}
+</style>
+
 </body>
 </html>
