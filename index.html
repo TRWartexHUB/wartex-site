@@ -12702,5 +12702,41 @@ main h1,main h2,main h3 { text-shadow:0 1px 14px rgba(255,255,255,.035); }
 }
 </style>
 
+
+
+<!-- WARTEX PERFORMANCE TUNING: preserve layout, content, controls and visual identity -->
+<style id="wartex-performance-optimization">
+html,body { background-attachment:scroll!important; }
+.glow-card,.executor-product,.executor-stat,.executor-panel,.site-footer-card,.payment-glow,.modal-box {
+  -webkit-backdrop-filter:blur(7px) saturate(108%)!important;
+  backdrop-filter:blur(7px) saturate(108%)!important;
+}
+.glow-card,.executor-product,.step-card,.wartex-nav-button,.wartex-menu-item,.wartex-catalog-nav,.wartex-saved-item {
+  transition-property:transform,border-color,background-color,opacity!important;
+  transition-duration:.18s!important;
+}
+.glow-card:hover,.executor-product:hover {
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 10px 24px rgba(0,0,0,.25),0 0 16px rgba(210,220,235,.035)!important;
+}
+@media (max-width:900px) {
+  .glow-card,.executor-product,.executor-stat,.executor-panel,.site-footer-card,.payment-glow,.modal-box {
+    -webkit-backdrop-filter:blur(4px) saturate(105%)!important;
+    backdrop-filter:blur(4px) saturate(105%)!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.065),0 7px 19px rgba(0,0,0,.2)!important;
+  }
+  .glow-card:hover,.executor-product:hover {
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.075),0 9px 22px rgba(0,0,0,.24)!important;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    scroll-behavior:auto!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}
+</style>
+
 </body>
 </html>
