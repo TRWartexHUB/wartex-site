@@ -3361,6 +3361,14 @@ button:active,.wartex-nav-button:active,[role="button"]:active{transform:scale(.
                 flex items-center gap-1.5
                 text-[11px] font-semibold text-zinc-400">
 
+        <button id="wartexSidebarToggle" type="button" class="wartex-sidebar-toggle"
+                aria-label="Kategorileri daralt" aria-expanded="true"
+                title="Kategorileri daralt">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+                flex items-center gap-1.5
+                text-[11px] font-semibold text-zinc-400">
+
         <button type="button" onclick="toggleWartexMoreMenu(true)"
                 class="wartex-nav-button wartex-more-trigger">
             <i class="fa-solid fa-bars-staggered"></i>
@@ -12353,5 +12361,54 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
   }
 }
 </style>
+
+
+<!-- WARTEX COLLAPSIBLE CATEGORY SIDEBAR -->
+<style id="wartex-collapsible-sidebar">
+@media (min-width: 901px) {
+  nav.main-menu-animated { width:236px; transition:width .28s cubic-bezier(.2,.75,.25,1); }
+  nav.main-menu-animated > div { transition:padding .28s ease; }
+  nav.main-menu-animated > div:before { transition:opacity .18s ease, height .22s ease, padding .22s ease; }
+  .wartex-sidebar-toggle { display:flex; align-items:center; justify-content:center; flex:0 0 42px; width:42px!important; min-height:42px!important; margin:0 0 8px!important; padding:0!important; border:1px solid rgba(255,255,255,.16)!important; border-radius:11px!important; background:linear-gradient(145deg,#242629,#101112)!important; color:#f4f4f5!important; cursor:pointer; transition:background .2s,border-color .2s,transform .2s!important; }
+  .wartex-sidebar-toggle:hover { background:#303236!important; border-color:rgba(255,255,255,.42)!important; transform:translateY(-1px); }
+  .wartex-sidebar-toggle i { font-size:15px; }
+  nav.main-menu-animated button:not(.wartex-sidebar-toggle) { transition:width .25s ease,padding .25s ease,background .18s ease,border-color .18s ease; }
+  main.max-w-7xl, footer.site-footer > .max-w-7xl { transition:width .28s cubic-bezier(.2,.75,.25,1),margin-left .28s cubic-bezier(.2,.75,.25,1); }
+  body.wartex-sidebar-collapsed nav.main-menu-animated { width:72px; }
+  body.wartex-sidebar-collapsed nav.main-menu-animated > div { padding-left:12px; padding-right:12px; }
+  body.wartex-sidebar-collapsed nav.main-menu-animated > div:before { height:0; padding:0; margin:0; opacity:0; overflow:hidden; }
+  body.wartex-sidebar-collapsed nav.main-menu-animated button:not(.wartex-sidebar-toggle) { width:44px; min-width:44px; min-height:44px; justify-content:center; padding:10px 0; margin-left:auto; margin-right:auto; }
+  body.wartex-sidebar-collapsed nav.main-menu-animated button:not(.wartex-sidebar-toggle) span { display:none!important; }
+  body.wartex-sidebar-collapsed nav.main-menu-animated button:not(.wartex-sidebar-toggle) i { margin:0!important; }
+  body.wartex-sidebar-collapsed nav.main-menu-animated .wartex-nav-soon { display:none!important; }
+  body.wartex-sidebar-collapsed nav.main-menu-animated .wartex-sidebar-toggle { margin-left:auto!important; margin-right:auto!important; }
+  body.wartex-sidebar-collapsed main.max-w-7xl { width:calc(100% - 112px)!important; margin-left:92px!important; margin-right:20px!important; }
+  body.wartex-sidebar-collapsed footer.site-footer > .max-w-7xl { width:calc(100% - 112px)!important; margin-left:92px!important; margin-right:20px!important; }
+}
+@media (max-width:900px) {
+  .wartex-sidebar-toggle { display:none!important; }
+}
+@media (prefers-reduced-motion:reduce) {
+  nav.main-menu-animated,nav.main-menu-animated > div,nav.main-menu-animated > div:before,nav.main-menu-animated button,main.max-w-7xl,footer.site-footer > .max-w-7xl { transition:none!important; }
+}
+</style>
+<script id="wartex-collapsible-sidebar-script">
+(()=>{
+  const button=document.getElementById('wartexSidebarToggle');
+  const nav=document.querySelector('nav.main-menu-animated');
+  if(!button||!nav)return;
+  const setCollapsed=collapsed=>{
+    document.body.classList.toggle('wartex-sidebar-collapsed',collapsed);
+    button.setAttribute('aria-expanded',String(!collapsed));
+    button.setAttribute('aria-label',collapsed?'Kategorileri genişlet':'Kategorileri daralt');
+    button.title=collapsed?'Kategorileri genişlet':'Kategorileri daralt';
+    const icon=button.querySelector('i');
+    if(icon)icon.className=collapsed?'fa-solid fa-bars':'fa-solid fa-bars';
+  };
+  button.addEventListener('click',()=>setCollapsed(!document.body.classList.contains('wartex-sidebar-collapsed')));
+  window.addEventListener('resize',()=>{if(window.innerWidth<=900)document.body.classList.remove('wartex-sidebar-collapsed');});
+})();
+</script>
+
 </body>
 </html>
