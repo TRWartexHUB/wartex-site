@@ -6136,9 +6136,49 @@ window.openModal = function(id) {
                 </div>
             </article>
 
-            <div class="rounded-2xl border border-white/10 bg-white/[.025] p-5 md:p-6 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
-                <div><div class="text-sm font-bold text-zinc-200"><i class="fa-solid fa-circle-info text-zinc-400 mr-2"></i>Satın alım ve teslimat</div><p class="text-xs text-zinc-500 mt-2 leading-relaxed max-w-3xl">Satın alımlar Discord sunucusu üzerinden tamamlanır. Ödeme öncesinde seçtiğin paket ve tutarı kontrol et. Rol teslimatı ve sipariş doğrulaması için destek ekibinin yönlendirmelerini takip et.</p></div>
-                <a href="https://discord.gg/WAJycrxPpR" target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-xs font-bold text-black" style="background:linear-gradient(110deg,#e5e7eb,#9299a3)"> <i class="fa-brands fa-discord"></i> WARTEX Discord</a>
+
+            <!-- VIP PRIVILEGE COMPARISON -->
+            <section class="wartex-vip-compare">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-5">
+                    <div>
+                        <div class="text-[10px] tracking-[.25em] text-zinc-500 font-extrabold uppercase">Membership overview</div>
+                        <h2 class="text-2xl md:text-3xl font-black text-white mt-2">Paketleri karşılaştır</h2>
+                        <p class="text-sm text-zinc-400 mt-2">Üyelik seviyelerini tek tabloda incele ve sana uygun paketi seç.</p>
+                    </div>
+                    <div class="text-[10px] text-zinc-500 tracking-wider">WARTEX • VIP COLLECTION</div>
+                </div>
+                <div class="wartex-vip-compare-scroll">
+                    <table class="wartex-vip-compare-table">
+                        <thead><tr><th>AYRICALIK</th><th>+MVIP</th><th>MVIP</th><th>EVIP</th><th>VIP</th><th>GENEROUS</th><th>SPECIAL</th></tr></thead>
+                        <tbody>
+                            <tr><td>Özel üye rolü</td><td>+MVIP</td><td>MVIP</td><td>EVIP</td><td>VIP</td><td>Generous</td><td>Special</td></tr>
+                            <tr><td>Özel sohbet / kanal erişimi</td><td>En üst seviye</td><td>Premium</td><td>Genişletilmiş</td><td>VIP alanları</td><td>Özel alan</td><td>Özel kanallar</td></tr>
+                            <tr><td>Destek önceliği</td><td>En yüksek</td><td>Yüksek</td><td>Hızlı</td><td>Öncelikli</td><td>Hızlı</td><td>Hızlandırılmış</td></tr>
+                            <tr><td>Etkinlik / çekiliş</td><td>Özel katılım</td><td>VIP katılımı</td><td>Üye etkinlikleri</td><td>VIP katılımı</td><td>Katılım</td><td>—</td></tr>
+                            <tr><td>İndirim / promosyon</td><td>Özel fırsatlar</td><td>Özel indirim</td><td>Mağaza indirimi</td><td>Sezonluk fırsat</td><td>—</td><td>—</td></tr>
+                            <tr><td>Öncelikli duyuru / beta</td><td>Beta + duyuru</td><td>Öncelikli duyuru</td><td>Özel duyuru</td><td>—</td><td>—</td><td>Üye duyurusu</td></tr>
+                            <tr><td>Profil rozeti / görünüm</td><td>Özel rol</td><td>Özel rol</td><td>Özel rol</td><td>VIP rolü</td><td>Destekçi rozeti</td><td>Özel rol</td></tr>
+                            <tr class="wartex-vip-price-row"><td>Tek seferlik fiyat</td><td>$9.99</td><td>$7.49</td><td>$5.99</td><td>$3.99</td><td>$2.99</td><td>$1.49</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-[10px] text-zinc-500 mt-3 leading-relaxed">Tablodaki ayrıcalıklar paket kartlarında belirtilen bilgilere göre özetlenmiştir. Satın almadan önce güncel paket içeriğini Discord destek ekibinden doğrula.</p>
+            </section>
+            <div class="wartex-vip-checkout">
+                <div class="wartex-vip-checkout-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+                <div class="min-w-0 flex-1">
+                    <div class="text-[10px] tracking-[.24em] text-zinc-500 font-extrabold uppercase">Secure order guidance</div>
+                    <h3 class="text-lg md:text-xl font-black text-white mt-1">Satın alım ve teslimat süreci</h3>
+                    <div class="wartex-vip-steps">
+                        <div><b>01</b><span>Paketi ve fiyatı seç</span></div>
+                        <div><b>02</b><span>Discord üzerinden destek ekibine ulaş</span></div>
+                        <div><b>03</b><span>Ödeme ve sipariş onayını tamamla</span></div>
+                        <div><b>04</b><span>Rol teslimatı için ekibin yönlendirmesini takip et</span></div>
+                    </div>
+                    <p class="text-[10px] text-zinc-500 mt-3 leading-relaxed">Ödeme yapmadan önce paket, tutar ve teslimat koşullarını Discord üzerinden teyit et. Rol teslimatı sipariş doğrulamasından sonra destek ekibinin yönlendirmesiyle yapılır.</p>
+                </div>
+                <a href="https://discord.gg/WAJycrxPpR" target="_blank" rel="noopener noreferrer" class="wartex-vip-checkout-button"><i class="fa-brands fa-discord"></i> Discord'da devam et <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
             </div>
         </section>
     </main>
@@ -6169,6 +6209,24 @@ window.openModal = function(id) {
 #vipProductModal .wartex-vip-buy-row a:hover{transform:translateY(-2px);filter:brightness(1.08)}
 @media(max-width:700px){#vipProductModal .wartex-vip-full-card{grid-template-columns:1fr}#vipProductModal .wartex-vip-art{min-height:190px;border-right:0;border-bottom:1px solid rgba(255,255,255,.1)}#vipProductModal .wartex-vip-orbit{width:125px;height:125px}#vipProductModal .wartex-vip-emblem{width:70px;height:70px;border-radius:22px;font-size:29px}#vipProductModal .wartex-vip-art h3{margin-top:14px;font-size:16px}#vipProductModal .wartex-vip-details{padding:19px 16px}#vipProductModal .wartex-vip-table>div{padding:10px;font-size:10px}#vipProductModal .wartex-vip-buy-row{align-items:stretch;flex-direction:column}#vipProductModal .wartex-vip-buy-row a{width:100%}}
 @media(prefers-reduced-motion:reduce){#vipProductModal .wartex-vip-buy-row a{transition:none}}
+
+#vipProductModal .wartex-vip-compare{margin:10px 0 28px;padding:25px;border:1px solid rgba(220,225,232,.15);border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.018));box-shadow:0 18px 48px rgba(0,0,0,.2)}
+#vipProductModal .wartex-vip-compare-scroll{overflow-x:auto;border:1px solid rgba(255,255,255,.1);border-radius:14px;scrollbar-color:#555 #15171b}
+#vipProductModal .wartex-vip-compare-table{width:100%;min-width:900px;border-collapse:separate;border-spacing:0;background:rgba(5,6,8,.35);font-size:11px}
+#vipProductModal .wartex-vip-compare-table th{padding:15px 12px;text-align:center;color:#e5e7eb;background:linear-gradient(180deg,#30343b,#1a1d22);font-size:10px;letter-spacing:.08em;font-weight:900;border-bottom:1px solid #ffffff20}
+#vipProductModal .wartex-vip-compare-table th:first-child,#vipProductModal .wartex-vip-compare-table td:first-child{position:sticky;left:0;text-align:left;z-index:1;background:#171a1f;color:#e5e7eb;font-weight:800;min-width:175px}
+#vipProductModal .wartex-vip-compare-table td{padding:13px 12px;text-align:center;color:#b8bec7;border-bottom:1px solid rgba(255,255,255,.065);white-space:nowrap}
+#vipProductModal .wartex-vip-compare-table tbody tr:hover td{background-color:rgba(255,255,255,.035)}
+#vipProductModal .wartex-vip-compare-table tbody tr:hover td:first-child{background:#20242a}
+#vipProductModal .wartex-vip-compare-table .wartex-vip-price-row td{color:#f4f4f5;font-weight:900;background:rgba(210,216,224,.07);font-size:13px}
+#vipProductModal .wartex-vip-checkout{display:flex;align-items:center;gap:18px;padding:23px;border:1px solid rgba(220,225,232,.2);border-radius:22px;background:radial-gradient(ellipse at 0% 0%,rgba(220,225,232,.1),transparent 50%),linear-gradient(120deg,#1b1e23,#101216);box-shadow:0 18px 48px rgba(0,0,0,.24)}
+#vipProductModal .wartex-vip-checkout-icon{width:52px;height:52px;flex:0 0 52px;display:grid;place-items:center;border-radius:16px;color:#f4f4f5;font-size:20px;background:linear-gradient(145deg,#656c76,#252a31);border:1px solid #ffffff45;box-shadow:inset 0 1px 1px #ffffff55}
+#vipProductModal .wartex-vip-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 18px;margin-top:15px}
+#vipProductModal .wartex-vip-steps>div{display:flex;align-items:center;gap:9px;color:#c5c9d0;font-size:11px}
+#vipProductModal .wartex-vip-steps b{display:grid;place-items:center;width:25px;height:25px;flex:0 0 25px;border:1px solid #ffffff25;border-radius:8px;color:#e5e7eb;background:#ffffff0a;font-size:9px}
+#vipProductModal .wartex-vip-checkout-button{display:inline-flex;align-items:center;justify-content:center;gap:9px;flex:0 0 auto;padding:13px 17px;border-radius:12px;background:linear-gradient(110deg,#e5e7eb,#9299a3);color:#111318;font-size:11px;font-weight:900;white-space:nowrap;transition:filter .18s ease,transform .18s ease}
+#vipProductModal .wartex-vip-checkout-button:hover{filter:brightness(1.08);transform:translateY(-2px)}
+@media(max-width:700px){#vipProductModal .wartex-vip-compare{padding:17px 12px;border-radius:17px}#vipProductModal .wartex-vip-checkout{align-items:stretch;flex-direction:column;padding:18px}#vipProductModal .wartex-vip-steps{grid-template-columns:1fr}#vipProductModal .wartex-vip-checkout-button{width:100%}}
 </style>
 
 <!-- =========================================================
