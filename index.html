@@ -5972,491 +5972,204 @@ window.openModal = function(id) {
      VIP ÜRÜNLER
 ========================================================= -->
 
+<!-- =========================================================
+     WARTEX VIP EXPERIENCE — FULL SCREEN
+========================================================= -->
 <div id="vipProductModal"
-     class="fixed inset-0 bg-black/80 backdrop-blur-sm
-            z-50 flex items-center justify-center p-4 hidden">
+     class="fixed inset-0 z-[80] hidden flex flex-col overflow-hidden"
+     style="background:#08090b;color:#e8e9eb">
 
-    <div class="modal-box bg-zinc-950 border border-zinc-800
-                rounded-2xl max-w-4xl w-full max-h-[85vh]
-                flex flex-col shadow-2xl overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none"
+         style="background:radial-gradient(ellipse at 12% 0%,rgba(210,216,224,.12),transparent 38%),radial-gradient(ellipse at 90% 42%,rgba(150,160,175,.07),transparent 42%),linear-gradient(135deg,#090a0c 0%,#111317 48%,#08090b 100%)"></div>
 
-        <div class="p-5 border-b border-zinc-800
-                    flex items-center justify-between">
-
-            <div>
-
-                <h3 class="font-extrabold text-white text-lg">
-
-                    <i class="fa-solid fa-crown
-                              text-amber-400 mr-2"></i>
-
-                    VIP Privilege Packages
-
-                </h3>
-
-                <p class="text-xs text-zinc-400 mt-1">
-                    All purchases are completed via Discord.
-                </p>
-
+    <header class="relative z-10 shrink-0 flex items-center justify-between gap-4 px-5 md:px-10 py-4 border-b border-white/10"
+            style="background:rgba(10,11,13,.88);backdrop-filter:blur(12px)">
+        <div class="flex items-center gap-3 min-w-0">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center border border-white/20"
+                 style="background:linear-gradient(145deg,#34383e,#111317);box-shadow:inset 0 1px 0 #ffffff30">
+                <i class="fa-solid fa-gem text-xl text-zinc-200"></i>
             </div>
-
-            <button onclick="closeModal('vipProductModal')"
-                    class="text-zinc-500 hover:text-white">
-
-                <i class="fa-solid fa-xmark"></i>
-
-            </button>
-
+            <div class="min-w-0">
+                <div class="text-[10px] tracking-[.32em] text-zinc-500 font-bold">WARTEX MEMBERSHIP</div>
+                <h2 class="text-white font-black text-lg md:text-xl tracking-wide">VIP PRIVILEGE COLLECTION</h2>
+            </div>
         </div>
+        <button onclick="closeModal('vipProductModal')"
+                aria-label="Close VIP packages"
+                class="w-10 h-10 shrink-0 rounded-xl border border-white/10 text-zinc-400 hover:text-white hover:bg-white/10 transition">
+            <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+    </header>
 
-        <div class="p-6 overflow-y-auto space-y-4">
-
-            <!-- +MVİP -->
-            <div class="glow-card p-5 rounded-2xl">
-                <div class="flex flex-col md:flex-row
-                            items-start md:items-center
-                            justify-between gap-4">
-
-                    <div class="flex-grow">
-
-                        <div class="flex items-center gap-3 mb-2">
-
-                            <span class="text-lg font-black text-amber-400">
-                                +MVIP PACKAGE
-                            </span>
-
-                            <span class="bg-emerald-500/10
-                                         border border-emerald-500/20
-                                         text-emerald-400
-                                         text-[9px] font-bold
-                                         px-2 py-1 rounded-full">
-                                IN STOCK
-                            </span>
-
-                        </div>
-
-                        <p class="text-xs text-zinc-400">
-                            Top-tier custom rank, exclusive channels, VIP support, and special discount perks.
-                        </p>
-
+    <main class="relative z-10 flex-1 min-h-0 overflow-y-auto overscroll-contain">
+        <section class="max-w-6xl mx-auto px-5 md:px-8 pt-8 md:pt-12 pb-7">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-5">
+                <div>
+                    <div class="inline-flex items-center gap-2 text-[10px] tracking-[.24em] uppercase text-zinc-400 mb-3">
+                        <span class="w-7 h-px bg-zinc-500"></span> Choose your status
                     </div>
-
-                    <div class="flex items-center gap-5">
-
-                        <div>
-
-                            <span class="text-[10px] text-zinc-500
-                                         uppercase block font-bold">
-                               Price
-                            </span>
-
-                            <span class="text-2xl font-black text-amber-400">
-                                9.99$
-                            </span>
-
-                        </div>
-
-                        <a href="https://discord.gg/WAJycrxPpR"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="bg-amber-500 hover:bg-amber-400
-                                  text-black font-bold px-5 py-2.5
-                                  rounded-xl text-xs">
-
-                            <i class="fa-brands fa-discord mr-1"></i>
-                            Buy Now
-
-                        </a>
-
-                    </div>
-
+                    <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight">Find your place in <span class="text-transparent bg-clip-text" style="background-image:linear-gradient(100deg,#fff,#9299a3 55%,#e8e9eb)">WARTEX</span></h1>
+                    <p class="text-sm md:text-base text-zinc-400 mt-3 max-w-2xl leading-relaxed">Her üyelik seviyesi; topluluk erişimi, özel alanlar ve destek ayrıcalıklarını farklı bir seviyeye taşır. Paketleri karşılaştırmak için aşağı kaydır.</p>
                 </div>
-            
-<details class="wartex-vip-perks"><summary><span><i class="fa-solid fa-sparkles"></i> Paket avantajlarını gör</span><i class="fa-solid fa-chevron-down wartex-vip-chevron"></i></summary><ul>
-<li><i class="fa-solid fa-check"></i> Özel sohbet ve ses kanallarına erişim</li>
-<li><i class="fa-solid fa-check"></i> Özel görünüm ve efektler</li>
-<li><i class="fa-solid fa-check"></i> Hızlı ve öncelikli destek</li>
-<li><i class="fa-solid fa-check"></i> Hediyeler ve çekilişlere katılım hakkı</li>
-<li><i class="fa-solid fa-check"></i> İndirimler ve promosyonlar</li>
-<li><i class="fa-solid fa-check"></i> Öncelikli beta erişimi</li></ul></details>
-</div>
-
-            <!-- MVİP -->
-            <div class="glow-card p-5 rounded-2xl">
-                <div class="flex flex-col md:flex-row
-                            items-start md:items-center
-                            justify-between gap-4">
-
-                    <div class="flex-grow">
-
-                        <div class="flex items-center gap-3 mb-2">
-
-                            <span class="text-lg font-black text-purple-400">
-                                MVIP PACKAGE
-                            </span>
-
-                            <span class="bg-emerald-500/10
-                                         border border-emerald-500/20
-                                         text-emerald-400
-                                         text-[9px] font-bold
-                                         px-2 py-1 rounded-full">
-                               IN STOCK
-                            </span>
-
-                        </div>
-
-                        <p class="text-xs text-zinc-400">
-                           High-tier MVIP role, premium channels, priority support, and special discounts.
-                        </p>
-
-                    </div>
-
-                    <div class="flex items-center gap-5">
-
-                        <div>
-
-                            <span class="text-[10px] text-zinc-500
-                                         uppercase block font-bold">
-                                Price
-                            </span>
-
-                            <span class="text-2xl font-black text-white">
-                                7.49$
-                            </span>
-
-                        </div>
-
-                        <a href="https://discord.gg/WAJycrxPpR"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="bg-white hover:bg-zinc-200
-                                  text-black font-bold px-5 py-2.5
-                                  rounded-xl text-xs">
-
-                            <i class="fa-brands fa-discord mr-1"></i>
-                            Buy Now
-
-                        </a>
-
-                    </div>
-
+                <div class="hidden md:flex items-center gap-3 text-right border-l border-white/10 pl-5">
+                    <i class="fa-solid fa-shield-halved text-2xl text-zinc-400"></i>
+                    <div><div class="text-[10px] tracking-widest text-zinc-500">OFFICIAL STORE</div><div class="text-xs text-zinc-300 font-semibold">WARTEX COMMUNITY</div></div>
                 </div>
-            
-<details class="wartex-vip-perks"><summary><span><i class="fa-solid fa-sparkles"></i> Paket avantajlarını gör</span><i class="fa-solid fa-chevron-down wartex-vip-chevron"></i></summary><ul>
-<li><i class="fa-solid fa-check"></i> Özel sohbet ve ses kanallarına erişim</li>
-<li><i class="fa-solid fa-check"></i> Özel görünüm ve efektler</li>
-<li><i class="fa-solid fa-check"></i> Hızlı ve öncelikli destek</li>
-<li><i class="fa-solid fa-check"></i> Hediyeler ve çekilişlere katılım hakkı</li>
-<li><i class="fa-solid fa-check"></i> İndirimler ve promosyonlar</li>
-<li><i class="fa-solid fa-check"></i> Öncelikli beta erişimi</li></ul></details>
-</div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-8">
+                <div class="rounded-xl border border-white/10 bg-white/[.035] p-3"><i class="fa-solid fa-users text-zinc-300 mb-2"></i><div class="text-xs font-bold text-zinc-200">Community Access</div><div class="text-[10px] text-zinc-500 mt-1">Özel topluluk alanları</div></div>
+                <div class="rounded-xl border border-white/10 bg-white/[.035] p-3"><i class="fa-solid fa-headset text-zinc-300 mb-2"></i><div class="text-xs font-bold text-zinc-200">Priority Support</div><div class="text-[10px] text-zinc-500 mt-1">Destek önceliği</div></div>
+                <div class="rounded-xl border border-white/10 bg-white/[.035] p-3"><i class="fa-solid fa-ticket text-zinc-300 mb-2"></i><div class="text-xs font-bold text-zinc-200">Member Events</div><div class="text-[10px] text-zinc-500 mt-1">Etkinlik ve çekilişler</div></div>
+                <div class="rounded-xl border border-white/10 bg-white/[.035] p-3"><i class="fa-solid fa-bolt text-zinc-300 mb-2"></i><div class="text-xs font-bold text-zinc-200">Early Access</div><div class="text-[10px] text-zinc-500 mt-1">Öncelikli duyurular</div></div>
+            </div>
+        </section>
 
-            <!-- EVİP -->
-            <div class="glow-card p-5 rounded-2xl">
-                <div class="flex flex-col md:flex-row
-                            items-start md:items-center
-                            justify-between gap-4">
-
-                    <div class="flex-grow">
-
-                        <div class="flex items-center gap-3 mb-2">
-
-                            <span class="text-lg font-black text-indigo-400">
-                               EVIP PACKAGE
-                            </span>
-
-                            <span class="bg-emerald-500/10
-                                         border border-emerald-500/20
-                                         text-emerald-400
-                                         text-[9px] font-bold
-                                         px-2 py-1 rounded-full">
-                                IN STOCK
-                            </span>
-
-                        </div>
-
-                        <p class="text-xs text-zinc-400">
-                           Exclusive server role, secret channels, fast ticket support, and store discounts.
-                        </p>
-
-                    </div>
-
-                    <div class="flex items-center gap-5">
-
-                        <div>
-
-                            <span class="text-[10px] text-zinc-500
-                                         uppercase block font-bold">
-                                Price
-                            </span>
-
-                            <span class="text-2xl font-black text-white">
-                                5.99$
-                            </span>
-
-                        </div>
-
-                        <a href="https://discord.gg/WAJycrxPpR"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="bg-white hover:bg-zinc-200
-                                  text-black font-bold px-5 py-2.5
-                                  rounded-xl text-xs">
-
-                            <i class="fa-brands fa-discord mr-1"></i>
-                           Buy Now
-
-                        </a>
-
-                    </div>
-
+        <section class="max-w-6xl mx-auto px-5 md:px-8 pb-10 space-y-5">
+            <!-- +MVIP -->
+            <article class="wartex-vip-full-card">
+                <div class="wartex-vip-art">
+                    <div class="wartex-vip-orbit"></div><div class="wartex-vip-emblem"><i class="fa-solid fa-crown"></i></div>
+                    <span class="wartex-vip-art-label">01 / ELITE</span>
+                    <h3>+MVIP</h3><p>THE HIGHEST TIER</p>
                 </div>
-            
-<details class="wartex-vip-perks"><summary><span><i class="fa-solid fa-sparkles"></i> Paket avantajlarını gör</span><i class="fa-solid fa-chevron-down wartex-vip-chevron"></i></summary><ul>
-<li><i class="fa-solid fa-check"></i> Özel sohbet ve ses kanallarına erişim</li>
-<li><i class="fa-solid fa-check"></i> Özel görünüm ve efektler</li>
-<li><i class="fa-solid fa-check"></i> Hızlı ve öncelikli destek</li>
-<li><i class="fa-solid fa-check"></i> Hediyeler ve çekilişlere katılım hakkı</li>
-<li><i class="fa-solid fa-check"></i> İndirimler ve promosyonlar</li>
-<li><i class="fa-solid fa-check"></i> Öncelikli beta erişimi</li></ul></details>
-</div>
+                <div class="wartex-vip-details">
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <div><div class="text-[10px] tracking-[.22em] text-zinc-500 font-bold">WARTEX • ELITE MEMBERSHIP</div><h3 class="text-2xl font-black text-white mt-1">+MVIP PACKAGE</h3></div>
+                        <span class="wartex-vip-status"> <i class="fa-solid fa-circle-check"></i> IN STOCK</span>
+                    </div>
+                    <p class="text-sm text-zinc-400 mt-2">Top-tier üyelik. WARTEX topluluğunda en kapsamlı ayrıcalık setini isteyen üyeler için.</p>
+                    <div class="wartex-vip-table">
+                        <div><span>Özel sohbet ve ses kanalları</span><b>En üst seviye erişim</b></div>
+                        <div><span>Üye rolü ve profil görünümü</span><b>Özel +MVIP rolü</b></div>
+                        <div><span>Destek talepleri</span><b>En yüksek öncelik</b></div>
+                        <div><span>Etkinlikler ve çekilişler</span><b>Özel katılım</b></div>
+                        <div><span>İndirim ve promosyonlar</span><b>Özel fırsatlar</b></div>
+                        <div><span>Yeni özellikler</span><b>Öncelikli beta erişimi</b></div>
+                        <div><span>Duyurular ve güncellemeler</span><b>Öncelikli bilgilendirme</b></div>
+                    </div>
+                    <div class="wartex-vip-buy-row"><div><small>ONE-TIME PRICE</small><strong>9.99<span>$</span></strong></div><a href="https://discord.gg/WAJycrxPpR" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i> Discord üzerinden satın al <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+                </div>
+            </article>
+
+            <!-- MVIP -->
+            <article class="wartex-vip-full-card">
+                <div class="wartex-vip-art">
+                    <div class="wartex-vip-orbit"></div><div class="wartex-vip-emblem"><i class="fa-solid fa-gem"></i></div>
+                    <span class="wartex-vip-art-label">02 / PREMIUM</span>
+                    <h3>MVIP</h3><p>PREMIUM MEMBER</p>
+                </div>
+                <div class="wartex-vip-details">
+                    <div class="flex flex-wrap items-center justify-between gap-3"><div><div class="text-[10px] tracking-[.22em] text-zinc-500 font-bold">WARTEX • PREMIUM MEMBERSHIP</div><h3 class="text-2xl font-black text-white mt-1">MVIP PACKAGE</h3></div><span class="wartex-vip-status"><i class="fa-solid fa-circle-check"></i> IN STOCK</span></div>
+                    <p class="text-sm text-zinc-400 mt-2">Gelişmiş topluluk erişimi, özel kanallar ve öncelikli destek isteyen üyeler için.</p>
+                    <div class="wartex-vip-table">
+                        <div><span>Özel sohbet ve ses kanalları</span><b>Premium erişim</b></div><div><span>Üye rolü ve profil görünümü</span><b>Özel MVIP rolü</b></div><div><span>Destek talepleri</span><b>Yüksek öncelik</b></div><div><span>Etkinlikler ve çekilişler</span><b>VIP katılımı</b></div><div><span>İndirim ve promosyonlar</span><b>Özel indirimler</b></div><div><span>Yeni özellikler</span><b>Öncelikli duyurular</b></div>
+                    </div>
+                    <div class="wartex-vip-buy-row"><div><small>ONE-TIME PRICE</small><strong>7.49<span>$</span></strong></div><a href="https://discord.gg/WAJycrxPpR" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i> Discord üzerinden satın al <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+                </div>
+            </article>
+
+            <!-- EVIP -->
+            <article class="wartex-vip-full-card">
+                <div class="wartex-vip-art">
+                    <div class="wartex-vip-orbit"></div><div class="wartex-vip-emblem"><i class="fa-solid fa-medal"></i></div>
+                    <span class="wartex-vip-art-label">03 / ADVANCED</span>
+                    <h3>EVIP</h3><p>EXCLUSIVE MEMBER</p>
+                </div>
+                <div class="wartex-vip-details">
+                    <div class="flex flex-wrap items-center justify-between gap-3"><div><div class="text-[10px] tracking-[.22em] text-zinc-500 font-bold">WARTEX • EXCLUSIVE MEMBERSHIP</div><h3 class="text-2xl font-black text-white mt-1">EVIP PACKAGE</h3></div><span class="wartex-vip-status"><i class="fa-solid fa-circle-check"></i> IN STOCK</span></div>
+                    <p class="text-sm text-zinc-400 mt-2">Daha özel bir topluluk deneyimi, gizli alanlar ve hızlı destek erişimi.</p>
+                    <div class="wartex-vip-table">
+                        <div><span>Özel sohbet ve ses kanalları</span><b>Genişletilmiş erişim</b></div><div><span>Üye rolü ve profil görünümü</span><b>Özel EVIP rolü</b></div><div><span>Destek talepleri</span><b>Hızlı destek</b></div><div><span>Etkinlikler ve çekilişler</span><b>Üye etkinlikleri</b></div><div><span>İndirim ve promosyonlar</span><b>Mağaza indirimleri</b></div><div><span>Özel duyurular</span><b>EVIP bilgilendirmeleri</b></div>
+                    </div>
+                    <div class="wartex-vip-buy-row"><div><small>ONE-TIME PRICE</small><strong>5.99<span>$</span></strong></div><a href="https://discord.gg/WAJycrxPpR" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i> Discord üzerinden satın al <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+                </div>
+            </article>
 
             <!-- VIP -->
-            <div class="glow-card p-5 rounded-2xl">
-                <div class="flex flex-col md:flex-row
-                            items-start md:items-center
-                            justify-between gap-4">
-
-                    <div class="flex-grow">
-
-                        <div class="flex items-center gap-3 mb-2">
-
-                            <span class="text-lg font-black text-blue-400">
-                               VIP PACKAGE
-                            </span>
-
-                            <span class="bg-emerald-500/10
-                                         border border-emerald-500/20
-                                         text-emerald-400
-                                         text-[9px] font-bold
-                                         px-2 py-1 rounded-full">
-                                IN STOCK
-                            </span>
-
-                        </div>
-
-                        <p class="text-xs text-zinc-400">
-                           Classic VIP rank, VIP chat rooms, priority support, and seasonal discounts.
-                        </p>
-
-                    </div>
-
-                    <div class="flex items-center gap-5">
-
-                        <div>
-
-                            <span class="text-[10px] text-zinc-500
-                                         uppercase block font-bold">
-                                Price
-                            </span>
-
-                            <span class="text-2xl font-black text-white">
-                                3.99$
-                            </span>
-
-                        </div>
-
-                        <a href="https://discord.gg/WAJycrxPpR"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="bg-white hover:bg-zinc-200
-                                  text-black font-bold px-5 py-2.5
-                                  rounded-xl text-xs">
-
-                            <i class="fa-brands fa-discord mr-1"></i>
-                           Buy Now
-
-                        </a>
-
-                    </div>
-
+            <article class="wartex-vip-full-card">
+                <div class="wartex-vip-art">
+                    <div class="wartex-vip-orbit"></div><div class="wartex-vip-emblem"><i class="fa-solid fa-star"></i></div>
+                    <span class="wartex-vip-art-label">04 / MEMBER</span>
+                    <h3>VIP</h3><p>VIP MEMBER</p>
                 </div>
-            
-<details class="wartex-vip-perks"><summary><span><i class="fa-solid fa-sparkles"></i> Paket avantajlarını gör</span><i class="fa-solid fa-chevron-down wartex-vip-chevron"></i></summary><ul>
-<li><i class="fa-solid fa-check"></i> Özel sohbet ve ses kanallarına erişim</li>
-<li><i class="fa-solid fa-check"></i> Özel görünüm ve efektler</li>
-<li><i class="fa-solid fa-check"></i> Hızlı ve öncelikli destek</li>
-<li><i class="fa-solid fa-check"></i> Hediyeler ve çekilişlere katılım hakkı</li>
-<li><i class="fa-solid fa-check"></i> İndirimler ve promosyonlar</li>
-<li><i class="fa-solid fa-check"></i> Öncelikli beta erişimi</li></ul></details>
-</div>
-
-            <!-- BANKÖR -->
-            <div class="glow-card p-5 rounded-2xl">
-                <div class="flex flex-col md:flex-row
-                            items-start md:items-center
-                            justify-between gap-4">
-
-                    <div class="flex-grow">
-
-                        <div class="flex items-center gap-3 mb-2">
-
-                            <span class="text-lg font-black text-emerald-400">
-                               GENEROUS PACKAGE
-                            </span>
-
-                            <span class="bg-emerald-500/10
-                                         border border-emerald-500/20
-                                         text-emerald-400
-                                         text-[9px] font-bold
-                                         px-2 py-1 rounded-full">
-                               IN STOCK
-                            </span>
-
-                        </div>
-
-                        <p class="text-xs text-zinc-400">
-                            Exclusive Generous role, profile badge, private chat, and fast support.
-                        </p>
-
+                <div class="wartex-vip-details">
+                    <div class="flex flex-wrap items-center justify-between gap-3"><div><div class="text-[10px] tracking-[.22em] text-zinc-500 font-bold">WARTEX • VIP MEMBERSHIP</div><h3 class="text-2xl font-black text-white mt-1">VIP PACKAGE</h3></div><span class="wartex-vip-status"><i class="fa-solid fa-circle-check"></i> IN STOCK</span></div>
+                    <p class="text-sm text-zinc-400 mt-2">Standart üyeliğin ötesinde, VIP sohbet alanları ve topluluk ayrıcalıkları.</p>
+                    <div class="wartex-vip-table">
+                        <div><span>VIP sohbet alanları</span><b>Erişim dahil</b></div><div><span>Üye rolü ve profil görünümü</span><b>VIP rolü</b></div><div><span>Destek talepleri</span><b>Öncelikli destek</b></div><div><span>Etkinlikler ve çekilişler</span><b>VIP katılımı</b></div><div><span>İndirim ve promosyonlar</span><b>Sezonluk fırsatlar</b></div>
                     </div>
-
-                    <div class="flex items-center gap-5">
-
-                        <div>
-
-                            <span class="text-[10px] text-zinc-500
-                                         uppercase block font-bold">
-                                Price
-                            </span>
-
-                            <span class="text-2xl font-black text-white">
-                                2.99$
-                            </span>
-
-                        </div>
-
-                        <a href="https://discord.gg/WAJycrxPpR"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="bg-white hover:bg-zinc-200
-                                  text-black font-bold px-5 py-2.5
-                                  rounded-xl text-xs">
-
-                            <i class="fa-brands fa-discord mr-1"></i>
-                            Buy Now
-
-                        </a>
-
-                    </div>
-
+                    <div class="wartex-vip-buy-row"><div><small>ONE-TIME PRICE</small><strong>3.99<span>$</span></strong></div><a href="https://discord.gg/WAJycrxPpR" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i> Discord üzerinden satın al <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
                 </div>
-            
-<details class="wartex-vip-perks"><summary><span><i class="fa-solid fa-sparkles"></i> Paket avantajlarını gör</span><i class="fa-solid fa-chevron-down wartex-vip-chevron"></i></summary><ul>
-<li><i class="fa-solid fa-check"></i> Özel sohbet ve ses kanallarına erişim</li>
-<li><i class="fa-solid fa-check"></i> Özel görünüm ve efektler</li>
-<li><i class="fa-solid fa-check"></i> Hızlı ve öncelikli destek</li>
-<li><i class="fa-solid fa-check"></i> Hediyeler ve çekilişlere katılım hakkı</li>
-<li><i class="fa-solid fa-check"></i> İndirimler ve promosyonlar</li>
-<li><i class="fa-solid fa-check"></i> Öncelikli beta erişimi</li></ul></details>
-</div>
+            </article>
 
-            <!-- ÖZEL ÜYE -->
-            <div class="glow-card p-5 rounded-2xl">
-                <div class="flex flex-col md:flex-row
-                            items-start md:items-center
-                            justify-between gap-4">
-
-                    <div class="flex-grow">
-
-                        <div class="flex items-center gap-3 mb-2">
-
-                            <span class="text-lg font-black text-zinc-300">
-                                SPECIAL MEMBER PACKAGE
-                            </span>
-
-                            <span class="bg-emerald-500/10
-                                         border border-emerald-500/20
-                                         text-emerald-400
-                                         text-[9px] font-bold
-                                         px-2 py-1 rounded-full">
-                                IN STOCK
-                            </span>
-
-                        </div>
-
-                        <p class="text-xs text-zinc-400">
-                           Special member role, private channels, and faster support.
-                        </p>
-
-                    </div>
-
-                    <div class="flex items-center gap-5">
-
-                        <div>
-
-                            <span class="text-[10px] text-zinc-500
-                                         uppercase block font-bold">
-                               Price
-                            </span>
-
-                            <span class="text-2xl font-black text-white">
-                                1.49$
-                            </span>
-
-                        </div>
-
-                        <a href="https://discord.gg/WAJycrxPpR"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="bg-white hover:bg-zinc-200
-                                  text-black font-bold px-5 py-2.5
-                                  rounded-xl text-xs">
-
-                            <i class="fa-brands fa-discord mr-1"></i>
-                            Buy Now
-
-                        </a>
-
-                    </div>
-
+            <!-- GENEROUS -->
+            <article class="wartex-vip-full-card">
+                <div class="wartex-vip-art">
+                    <div class="wartex-vip-orbit"></div><div class="wartex-vip-emblem"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                    <span class="wartex-vip-art-label">05 / SUPPORTER</span>
+                    <h3>GENEROUS</h3><p>COMMUNITY SUPPORTER</p>
                 </div>
+                <div class="wartex-vip-details">
+                    <div class="flex flex-wrap items-center justify-between gap-3"><div><div class="text-[10px] tracking-[.22em] text-zinc-500 font-bold">WARTEX • SUPPORTER MEMBERSHIP</div><h3 class="text-2xl font-black text-white mt-1">GENEROUS PACKAGE</h3></div><span class="wartex-vip-status"><i class="fa-solid fa-circle-check"></i> IN STOCK</span></div>
+                    <p class="text-sm text-zinc-400 mt-2">WARTEX topluluğunu desteklemek ve destekçi üyelik ayrıcalıklarını kullanmak isteyenler için.</p>
+                    <div class="wartex-vip-table">
+                        <div><span>Özel destekçi rolü</span><b>Generous rolü</b></div><div><span>Profil rozeti</span><b>Destekçi görünümü</b></div><div><span>Özel sohbet alanı</span><b>Erişim dahil</b></div><div><span>Destek talepleri</span><b>Hızlı destek</b></div><div><span>Topluluk etkinlikleri</span><b>Katılım hakkı</b></div>
+                    </div>
+                    <div class="wartex-vip-buy-row"><div><small>ONE-TIME PRICE</small><strong>2.99<span>$</span></strong></div><a href="https://discord.gg/WAJycrxPpR" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i> Discord üzerinden satın al <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+                </div>
+            </article>
+
+            <!-- SPECIAL MEMBER -->
+            <article class="wartex-vip-full-card">
+                <div class="wartex-vip-art">
+                    <div class="wartex-vip-orbit"></div><div class="wartex-vip-emblem"><i class="fa-solid fa-user-check"></i></div>
+                    <span class="wartex-vip-art-label">06 / COMMUNITY</span>
+                    <h3>SPECIAL</h3><p>SPECIAL MEMBER</p>
+                </div>
+                <div class="wartex-vip-details">
+                    <div class="flex flex-wrap items-center justify-between gap-3"><div><div class="text-[10px] tracking-[.22em] text-zinc-500 font-bold">WARTEX • COMMUNITY MEMBERSHIP</div><h3 class="text-2xl font-black text-white mt-1">SPECIAL MEMBER PACKAGE</h3></div><span class="wartex-vip-status"><i class="fa-solid fa-circle-check"></i> IN STOCK</span></div>
+                    <p class="text-sm text-zinc-400 mt-2">WARTEX topluluğunda özel üye rolü ve temel ayrıcalıklarla yerini al.</p>
+                    <div class="wartex-vip-table">
+                        <div><span>Özel üye rolü</span><b>Special Member</b></div><div><span>Özel kanallar</span><b>Erişim dahil</b></div><div><span>Destek talepleri</span><b>Hızlandırılmış destek</b></div><div><span>Topluluk duyuruları</span><b>Üye bilgilendirmeleri</b></div>
+                    </div>
+                    <div class="wartex-vip-buy-row"><div><small>ONE-TIME PRICE</small><strong>1.49<span>$</span></strong></div><a href="https://discord.gg/WAJycrxPpR" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i> Discord üzerinden satın al <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+                </div>
+            </article>
+
+            <div class="rounded-2xl border border-white/10 bg-white/[.025] p-5 md:p-6 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
+                <div><div class="text-sm font-bold text-zinc-200"><i class="fa-solid fa-circle-info text-zinc-400 mr-2"></i>Satın alım ve teslimat</div><p class="text-xs text-zinc-500 mt-2 leading-relaxed max-w-3xl">Satın alımlar Discord sunucusu üzerinden tamamlanır. Ödeme öncesinde seçtiğin paket ve tutarı kontrol et. Rol teslimatı ve sipariş doğrulaması için destek ekibinin yönlendirmelerini takip et.</p></div>
+                <a href="https://discord.gg/WAJycrxPpR" target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-xs font-bold text-black" style="background:linear-gradient(110deg,#e5e7eb,#9299a3)"> <i class="fa-brands fa-discord"></i> WARTEX Discord</a>
             </div>
-
-        </div>
-
-        <div class="p-4 border-t border-zinc-800
-                    flex justify-between">
-
-            <button onclick="switchModal('vipProductModal','vipDisclaimerModal')"
-                    class="text-zinc-400 text-xs">
-
-                <i class="fa-solid fa-chevron-left mr-1"></i>
-                Back to Terms
-
-            </button>
-
-            <button onclick="closeModal('vipProductModal')"
-                    class="bg-zinc-800 text-zinc-300
-                           px-5 py-2 rounded-xl text-xs">
-
-                Close
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-<details class="wartex-vip-perks"><summary><span><i class="fa-solid fa-sparkles"></i> Paket avantajlarını gör</span><i class="fa-solid fa-chevron-down wartex-vip-chevron"></i></summary><ul>
-<li><i class="fa-solid fa-check"></i> Özel sohbet ve ses kanallarına erişim</li>
-<li><i class="fa-solid fa-check"></i> Özel görünüm ve efektler</li>
-<li><i class="fa-solid fa-check"></i> Hızlı ve öncelikli destek</li>
-<li><i class="fa-solid fa-check"></i> Hediyeler ve çekilişlere katılım hakkı</li>
-<li><i class="fa-solid fa-check"></i> İndirimler ve promosyonlar</li>
-<li><i class="fa-solid fa-check"></i> Öncelikli beta erişimi</li></ul></details>
+        </section>
+    </main>
 </div>
+
+<style id="wartex-vip-fullscreen-design">
+#vipProductModal{isolation:isolate}
+#vipProductModal[style*="display: flex"]{display:flex!important}
+#vipProductModal .wartex-vip-full-card{display:grid;grid-template-columns:minmax(190px, .72fr) minmax(0,1.8fr);overflow:hidden;border:1px solid rgba(220,225,232,.16);border-radius:22px;background:linear-gradient(115deg,rgba(255,255,255,.055),rgba(255,255,255,.018) 48%,rgba(255,255,255,.035));box-shadow:0 18px 48px rgba(0,0,0,.24)}
+#vipProductModal .wartex-vip-art{position:relative;min-height:290px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;border-right:1px solid rgba(255,255,255,.1);background:radial-gradient(circle at 50% 40%,rgba(215,220,228,.18),transparent 43%),linear-gradient(145deg,#272b31,#111317 65%,#090a0c)}
+#vipProductModal .wartex-vip-orbit{position:absolute;width:172px;height:172px;border:1px solid rgba(225,230,238,.23);border-radius:50%;box-shadow:0 0 0 12px rgba(255,255,255,.018),0 0 0 30px rgba(255,255,255,.012),inset 0 0 24px rgba(255,255,255,.04)}
+#vipProductModal .wartex-vip-emblem{position:relative;width:92px;height:92px;border-radius:28px;display:grid;place-items:center;color:#f2f3f5;font-size:37px;background:linear-gradient(145deg,#666d77,#252a31 55%,#111317);border:1px solid rgba(255,255,255,.38);box-shadow:inset 0 2px 2px rgba(255,255,255,.28),0 18px 40px #0009}
+#vipProductModal .wartex-vip-art-label{position:absolute;top:20px;left:22px;font-size:9px;letter-spacing:.22em;color:#9da3ad;font-weight:800}
+#vipProductModal .wartex-vip-art h3{position:relative;margin-top:25px;color:#f4f5f6;font-size:19px;font-weight:900;letter-spacing:.16em}
+#vipProductModal .wartex-vip-art p{position:relative;margin-top:4px;color:#858c96;font-size:9px;letter-spacing:.2em;font-weight:700}
+#vipProductModal .wartex-vip-details{padding:25px 28px;min-width:0}
+#vipProductModal .wartex-vip-status{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid rgba(134,239,172,.18);border-radius:999px;background:rgba(34,197,94,.07);color:#86efac;font-size:9px;font-weight:800;letter-spacing:.08em}
+#vipProductModal .wartex-vip-table{margin-top:18px;border:1px solid rgba(255,255,255,.09);border-radius:13px;overflow:hidden}
+#vipProductModal .wartex-vip-table>div{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.065);font-size:11px}
+#vipProductModal .wartex-vip-table>div:last-child{border-bottom:0}
+#vipProductModal .wartex-vip-table span{color:#a1a1aa}
+#vipProductModal .wartex-vip-table b{color:#e4e4e7;text-align:right;font-size:10px;font-weight:700}
+#vipProductModal .wartex-vip-buy-row{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:18px}
+#vipProductModal .wartex-vip-buy-row small{display:block;color:#717780;font-size:9px;letter-spacing:.16em;font-weight:800}
+#vipProductModal .wartex-vip-buy-row strong{display:block;margin-top:2px;color:#f4f4f5;font-size:28px;line-height:1;font-weight:900}
+#vipProductModal .wartex-vip-buy-row strong span{font-size:15px;color:#aeb4bd;margin-left:3px}
+#vipProductModal .wartex-vip-buy-row a{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:12px 16px;border:1px solid rgba(255,255,255,.23);border-radius:11px;background:linear-gradient(115deg,#e5e7eb,#aeb4bd);color:#111318;font-size:11px;font-weight:900;transition:transform .18s ease,filter .18s ease}
+#vipProductModal .wartex-vip-buy-row a:hover{transform:translateY(-2px);filter:brightness(1.08)}
+@media(max-width:700px){#vipProductModal .wartex-vip-full-card{grid-template-columns:1fr}#vipProductModal .wartex-vip-art{min-height:190px;border-right:0;border-bottom:1px solid rgba(255,255,255,.1)}#vipProductModal .wartex-vip-orbit{width:125px;height:125px}#vipProductModal .wartex-vip-emblem{width:70px;height:70px;border-radius:22px;font-size:29px}#vipProductModal .wartex-vip-art h3{margin-top:14px;font-size:16px}#vipProductModal .wartex-vip-details{padding:19px 16px}#vipProductModal .wartex-vip-table>div{padding:10px;font-size:10px}#vipProductModal .wartex-vip-buy-row{align-items:stretch;flex-direction:column}#vipProductModal .wartex-vip-buy-row a{width:100%}}
+@media(prefers-reduced-motion:reduce){#vipProductModal .wartex-vip-buy-row a{transition:none}}
+</style>
 
 <!-- =========================================================
      ROBLOX HESAP ŞARTLARI
