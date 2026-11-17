@@ -12670,5 +12670,81 @@ hr,[class~="border-zinc-700"],[class~="border-zinc-800"]{
 }
 </style>
 
+
+<!-- WARTEX-KVKK-PRELIMINARY-V1 -->
+<style id="wartex-kvkk-style">
+#wartexPrivacyNotice{position:fixed;z-index:12000;left:18px;right:18px;bottom:18px;max-width:760px;margin:auto;background:#101114;color:#f4f4f5;border:1px solid rgba(184,190,200,.3);border-radius:18px;padding:20px;box-shadow:0 18px 70px #000b;display:none}
+#wartexPrivacyNotice.is-visible{display:block}
+#wartexPrivacyNotice h2,#wartexPrivacyModal h2{font-size:18px;font-weight:800;margin:0 0 8px}
+#wartexPrivacyNotice p,#wartexPrivacyModal p,#wartexPrivacyModal li{font-size:13px;line-height:1.65;color:#c4c4cc}
+.wartex-privacy-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.wartex-privacy-btn{border:1px solid rgba(184,190,200,.3);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:750;background:#202126;color:#f4f4f5}
+.wartex-privacy-btn.primary{background:#8b2635;border-color:#8b2635}
+#wartexPrivacyModal{position:fixed;inset:0;z-index:12001;background:#000c;display:none;align-items:center;justify-content:center;padding:16px}
+#wartexPrivacyModal.is-open{display:flex}
+#wartexPrivacyModal .inner{width:min(760px,100%);max-height:88vh;overflow:auto;background:#101114;border:1px solid rgba(184,190,200,.25);border-radius:18px;padding:22px}
+#wartexPrivacyModal h3{font-size:14px;font-weight:800;color:#eee;margin:18px 0 5px}
+#wartexPrivacyModal ul{padding-left:20px}
+#wartexPrivacyModal .placeholder{color:#f0b8bf}
+#wartexPrivacyLink{position:fixed;z-index:11999;right:16px;bottom:14px;background:#17191e;border:1px solid rgba(184,190,200,.25);color:#ddd;border-radius:999px;padding:9px 13px;font-size:11px;font-weight:700}
+@media(max-width:600px){#wartexPrivacyNotice{left:10px;right:10px;bottom:10px;padding:15px}.wartex-privacy-actions button{flex:1}}
+</style>
+<div id="wartexPrivacyNotice" role="dialog" aria-label="Çerez tercihleri" aria-live="polite">
+ <h2>Gizliliğiniz ve çerez tercihleriniz</h2>
+ <p>WARTEX, sitenin çalışması ve tercihlerin hatırlanması için gerekli tarayıcı depolamasını kullanabilir. İsteğe bağlı analiz/reklam çerezleri şu anda bu arayüz tarafından etkinleştirilmez. Tercihinizi istediğiniz zaman değiştirebilirsiniz.</p>
+ <div class="wartex-privacy-actions">
+  <button class="wartex-privacy-btn primary" id="wartexCookieAccept">Gerekli + isteğe bağlı olanları kabul et</button>
+  <button class="wartex-privacy-btn" id="wartexCookieReject">İsteğe bağlı olanları reddet</button>
+  <button class="wartex-privacy-btn" id="wartexCookieDetails">Aydınlatma ve tercihler</button>
+ </div>
+</div>
+<button id="wartexPrivacyLink" type="button">KVKK / Gizlilik</button>
+<div id="wartexPrivacyModal" role="dialog" aria-modal="true" aria-labelledby="wartexPrivacyTitle">
+ <div class="inner">
+  <h2 id="wartexPrivacyTitle">WARTEX — Gizlilik ve KVKK bilgilendirmesi</h2>
+  <p><strong>Önemli:</strong> Bu metin geçici taslaktır. Veri sorumlusunun gerçek kimliği, iletişim/adres bilgileri, sunucu kayıtları, saklama süreleri ve hizmet sağlayıcı sözleşmeleri doğrulanmadan nihai aydınlatma metni değildir.</p>
+  <h3>1. Veri sorumlusu</h3>
+  <p>Geçici görünen ad: <strong>WQOFKE</strong> (kullanıcı adı/lakap; resmî kimlik bilgisi değildir). <span class="placeholder">Gerçek veri sorumlusu adı/unvanı ve iletişim/adres bilgileri sonradan tamamlanmalıdır.</span></p>
+  <h3>2. İşlenebilecek veriler</h3>
+  <p>Site kullanımına göre Discord hesap tanımlayıcıları ve profil bilgileri, oturum/işlem kayıtları, kullanıcı tarafından girilen destek mesajları, güvenlik kayıtları ve tarayıcıda tutulan tercihler/yerel uygulama verileri işlenebilir. IP ve erişim loglarının Cloudflare/hosting tarafında tutulup tutulmadığı ayrıca doğrulanmalıdır.</p>
+  <h3>3. Amaçlar ve hukuki sebepler</h3>
+  <p>Veriler; hesabın oturum açması, talep edilen site özelliklerinin sunulması, hesap güvenliği, kötüye kullanımın önlenmesi ve destek taleplerinin yanıtlanması amaçlarıyla, her işlem için KVKK'daki uygun işleme şartı ayrıca belirlenerek işlenmelidir. Bu taslak tek başına açık rıza oluşturmaz.</p>
+  <h3>4. Aktarımlar</h3>
+  <p>Discord, Cloudflare, GitHub Pages/hosting ve kullanılan diğer altyapı sağlayıcılarına teknik aktarım gerçekleşebilir. Gerçek veri akışı, sağlayıcı rolleri, yurt dışı aktarım mekanizması ve sözleşmeler doğrulanmadan bu bölüm nihai kabul edilmemelidir.</p>
+  <h3>5. Saklama ve güvenlik</h3>
+  <p>Veriler yalnızca belirlenen amaç ve süre kadar saklanmalı; süre sonunda silinmeli, yok edilmeli veya anonim hâle getirilmelidir. Her veri kategorisi için somut saklama süresi ve silme prosedürü belirlenmelidir.</p>
+  <h3>6. İlgili kişi hakları ve başvuru</h3>
+  <p>KVKK'nın 11. maddesi kapsamındaki haklarınız için veri sorumlusuna başvuru yapabilirsiniz. <span class="placeholder">Başvuru için doğrulanmış e-posta/tebligat adresi eklenmelidir.</span> Şimdilik destek kanalı: <a href="https://discord.gg/WAJycrxPpR" target="_blank" rel="noopener noreferrer" style="color:#d98b96;text-decoration:underline">WARTEX Discord</a>. Discord kanalı, kanunen öngörülen resmî başvuru yönteminin yerine geçtiği varsayılmamalıdır.</p>
+  <h3>7. Çerez ve tarayıcı depolama tercihleri</h3>
+  <p>Bu arayüz isteğe bağlı analiz/reklam çerezlerini kendiliğinden başlatmaz. Sitenin bazı özellikleri tercihleri, favorileri veya oturumla ilgili bilgileri tarayıcı depolamasında tutabilir. Bunlar çerezlerden farklı teknolojilerdir ve kişisel veri içerip içermedikleri ayrıca değerlendirilmelidir. Gerekli olmayan izleme teknolojileri eklenirse önceden uygun tercih/izin mekanizması kurulmalıdır.</p>
+  <div class="wartex-privacy-actions">
+   <button class="wartex-privacy-btn primary" id="wartexPrivacySaveAccept">İsteğe bağlı olanları kabul et</button>
+   <button class="wartex-privacy-btn" id="wartexPrivacySaveReject">İsteğe bağlı olanları reddet</button>
+   <button class="wartex-privacy-btn" id="wartexPrivacyClose">Kapat</button>
+  </div>
+ </div>
+</div>
+<script id="wartex-kvkk-script">
+(function(){
+ const KEY="wartexPrivacyChoiceV1";
+ const notice=document.getElementById("wartexPrivacyNotice");
+ const modal=document.getElementById("wartexPrivacyModal");
+ if(!notice||!modal)return;
+ let choice=null;try{choice=JSON.parse(localStorage.getItem(KEY)||"null")}catch(_){}
+ const showNotice=()=>notice.classList.add("is-visible");
+ const hideNotice=()=>notice.classList.remove("is-visible");
+ const save=value=>{try{localStorage.setItem(KEY,JSON.stringify({optional:value,updatedAt:new Date().toISOString(),version:1}))}catch(_){} hideNotice();modal.classList.remove("is-open")};
+ if(!choice||typeof choice.optional!=="boolean")showNotice();
+ document.getElementById("wartexCookieAccept").onclick=()=>save(true);
+ document.getElementById("wartexCookieReject").onclick=()=>save(false);
+ document.getElementById("wartexCookieDetails").onclick=()=>{hideNotice();modal.classList.add("is-open")};
+ document.getElementById("wartexPrivacyLink").onclick=()=>modal.classList.add("is-open");
+ document.getElementById("wartexPrivacySaveAccept").onclick=()=>save(true);
+ document.getElementById("wartexPrivacySaveReject").onclick=()=>save(false);
+ document.getElementById("wartexPrivacyClose").onclick=()=>modal.classList.remove("is-open");
+ modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("is-open")});
+})();
+</script>
+
 </body>
 </html>
