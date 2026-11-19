@@ -12792,6 +12792,56 @@ body::before{
 })();
 </script>
 
+<!-- WARTEX VISUAL REFINEMENT: one muted accent, solid surfaces, no glass blur or neon glow (CSS only, no content changes) -->
+<style id="wartex-visual-refinement">
+:root{
+  --wx-accent:#a99be0;
+  --wx-accent-strong:#6c5fb0;
+  --wx-accent-hover:#7b6ec4;
+  --wx-accent-soft:rgba(169,155,224,.09);
+  --wx-accent-soft-hover:rgba(169,155,224,.17);
+  --wx-accent-line:rgba(169,155,224,.24);
+  --wx-surface-shadow:0 12px 30px rgba(0,0,0,.38);
+}
+
+/* 1) No glass blur anywhere: solid, cheaper surfaces */
+*,*::before,*::after{
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+header.sticky{background:rgba(9,10,12,.97)!important}
+
+/* 2) Neon hover glows -> quiet neutral depth */
+.glow-card,.glow-card:hover,
+.wartex-executor-card,.wartex-executor-card:hover,
+.wartex-home-description{
+  box-shadow:var(--wx-surface-shadow)!important;
+}
+.glow-card:hover,.wartex-executor-card:hover{border-color:rgba(205,210,220,.3)!important}
+.wartex-home-description{border-color:rgba(205,210,220,.14)!important;background:rgba(255,255,255,.025)!important}
+main h1,main h2,main h3{text-shadow:none}
+
+/* 3) Consistent corner radii for content cards */
+.glow-card,.wartex-script-card,.wartex-vip-full-card,.wartex-giveaway-price-card{border-radius:14px}
+.wartex-home-hero{border-radius:18px}
+.wartex-home-description{border-radius:14px}
+
+/* 4) Single accent: purple / indigo / violet utilities all map to one muted violet */
+.text-indigo-300,.text-indigo-400,.text-indigo-500,
+.text-purple-300,.text-purple-400,.text-purple-500,
+.text-violet-300,.text-violet-400,.text-violet-500{color:var(--wx-accent)!important}
+.text-indigo-500\/40,.text-indigo-500\/50{color:rgba(169,155,224,.45)!important}
+.bg-indigo-600,.bg-purple-600{background-color:var(--wx-accent-strong)!important}
+.hover\:bg-indigo-500:hover,.hover\:bg-purple-500:hover{background-color:var(--wx-accent-hover)!important}
+.bg-indigo-500\/10,.bg-purple-500\/10,.bg-indigo-600\/10,.bg-purple-600\/10{background-color:var(--wx-accent-soft)!important}
+.hover\:bg-indigo-600\/20:hover,.hover\:bg-purple-600\/20:hover{background-color:var(--wx-accent-soft-hover)!important}
+.bg-indigo-950{background-color:#14121d!important}
+.bg-indigo-950\/80{background-color:rgba(20,18,29,.8)!important}
+.border-indigo-500{border-color:var(--wx-accent-strong)!important}
+.border-indigo-500\/20,.border-indigo-500\/30,.border-indigo-500\/40,.border-purple-500\/20{border-color:var(--wx-accent-line)!important}
+[class*="via-indigo-600"]{background-image:none!important;background-color:var(--wx-accent-strong)!important}
+</style>
+
 <!-- WARTEX-KVKK-PRELIMINARY-V1 -->
 <style id="wartex-kvkk-style">
 #wartexPrivacyNotice{position:fixed;z-index:12000;left:18px;right:18px;bottom:18px;max-width:760px;margin:auto;background:#101114;color:#f4f4f5;border:1px solid rgba(184,190,200,.3);border-radius:18px;padding:20px;box-shadow:0 18px 70px #000b;display:none}
