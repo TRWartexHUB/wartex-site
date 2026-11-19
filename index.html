@@ -3316,21 +3316,23 @@ button:active,.wartex-nav-button:active,[role="button"]:active{transform:scale(.
    <button type="button" class="wx-gateway-card wx-official" id="wxGatewayOfficial">
     <span class="wx-gateway-icon"><i class="fa-solid fa-cube" aria-hidden="true"></i></span>
     <h2>WARTEX</h2>
-    <p>WARTEX ekosisteminden yararlanın. Resmî paketlerimizi ve programlarımızı keşfedin.</p>
     <span class="wx-gateway-action">Resmî ekosisteme gir <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
    </button>
    <button type="button" class="wx-gateway-card wx-market" id="wxGatewayMarket">
     <span class="wx-gateway-icon"><i class="fa-solid fa-store" aria-hidden="true"></i></span>
     <h2>WARTEX MARKET</h2>
-    <p>Global satışları inceleyin veya kendinize bir mağaza oluşturun. Ürününüzü sergileyin ve satışa çıkarın.</p>
     <span class="wx-gateway-action">Küresel pazarı keşfet <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
    </button>
    <button type="button" class="wx-gateway-card wx-nexus" id="wxGatewayNexus">
     <span class="wx-gateway-icon"><i class="fa-solid fa-chart-network" aria-hidden="true"></i></span>
     <h2>WARTEX NEXUS</h2>
-    <p>Yazılım iskeletleri ve teknoloji bilgilerini keşfedin. Kripto piyasası hakkında canlı verilerle anlık bilgi edinin.</p>
     <span class="wx-gateway-action">Teknolojiyi keşfet <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
    </button>
+  </div>
+  <div class="wx-gateway-descriptions">
+   <article><span>01 / OFFICIAL ECOSYSTEM</span><h3>WARTEX ekosisteminden yararlanın.</h3><p>Resmî paketlerimizi, programlarımızı ve WARTEX tarafından geliştirilen dijital ürünleri tek merkezden keşfedin.</p></article>
+   <article><span>02 / GLOBAL MARKETPLACE</span><h3>Global satışları keşfedin veya kendi mağazanızı oluşturun.</h3><p>Ürünlerinizi görseller, açıklamalar ve fiyatlarla sergileyin; dünyanın farklı yerlerinden kullanıcılarla buluşun.</p></article>
+   <article><span>03 / TECHNOLOGY & FINANCE</span><h3>Yazılım, teknoloji ve finans dünyasını takip edin.</h3><p>Yazılım iskeletleri ve eğitim kaynaklarını inceleyin; kripto varlıklar, borsalar ve hisseler hakkında canlı piyasa verilerini takip edin.</p></article>
   </div>
   <div class="wx-gateway-foot">WARTEX DIGITAL ECOSYSTEM</div>
  </div>
@@ -13286,7 +13288,7 @@ body.wartex-gateway-active{overflow-x:hidden}
  function coinRow(sym){const x=state.items.get(sym);if(!x)return '';const meta=symbols.find(a=>a[2].toUpperCase()===sym)||[sym.replace('USDT',''),sym,sym,'•'];const up=Number(x.P)>=0;return {meta,x,up};}
  function render(){
   const q=state.query.toLowerCase(),visible=symbols.filter(a=>(a[0]+a[1]).toLowerCase().includes(q)).filter(a=>state.items.has(a[2].toUpperCase()));
-  cards.innerHTML=visible.map(a=>{const x=state.items.get(a[2].toUpperCase()),up=Number(x.P)>=0;return `<article class="wx-coin-card" data-symbol="${a[2].toUpperCase()}"><div class="wx-coin-top"><div class="wx-coin-icon">${a[3]}</div><div class="wx-coin-name">${a[1]}<small>${a[0]}/USDT</small></div><span class="wx-coin-change ${up?'wx-up':'wx-down'}">${pct(x.P)}</span></div><div class="wx-coin-price">${fmt(Number(x.c))}</div><div class="wx-coin-meta"><span>Hacim ${Number(x.q).toLocaleString('tr-TR',{maximumFractionDigits:0})} USDT</span><span>24S</span></div></article>`}).join('')||'<div class="wx-finance-empty">Eşleşen varlık bulunamadı.</div>';
+  cards.innerHTML=visible.map(a=>{const x=state.items.get(a[2].toUpperCase()),up=Number(x.P)>=0;return `<article class="wx-coin-card" data-symbol="${a[2].toUpperCase()}"><div class="wx-coin-top"><div class="wx-coin-icon"><img src="https://assets.coincap.io/assets/icons/${a[0].toLowerCase()}@2x.png" alt="${a[1]} logo" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${a[3]}'"></div><div class="wx-coin-name">${a[1]}<small>${a[0]}/USDT</small></div><span class="wx-coin-change ${up?'wx-up':'wx-down'}">${pct(x.P)}</span></div><div class="wx-coin-price">${fmt(Number(x.c))}</div><div class="wx-coin-meta"><span>Hacim ${Number(x.q).toLocaleString('tr-TR',{maximumFractionDigits:0})} USDT</span><span>24S</span></div></article>`}).join('')||'<div class="wx-finance-empty">Eşleşen varlık bulunamadı.</div>';
   document.getElementById('wxCoinTable').innerHTML=visible.slice(0,12).map(a=>{const x=state.items.get(a[2].toUpperCase()),up=Number(x.P)>=0;return `<tr data-symbol="${a[2].toUpperCase()}"><td><b>${a[1]}</b> <span class="wx-muted">${a[0]}</span></td><td>${fmt(Number(x.c))}</td><td class="${up?'wx-up':'wx-down'}">${pct(x.P)}</td></tr>`}).join('')||'<tr><td colspan="3">Veri yok</td></tr>';
   const arr=[...state.items.entries()].map(([s,x])=>({s,x})),gain=[...arr].sort((a,b)=>Number(b.x.P)-Number(a.x.P)),lose=[...arr].sort((a,b)=>Number(a.x.P)-Number(b.x.P)),vol=[...arr].sort((a,b)=>Number(b.x.q)-Number(a.x.q));
   const renderMover=(id,list)=>document.getElementById(id).innerHTML=list.slice(0,5).map((o,i)=>{const a=symbols.find(z=>z[2].toUpperCase()===o.s)||[o.s,o.s];return `<div class="wx-mover-row"><span class="wx-mover-rank">${i+1}</span><div class="wx-mover-info"><b>${a[1]}</b><small>${a[0]||o.s}</small></div><div class="wx-mover-value ${Number(o.x.P)>=0?'wx-up':'wx-down'}">${pct(o.x.P)}<br><small style="color:#8b96a7">${fmt(Number(o.x.c))}</small></div></div>`}).join('');
@@ -13305,6 +13307,46 @@ body.wartex-gateway-active{overflow-x:hidden}
  function connect(){try{const streams=symbols.map(a=>a[2]+'@ticker').join('/');const ws=new WebSocket('wss://data-stream.binance.vision:443/stream?streams='+streams);state.ws=ws;ws.onopen=()=>{state.connected=true;document.getElementById('wxCryptoStatus').innerHTML='<i class="fa-solid fa-circle"></i> Canlı';};ws.onmessage=e=>{const msg=JSON.parse(e.data),x=msg.data;if(x&&x.s){state.items.set(x.s,x);render();}};ws.onclose=()=>{state.connected=false;document.getElementById('wxCryptoStatus').textContent='Bağlantı yenileniyor…';setTimeout(connect,5000)};ws.onerror=()=>ws.close();}catch(_){setTimeout(connect,8000)}}
  loadInitial();loadGlobal();loadFx();connect();
  const oldNexusTabs=[...root.querySelectorAll('[data-wx-tab]')];oldNexusTabs.forEach(t=>t.addEventListener('click',()=>{if(t.dataset.wxTab==='crypto'){loadGlobal();if(!state.connected&&(!state.ws||state.ws.readyState>1))connect();}}));
+})();
+</script>
+
+
+<style id="wx-gateway-layout-v2">
+/* Ana menü: kart başlıkları üstte, açıklamalar kartların dışında büyük metin blokları olarak. */
+.wx-gateway-inner{width:min(1240px,100%)!important}
+.wx-gateway-heading{margin-bottom:28px!important}
+.wx-gateway-grid{gap:20px!important}
+.wx-gateway-card{min-height:180px!important;padding:25px 26px!important}
+.wx-gateway-icon{margin-bottom:22px!important}
+.wx-gateway-card h2{font-size:clamp(19px,2vw,23px)!important;margin-bottom:0!important}
+.wx-gateway-card .wx-gateway-action{padding-top:18px!important}
+.wx-gateway-card p{display:none!important}
+.wx-gateway-descriptions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:25px}
+.wx-gateway-descriptions article{padding:21px 23px 23px;border-top:1px solid rgba(190,199,211,.45);background:linear-gradient(180deg,rgba(255,255,255,.035),transparent 88%);min-height:190px}
+.wx-gateway-descriptions article>span{font-size:9px;letter-spacing:.17em;font-weight:850;color:#9da8b7}
+.wx-gateway-descriptions h3{margin:14px 0 10px;color:#f2f4f7;font-size:clamp(17px,1.8vw,22px);font-weight:900;line-height:1.3;letter-spacing:-.025em}
+.wx-gateway-descriptions p{margin:0;color:#aab2bf;font-size:13px;line-height:1.85}
+.wx-gateway-foot{margin-top:26px!important}
+.wx-coin-icon{overflow:hidden!important;padding:0!important;background:#202a39!important}
+.wx-coin-icon img{width:100%;height:100%;object-fit:contain;display:block}
+.wx-market-visuals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 15px}
+.wx-market-visual{position:relative;display:flex;align-items:center;gap:14px;min-height:94px;padding:17px;border:1px solid #293342;border-radius:13px;background:linear-gradient(120deg,#192231,#111722);overflow:hidden}
+.wx-market-visual:after{content:"";position:absolute;width:100px;height:100px;right:-25px;top:-40px;border-radius:50%;background:#8798b522;filter:blur(2px)}
+.wx-market-visual-mark{display:grid;place-items:center;width:49px;height:49px;flex:none;border:1px solid #65758c66;border-radius:12px;background:#263449;color:#e7edf7;font-size:15px;font-weight:950;letter-spacing:-.05em}
+.wx-market-visual b{display:block;color:#eef2f8;font-size:12px;font-weight:900}
+.wx-market-visual small{display:block;margin-top:5px;color:#929fb1;font-size:9px}
+@media(max-width:760px){.wx-gateway-descriptions{grid-template-columns:1fr;gap:10px}.wx-gateway-descriptions article{min-height:0;padding:17px 19px}.wx-gateway-card{min-height:150px!important}.wx-market-visuals{grid-template-columns:1fr}}
+@media(max-width:560px){.wx-gateway-grid{grid-template-columns:1fr!important}.wx-gateway-card{min-height:132px!important}}
+</style>
+<script id="wx-crypto-exchange-visuals">
+(function(){
+ const root=document.getElementById('wxNexusWorkspace');if(!root)return;
+ const stock=root.querySelector('#wxNexusStocks');
+ if(stock&&!stock.querySelector('.wx-market-visuals')){
+  const visual=document.createElement('div');visual.className='wx-market-visuals';
+  visual.innerHTML='<div class="wx-market-visual"><span class="wx-market-visual-mark">NASDAQ</span><div><b>NASDAQ</b><small>ABD teknoloji ve büyüme hisseleri</small></div></div><div class="wx-market-visual"><span class="wx-market-visual-mark">NYSE</span><div><b>NEW YORK STOCK EXCHANGE</b><small>Global şirketler ve hisse piyasaları</small></div></div><div class="wx-market-visual"><span class="wx-market-visual-mark">BIST</span><div><b>BORSA İSTANBUL</b><small>Türkiye hisse senedi piyasası</small></div></div>';
+  stock.prepend(visual);
+ }
 })();
 </script>
 
