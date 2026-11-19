@@ -3362,7 +3362,7 @@ button:active,.wartex-nav-button:active,[role="button"]:active{transform:scale(.
 <div class="wm-shell">
  <div class="wm-topbar"><div class="wm-brand">WARTEX <span>MARKET</span></div><div class="wm-search"><i class="fa-solid fa-magnifying-glass"></i><input placeholder="Ürün, mağaza veya kategori ara..."></div><div class="wm-top-actions"><button data-wx-notice="Üyelik sistemi sonraki aşamada kurulacak."><i class="fa-regular fa-user"></i> Giriş / Kayıt</button><button data-wx-notice="Mağaza paneli sonraki aşamada kurulacak."><i class="fa-solid fa-store"></i> Mağazam</button><button class="wm-iconbtn" data-wx-back title="Ana menü"><i class="fa-solid fa-house"></i></button></div></div>
  <div class="wm-body">
-  <aside class="wm-sidebar"><div class="wm-side-head">Kategoriler <i class="fa-solid fa-chevron-down"></i></div><button class="wm-cat active"><i class="fa-solid fa-border-all"></i> Tüm Ürünler</button><button class="wm-cat"><i class="fa-solid fa-key"></i> Dijital Key & Lisans</button><button class="wm-cat"><i class="fa-solid fa-gamepad"></i> Oyun Hesapları</button><button class="wm-cat"><i class="fa-solid fa-code"></i> Yazılım & Araçlar</button><button class="wm-cat"><i class="fa-solid fa-palette"></i> Grafik & Tasarım</button><button class="wm-more">Daha fazla +</button><div class="wm-side-head">Fiyat <i class="fa-solid fa-chevron-down"></i></div><button class="wm-cat">En düşükten yükseğe</button><button class="wm-cat">En yüksekten düşüğe</button><div class="wm-side-head">İlan Türü <i class="fa-solid fa-chevron-down"></i></div><button class="wm-cat">Standart ilan</button><button class="wm-cat">Vitrin ilanları</button><div class="wm-side-head">Satıcı <i class="fa-solid fa-chevron-down"></i></div><button class="wm-cat">Doğrulanmış mağazalar</button><button class="wm-cat">Yeni mağazalar</button></aside>
+  <aside class="wm-sidebar"><div class="wm-side-head">Kategoriler <i class="fa-solid fa-chevron-down"></i></div><button type="button" class="wm-cat active" data-market-cat="all"><i class="fa-solid fa-border-all"></i> Tüm Ürünler</button><button type="button" class="wm-cat" data-market-cat="key"><i class="fa-solid fa-key"></i> Dijital Key & Lisans</button><button type="button" class="wm-cat" data-market-cat="game"><i class="fa-solid fa-gamepad"></i> Oyun Hesapları</button><button type="button" class="wm-cat" data-market-cat="software"><i class="fa-solid fa-code"></i> Yazılım & Araçlar</button><button type="button" class="wm-cat" data-market-cat="design"><i class="fa-solid fa-palette"></i> Grafik & Tasarım</button><button class="wm-more">Daha fazla +</button><div class="wm-side-head">Fiyat <i class="fa-solid fa-chevron-down"></i></div><button class="wm-cat">En düşükten yükseğe</button><button class="wm-cat">En yüksekten düşüğe</button><div class="wm-side-head">İlan Türü <i class="fa-solid fa-chevron-down"></i></div><button class="wm-cat">Standart ilan</button><button class="wm-cat">Vitrin ilanları</button><div class="wm-side-head">Satıcı <i class="fa-solid fa-chevron-down"></i></div><button class="wm-cat">Doğrulanmış mağazalar</button><button class="wm-cat">Yeni mağazalar</button></aside>
   <main class="wm-main">
    <div class="wm-breadcrumb"><span>Ana Sayfa</span><i class="fa-solid fa-chevron-right"></i><b>Global Market</b></div>
    <div class="wm-store">
@@ -13133,29 +13133,27 @@ main h1,main h2,main h3{text-shadow:none}
 
 <script id="wartex-gateway-script">
 (function(){
- const body=document.body;
- const gateway=document.getElementById('wartexGateway');
- if(!gateway)return;
+ const body=document.body,gateway=document.getElementById('wartexGateway');if(!gateway)return;
  body.classList.add('wartex-gateway-active');
- const official=document.getElementById('wxGatewayOfficial');
- const market=document.getElementById('wxGatewayMarket');
- const nexus=document.getElementById('wxGatewayNexus');
- const notice=document.getElementById('wxGatewayNotice');
- official.addEventListener('click',function(){
-  body.classList.remove('wartex-gateway-active');
-  gateway.remove();
-  const n=document.getElementById('wxGatewayNotice');if(n)n.remove();
-  window.scrollTo({top:0,behavior:'instant'});
- });
+ const official=document.getElementById('wxGatewayOfficial'),market=document.getElementById('wxGatewayMarket'),nexus=document.getElementById('wxGatewayNexus'),notice=document.getElementById('wxGatewayNotice');
+ official.addEventListener('click',function(){body.classList.remove('wartex-gateway-active');gateway.remove();const n=document.getElementById('wxGatewayNotice');if(n)n.remove();window.scrollTo({top:0,behavior:'instant'});});
  const marketPage=document.getElementById('wxMarketWorkspace'),nexusPage=document.getElementById('wxNexusWorkspace'),homeCards=gateway.querySelector('.wx-gateway-inner');
- function showPage(page){homeCards.style.display='none';marketPage.classList.remove('is-active');nexusPage.classList.remove('is-active');page.classList.add('is-active');gateway.classList.add('wx-subpage-active');gateway.scrollTop=0}
- function showHome(){marketPage.classList.remove('is-active');nexusPage.classList.remove('is-active');homeCards.style.display='';gateway.classList.remove('wx-subpage-active');gateway.scrollTop=0}
- market.addEventListener('click',()=>showPage(marketPage));nexus.addEventListener('click',()=>showPage(nexusPage));gateway.querySelectorAll('[data-wx-back]').forEach(b=>b.addEventListener('click',showHome));
- function comingSoon(message){notice.textContent=message;notice.classList.add('is-visible');window.clearTimeout(comingSoon.timer);comingSoon.timer=window.setTimeout(()=>notice.classList.remove('is-visible'),2800)}
+ function showPage(page){homeCards.style.display='none';marketPage.classList.remove('is-active');nexusPage.classList.remove('is-active');page.classList.add('is-active');gateway.classList.add('wx-subpage-active');window.scrollTo({top:0,behavior:'instant'});}
+ function showHome(){marketPage.classList.remove('is-active');nexusPage.classList.remove('is-active');homeCards.style.display='';gateway.classList.remove('wx-subpage-active');window.scrollTo({top:0,behavior:'instant'});}
+ market.addEventListener('click',()=>showPage(marketPage));nexus.addEventListener('click',()=>showPage(nexusPage));
+ gateway.querySelectorAll('[data-wx-back]').forEach(b=>b.addEventListener('click',showHome));
+ function comingSoon(message){notice.textContent=message;notice.classList.add('is-visible');window.clearTimeout(comingSoon.timer);comingSoon.timer=window.setTimeout(()=>notice.classList.remove('is-visible'),2800);}
  gateway.querySelectorAll('[data-wx-notice]').forEach(b=>b.addEventListener('click',()=>comingSoon(b.getAttribute('data-wx-notice'))));
- gateway.querySelectorAll('.wx-filter').forEach(b=>b.addEventListener('click',()=>{b.parentElement.querySelectorAll('.wx-filter').forEach(x=>x.classList.remove('active'));b.classList.add('active')}));
- gateway.querySelectorAll('[data-wx-tab]').forEach(tab=>tab.addEventListener('click',()=>{gateway.querySelectorAll('[data-wx-tab]').forEach(x=>x.classList.toggle('active',x===tab));document.getElementById('wxNexusCrypto').hidden=tab.dataset.wxTab!=='crypto';document.getElementById('wxNexusStocks').hidden=tab.dataset.wxTab!=='stocks';document.getElementById('wxNexusLibrary').hidden=tab.dataset.wxTab!=='library'}));
- })();
+ // MARKET: category buttons open the matching category view by filtering the catalog.
+ const marketCats=[...marketPage.querySelectorAll('[data-market-cat]')],products=[...marketPage.querySelectorAll('.wm-product')],marketHeading=marketPage.querySelector('.wm-products-head h2');
+ const categoryMap={all:{label:'Öne Çıkan Ürünler',match:()=>true},key:{label:'Dijital Key & Lisans',match:p=>/DİJİTAL LİSANS/i.test(p.querySelector('small')?.textContent||'')},game:{label:'Oyun Hesapları',match:p=>/OYUN HESABI/i.test(p.querySelector('small')?.textContent||'')},software:{label:'Yazılım & Araçlar',match:p=>/YAZILIM/i.test(p.querySelector('small')?.textContent||'')},design:{label:'Grafik & Tasarım',match:p=>/TASARIM/i.test(p.querySelector('small')?.textContent||'')}};
+ marketCats.forEach(btn=>btn.addEventListener('click',()=>{const cfg=categoryMap[btn.dataset.marketCat];if(!cfg)return;marketCats.forEach(x=>x.classList.toggle('active',x===btn));products.forEach(p=>p.hidden=!cfg.match(p));if(marketHeading)marketHeading.textContent=cfg.label;marketPage.querySelector('.wm-products-head')?.scrollIntoView({behavior:'smooth',block:'start'});}));
+ // NEXUS: each top-level tab reveals its own prepared section.
+ const nexusTabs=[...nexusPage.querySelectorAll('[data-wx-tab]')],nexusPanels={crypto:nexusPage.querySelector('#wxNexusCrypto'),stocks:nexusPage.querySelector('#wxNexusStocks'),library:nexusPage.querySelector('#wxNexusLibrary')};
+ function activateNexusTab(name){nexusTabs.forEach(t=>{const active=t.dataset.wxTab===name;t.classList.toggle('active',active);t.setAttribute('aria-selected',String(active));});Object.entries(nexusPanels).forEach(([key,panel])=>{if(panel)panel.hidden=key!==name;});}
+ nexusTabs.forEach(tab=>tab.addEventListener('click',()=>activateNexusTab(tab.dataset.wxTab)));
+ activateNexusTab('crypto');
+})();
 </script>
 
 </body>
