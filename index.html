@@ -12736,6 +12736,62 @@ body::before{
 }
 </style>
 
+<!-- WARTEX MOTION: cards fade/slide in once when they scroll into view -->
+<style id="wartex-card-reveal-style">
+.wartex-reveal-wait{opacity:0}
+.wartex-reveal-in{animation:wartexReveal .55s cubic-bezier(.2,.75,.25,1) backwards}
+@keyframes wartexReveal{
+  from{opacity:0;transform:translate3d(0,22px,0)}
+  to{opacity:1;transform:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .wartex-reveal-wait{opacity:1}
+  .wartex-reveal-in{animation:none}
+}
+</style>
+<script id="wartex-card-reveal-script">
+(()=>{
+  if(!('IntersectionObserver' in window)||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))return;
+  const SEL='.wartex-script-card,.wartex-script-showcase-card,.glow-card,.wartex-vip-full-card,.wartex-giveaway-price-card,.wartex-executor-card,.wartex-home-description';
+  const seen=new WeakSet();
+  let order=0,resetTimer=0;
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting)return;
+      const el=entry.target;
+      io.unobserve(el);
+      el.style.animationDelay=Math.min(order++,4)*60+'ms';
+      el.classList.remove('wartex-reveal-wait');
+      el.classList.add('wartex-reveal-in');
+      el.addEventListener('animationend',()=>{el.classList.remove('wartex-reveal-in');el.style.animationDelay='';},{once:true});
+    });
+    clearTimeout(resetTimer);
+    resetTimer=setTimeout(()=>{order=0},250);
+  },{rootMargin:'0px 0px -6% 0px',threshold:.08});
+  const prepare=el=>{
+    if(seen.has(el)||el.closest('.wartex-original-intro'))return;
+    seen.add(el);
+    const r=el.getBoundingClientRect();
+    if(r.height>0&&r.top<window.innerHeight&&r.bottom>0)return; // already on screen: leave it alone
+    el.classList.add('wartex-reveal-wait');
+    io.observe(el);
+  };
+  const scan=root=>{
+    if(root.nodeType!==1)return;
+    if(root.matches(SEL))prepare(root);
+    root.querySelectorAll(SEL).forEach(prepare);
+  };
+  scan(document.body);
+  let queue=[],scheduled=false;
+  new MutationObserver(list=>{
+    list.forEach(m=>m.addedNodes.forEach(n=>queue.push(n)));
+    if(scheduled)return;
+    scheduled=true;
+    requestAnimationFrame(()=>{scheduled=false;const q=queue;queue=[];q.forEach(scan)});
+  }).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
+
 <!-- WARTEX-KVKK-PRELIMINARY-V1 -->
 <style id="wartex-kvkk-style">
 #wartexPrivacyNotice{position:fixed;z-index:12000;left:18px;right:18px;bottom:18px;max-width:760px;margin:auto;background:#101114;color:#f4f4f5;border:1px solid rgba(184,190,200,.3);border-radius:18px;padding:20px;box-shadow:0 18px 70px #000b;display:none}
