@@ -3259,6 +3259,85 @@ button:active,.wartex-nav-button:active,[role="button"]:active{transform:scale(.
 
 <body class="min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-white">
 
+<style id="wartex-gateway-style">
+  body.wartex-gateway-active{overflow:hidden;background:#08090b!important}
+  body.wartex-gateway-active>header,
+  body.wartex-gateway-active>nav,
+  body.wartex-gateway-active>main,
+  body.wartex-gateway-active>footer,
+  body.wartex-gateway-active>.wartex-more-backdrop,
+  body.wartex-gateway-active>.wartex-more-panel,
+  body.wartex-gateway-active>#wartexPrivacyNotice,
+  body.wartex-gateway-active>#wartexPrivacyLink,
+  body.wartex-gateway-active>#wartexPrivacyModal{display:none!important}
+  #wartexGateway{position:fixed;inset:0;z-index:15000;display:flex;align-items:center;justify-content:center;overflow-y:auto;padding:48px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(139,38,53,.13),transparent 42%),radial-gradient(ellipse at 50% 100%,rgba(184,190,200,.07),transparent 45%),#08090b;color:#f4f4f5}
+  #wartexGateway:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;background-image:radial-gradient(rgba(255,255,255,.55) .7px,transparent .7px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 90%)}
+  .wx-gateway-inner{position:relative;z-index:1;width:min(1120px,100%);margin:auto}
+  .wx-gateway-brand{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:52px}
+  .wx-gateway-mark{display:grid;place-items:center;width:48px;height:48px;border:1px solid rgba(220,225,232,.45);border-radius:14px;background:linear-gradient(145deg,#f4f5f6,#8c929b);color:#090a0c;font-size:25px;font-weight:950;box-shadow:0 8px 30px #0008}
+  .wx-gateway-brand-name{font-size:22px;font-weight:900;letter-spacing:.24em}
+  .wx-gateway-brand-sub{margin-top:3px;color:#8f969f;font-size:9px;font-weight:800;letter-spacing:.28em}
+  .wx-gateway-heading{text-align:center;margin:0 auto 38px}
+  .wx-gateway-eyebrow{display:inline-flex;align-items:center;gap:8px;color:#b8bec8;font-size:10px;font-weight:800;letter-spacing:.25em;text-transform:uppercase}
+  .wx-gateway-eyebrow:before,.wx-gateway-eyebrow:after{content:"";width:26px;height:1px;background:rgba(184,190,200,.4)}
+  .wx-gateway-heading h1{margin:16px 0 10px;font-size:clamp(27px,4vw,43px);line-height:1.12;font-weight:900;letter-spacing:-.04em}
+  .wx-gateway-heading p{margin:0;color:#969ba4;font-size:14px}
+  .wx-gateway-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+  .wx-gateway-card{position:relative;display:flex;min-height:310px;flex-direction:column;align-items:flex-start;text-align:left;padding:28px 25px 24px;border:1px solid rgba(184,190,200,.2);border-radius:19px;background:linear-gradient(155deg,rgba(34,36,40,.96),rgba(14,15,18,.98) 72%);color:#f4f4f5;cursor:pointer;transition:transform .22s ease,border-color .22s ease,background .22s ease,box-shadow .22s ease}
+  .wx-gateway-card:hover{transform:translateY(-5px);border-color:rgba(205,212,222,.58);background:linear-gradient(155deg,rgba(44,46,51,.98),rgba(16,17,20,.99) 72%);box-shadow:0 20px 55px rgba(0,0,0,.38),inset 0 1px rgba(255,255,255,.06)}
+  .wx-gateway-card:focus-visible{outline:2px solid #b8bec8;outline-offset:4px}
+  .wx-gateway-icon{display:grid;place-items:center;width:55px;height:55px;margin-bottom:28px;border:1px solid rgba(184,190,200,.27);border-radius:15px;background:rgba(255,255,255,.045);color:#d4d9e0;font-size:22px}
+  .wx-gateway-card h2{margin:0 0 13px;font-size:20px;font-weight:900;letter-spacing:.015em}
+  .wx-gateway-card p{margin:0;color:#a9adb5;font-size:13px;line-height:1.8}
+  .wx-gateway-card .wx-gateway-action{display:flex;align-items:center;gap:9px;margin-top:auto;padding-top:24px;color:#e1e4e9;font-size:10px;font-weight:850;letter-spacing:.13em;text-transform:uppercase}
+  .wx-gateway-card .wx-gateway-action i{transition:transform .2s ease}
+  .wx-gateway-card:hover .wx-gateway-action i{transform:translateX(5px)}
+  .wx-gateway-card.wx-market{border-color:rgba(139,38,53,.38)}
+  .wx-gateway-card.wx-market .wx-gateway-icon{color:#d18a96;border-color:rgba(139,38,53,.45);background:rgba(139,38,53,.12)}
+  .wx-gateway-card.wx-nexus .wx-gateway-icon{color:#c2c9d2}
+  .wx-gateway-foot{text-align:center;margin-top:38px;color:#656b74;font-size:9px;font-weight:800;letter-spacing:.28em}
+  #wxGatewayNotice{position:fixed;z-index:15002;left:50%;bottom:28px;transform:translate(-50%,15px);opacity:0;pointer-events:none;padding:12px 18px;border:1px solid rgba(184,190,200,.25);border-radius:12px;background:#17191e;color:#e7e9ed;font-size:12px;font-weight:700;box-shadow:0 12px 35px #0009;transition:opacity .2s ease,transform .2s ease}
+  #wxGatewayNotice.is-visible{opacity:1;transform:translate(-50%,0)}
+  @media(max-width:800px){.wx-gateway-grid{grid-template-columns:1fr;max-width:540px;margin:auto}.wx-gateway-card{min-height:240px}.wx-gateway-brand{margin-bottom:34px}.wx-gateway-heading{margin-bottom:27px}#wartexGateway{align-items:flex-start;padding:36px 18px}}
+  @media(prefers-reduced-motion:reduce){.wx-gateway-card,#wxGatewayNotice{transition:none}}
+</style>
+<div id="wartexGateway" role="main" aria-label="WARTEX ana kategori seçimi">
+ <div class="wx-gateway-inner">
+  <div class="wx-gateway-brand">
+   <div class="wx-gateway-mark" aria-hidden="true">W</div>
+   <div><div class="wx-gateway-brand-name">WARTEX</div><div class="wx-gateway-brand-sub">DIGITAL ECOSYSTEM</div></div>
+  </div>
+  <div class="wx-gateway-heading">
+   <div class="wx-gateway-eyebrow">WELCOME TO WARTEX</div>
+   <h1>Dijital dünyanı keşfet.</h1>
+   <p>Ürünler, küresel pazar ve teknoloji tek ekosistemde.</p>
+  </div>
+  <div class="wx-gateway-grid">
+   <button type="button" class="wx-gateway-card wx-official" id="wxGatewayOfficial">
+    <span class="wx-gateway-icon"><i class="fa-solid fa-cube" aria-hidden="true"></i></span>
+    <h2>WARTEX</h2>
+    <p>WARTEX ekosisteminden yararlanın. Resmî paketlerimizi ve programlarımızı keşfedin.</p>
+    <span class="wx-gateway-action">Resmî ekosisteme gir <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+   </button>
+   <button type="button" class="wx-gateway-card wx-market" id="wxGatewayMarket">
+    <span class="wx-gateway-icon"><i class="fa-solid fa-store" aria-hidden="true"></i></span>
+    <h2>WARTEX MARKET</h2>
+    <p>Global satışları inceleyin veya kendinize bir mağaza oluşturun. Ürününüzü sergileyin ve satışa çıkarın.</p>
+    <span class="wx-gateway-action">Küresel pazarı keşfet <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+   </button>
+   <button type="button" class="wx-gateway-card wx-nexus" id="wxGatewayNexus">
+    <span class="wx-gateway-icon"><i class="fa-solid fa-chart-network" aria-hidden="true"></i></span>
+    <h2>WARTEX NEXUS</h2>
+    <p>Yazılım iskeletleri ve teknoloji bilgilerini keşfedin. Kripto piyasası hakkında canlı verilerle anlık bilgi edinin.</p>
+    <span class="wx-gateway-action">Teknolojiyi keşfet <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+   </button>
+  </div>
+  <div class="wx-gateway-foot">WARTEX DIGITAL ECOSYSTEM</div>
+ </div>
+</div>
+<div id="wxGatewayNotice" role="status" aria-live="polite"></div>
+
+
 <!-- =========================================================
      HEADER
 ========================================================= -->
@@ -12985,6 +13064,33 @@ main h1,main h2,main h3{text-shadow:none}
  document.getElementById("wartexPrivacySaveReject").onclick=()=>save(false);
  document.getElementById("wartexPrivacyClose").onclick=()=>modal.classList.remove("is-open");
  modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("is-open")});
+})();
+</script>
+
+<script id="wartex-gateway-script">
+(function(){
+ const body=document.body;
+ const gateway=document.getElementById('wartexGateway');
+ if(!gateway)return;
+ body.classList.add('wartex-gateway-active');
+ const official=document.getElementById('wxGatewayOfficial');
+ const market=document.getElementById('wxGatewayMarket');
+ const nexus=document.getElementById('wxGatewayNexus');
+ const notice=document.getElementById('wxGatewayNotice');
+ official.addEventListener('click',function(){
+  body.classList.remove('wartex-gateway-active');
+  gateway.remove();
+  const n=document.getElementById('wxGatewayNotice');if(n)n.remove();
+  window.scrollTo({top:0,behavior:'instant'});
+ });
+ function comingSoon(name){
+  notice.textContent=name+' bölümü sonraki aşamada hazırlanacak.';
+  notice.classList.add('is-visible');
+  window.clearTimeout(comingSoon.timer);
+  comingSoon.timer=window.setTimeout(()=>notice.classList.remove('is-visible'),2600);
+ }
+ market.addEventListener('click',()=>comingSoon('WARTEX MARKET'));
+ nexus.addEventListener('click',()=>comingSoon('WARTEX NEXUS'));
 })();
 </script>
 
