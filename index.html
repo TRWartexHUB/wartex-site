@@ -3324,7 +3324,7 @@ button:active,.wartex-nav-button:active,[role="button"]:active{transform:scale(.
     <span class="wx-gateway-action">Küresel pazarı keşfet <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
    </button>
    <button type="button" class="wx-gateway-card wx-nexus" id="wxGatewayNexus">
-    <span class="wx-gateway-icon"><i class="fa-solid fa-chart-network" aria-hidden="true"></i></span>
+    <span class="wx-gateway-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span>
     <h2>WARTEX NEXUS</h2>
     <span class="wx-gateway-action">Teknolojiyi keşfet <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
    </button>
@@ -3369,25 +3369,25 @@ button:active,.wartex-nav-button:active,[role="button"]:active{transform:scale(.
 </style>
 <section class="wx-subpage" id="wxMarketWorkspace" aria-label="WARTEX Global Market">
 <div class="wm-shell">
- <div class="wm-topbar"><div class="wm-brand">WARTEX <span>MARKET</span></div><div class="wm-search"><i class="fa-solid fa-magnifying-glass"></i><input placeholder="Ürün, mağaza veya kategori ara..."></div><div class="wm-top-actions"><button data-wx-notice="Üyelik sistemi sonraki aşamada kurulacak."><i class="fa-regular fa-user"></i> Giriş / Kayıt</button><button data-wx-notice="Mağaza paneli sonraki aşamada kurulacak."><i class="fa-solid fa-store"></i> Mağazam</button><button class="wm-iconbtn" data-wx-back title="Ana menü"><i class="fa-solid fa-house"></i></button></div></div>
+ <div class="wm-topbar"><div class="wm-brand">WARTEX <span>MARKET</span></div><div class="wm-search"><i class="fa-solid fa-magnifying-glass"></i><input id="wmSearch" type="search" placeholder="Ürün, mağaza veya kategori ara..." aria-label="Ürün, mağaza veya kategori ara" autocomplete="off"></div><div class="wm-top-actions"><button data-wx-notice="Üyelik sistemi sonraki aşamada kurulacak."><i class="fa-regular fa-user"></i> Giriş / Kayıt</button><button data-wx-notice="Mağaza paneli sonraki aşamada kurulacak."><i class="fa-solid fa-store"></i> Mağazam</button><button class="wm-iconbtn" data-wx-back title="Ana menü"><i class="fa-solid fa-house"></i></button></div></div>
  <div class="wm-body">
-  <aside class="wm-sidebar"><div class="wm-side-head">Kategoriler <i class="fa-solid fa-chevron-down"></i></div><button type="button" class="wm-cat active" data-market-cat="all"><i class="fa-solid fa-border-all"></i> Tüm Ürünler</button><button type="button" class="wm-cat" data-market-cat="key"><i class="fa-solid fa-key"></i> Dijital Key & Lisans</button><button type="button" class="wm-cat" data-market-cat="game"><i class="fa-solid fa-gamepad"></i> Oyun Hesapları</button><button type="button" class="wm-cat" data-market-cat="software"><i class="fa-solid fa-code"></i> Yazılım & Araçlar</button><button type="button" class="wm-cat" data-market-cat="design"><i class="fa-solid fa-palette"></i> Grafik & Tasarım</button><button class="wm-more">Daha fazla +</button><div class="wm-side-head">Fiyat <i class="fa-solid fa-chevron-down"></i></div><button class="wm-cat">En düşükten yükseğe</button><button class="wm-cat">En yüksekten düşüğe</button><div class="wm-side-head">İlan Türü <i class="fa-solid fa-chevron-down"></i></div><button class="wm-cat">Standart ilan</button><button class="wm-cat">Vitrin ilanları</button><div class="wm-side-head">Satıcı <i class="fa-solid fa-chevron-down"></i></div><button class="wm-cat">Doğrulanmış mağazalar</button><button class="wm-cat">Yeni mağazalar</button></aside>
+  <aside class="wm-sidebar"><div class="wm-side-head">Kategoriler <i class="fa-solid fa-chevron-down"></i></div><button type="button" class="wm-cat active" data-market-cat="all"><i class="fa-solid fa-border-all"></i> Tüm Ürünler</button><button type="button" class="wm-cat" data-market-cat="key"><i class="fa-solid fa-key"></i> Dijital Key & Lisans</button><button type="button" class="wm-cat" data-market-cat="game"><i class="fa-solid fa-gamepad"></i> Oyun Hesapları</button><button type="button" class="wm-cat" data-market-cat="software"><i class="fa-solid fa-code"></i> Yazılım & Araçlar</button><button type="button" class="wm-cat" data-market-cat="design"><i class="fa-solid fa-palette"></i> Grafik & Tasarım</button><button type="button" class="wm-more" data-wx-notice="Yeni kategoriler yakında eklenecek.">Daha fazla +</button><div class="wm-side-head">Fiyat <i class="fa-solid fa-chevron-down"></i></div><button type="button" class="wm-cat" data-wm-sort="price-asc">En düşükten yükseğe</button><button type="button" class="wm-cat" data-wm-sort="price-desc">En yüksekten düşüğe</button><div class="wm-side-head">İlan Türü <i class="fa-solid fa-chevron-down"></i></div><button type="button" class="wm-cat" data-wm-type="standard">Standart ilan</button><button type="button" class="wm-cat" data-wm-type="featured">Vitrin ilanları</button><div class="wm-side-head">Satıcı <i class="fa-solid fa-chevron-down"></i></div><button type="button" class="wm-cat" data-wm-seller="verified">Doğrulanmış mağazalar</button><button type="button" class="wm-cat" data-wm-seller="new">Yeni mağazalar</button></aside>
   <main class="wm-main">
    <div class="wm-breadcrumb"><span>Ana Sayfa</span><i class="fa-solid fa-chevron-right"></i><b>Global Market</b></div>
    <div class="wm-store">
-    <div class="wm-store-logo"><i class="fa-solid fa-store"></i></div><div class="wm-store-name"><div class="wm-store-kicker">WARTEX GLOBAL MARKET</div><h1>Global Ürün Pazarı</h1><div class="wm-online"><i></i> Herkese açık pazar yeri</div><div class="wm-store-buttons"><button class="wm-follow" data-wx-notice="Mağaza takip özelliği üyelik sistemiyle açılacak.">Mağazaları Keşfet</button><button data-wx-notice="Mağaza oluşturma ve ürün yükleme paneli sonraki aşamada kurulacak.">Ürününüzü Satışa Çıkarın</button></div></div>
+    <div class="wm-store-logo"><i class="fa-solid fa-store"></i></div><div class="wm-store-name"><div class="wm-store-kicker">WARTEX GLOBAL MARKET</div><h1>Global Ürün Pazarı</h1><div class="wm-online"><i></i> Herkese açık pazar yeri</div><div class="wm-store-buttons"><button type="button" class="wm-follow" data-wm-scroll="products">Mağazaları Keşfet</button><button type="button" data-wm-scroll="sell">Ürününüzü Satışa Çıkarın</button></div></div>
     <div class="wm-metrics"><div><i class="fa-solid fa-box"></i><span>İlanlar</span><b>Global katalog</b></div><div><i class="fa-solid fa-users"></i><span>Satıcılar</span><b>Herkese açık</b></div><div><i class="fa-solid fa-bullhorn"></i><span>Tanıtım</span><b>Vitrin paketleri</b></div><div><i class="fa-solid fa-shield-halved"></i><span>Platform</span><b>İlan kuralları</b></div></div>
    </div>
-   <div class="wm-products-head"><div><h2>Öne Çıkan Ürünler</h2><p>Global mağazalardan seçilen ilanlar</p></div><button data-wx-notice="Sıralama seçenekleri ilan sistemiyle birlikte etkinleşecek.">Sırala <i class="fa-solid fa-chevron-down"></i></button></div>
+   <div class="wm-products-head"><div><h2>Öne Çıkan Ürünler</h2><p>Global mağazalardan seçilen ilanlar</p></div><button type="button">Sırala <i class="fa-solid fa-chevron-down"></i></button></div>
    <div class="wm-products">
-    <article class="wm-product"><div class="wm-product-image wm-art-key"><span>LICENSE</span><i class="fa-solid fa-key"></i></div><div class="wm-product-info"><small>DİJİTAL LİSANS</small><h3>Dijital Ürün Anahtarı</h3><p>Satıcı açıklaması ve lisans detayları</p><div class="wm-product-bottom"><b>Satıcı fiyatı</b><button data-wx-notice="İlan detayları ve satıcı iletişimi sonraki aşamada eklenecek.">İncele</button></div></div></article>
-    <article class="wm-product"><div class="wm-product-image wm-art-game"><span>GAME ACCOUNT</span><i class="fa-solid fa-gamepad"></i></div><div class="wm-product-info"><small>OYUN HESABI</small><h3>Oyun Hesabı İlanı</h3><p>Hesap özellikleri ve görseller</p><div class="wm-product-bottom"><b>Satıcı fiyatı</b><button data-wx-notice="İlan detayları ve satıcı iletişimi sonraki aşamada eklenecek.">İncele</button></div></div></article>
-    <article class="wm-product"><div class="wm-product-image wm-art-soft"><span>SOFTWARE</span><i class="fa-solid fa-laptop-code"></i></div><div class="wm-product-info"><small>YAZILIM</small><h3>Yazılım & Araç</h3><p>Özellikler, sürüm ve uyumluluk</p><div class="wm-product-bottom"><b>Satıcı fiyatı</b><button data-wx-notice="İlan detayları ve satıcı iletişimi sonraki aşamada eklenecek.">İncele</button></div></div></article>
-    <article class="wm-product"><div class="wm-product-image wm-art-design"><span>CREATIVE</span><i class="fa-solid fa-wand-magic-sparkles"></i></div><div class="wm-product-info"><small>TASARIM</small><h3>Dijital Tasarım Paketi</h3><p>Görseller ve ürün açıklaması</p><div class="wm-product-bottom"><b>Satıcı fiyatı</b><button data-wx-notice="İlan detayları ve satıcı iletişimi sonraki aşamada eklenecek.">İncele</button></div></div></article>
+    <article class="wm-product"><div class="wm-product-image wm-art-key"><span>LICENSE</span><i class="fa-solid fa-key"></i></div><div class="wm-product-info"><small>DİJİTAL LİSANS</small><h3>Dijital Ürün Anahtarı</h3><p>Satıcı açıklaması ve lisans detayları</p><div class="wm-product-bottom"><b>Satıcı fiyatı</b><button data-wm-detail>İncele</button></div></div></article>
+    <article class="wm-product"><div class="wm-product-image wm-art-game"><span>GAME ACCOUNT</span><i class="fa-solid fa-gamepad"></i></div><div class="wm-product-info"><small>OYUN HESABI</small><h3>Oyun Hesabı İlanı</h3><p>Hesap özellikleri ve görseller</p><div class="wm-product-bottom"><b>Satıcı fiyatı</b><button data-wm-detail>İncele</button></div></div></article>
+    <article class="wm-product"><div class="wm-product-image wm-art-soft"><span>SOFTWARE</span><i class="fa-solid fa-laptop-code"></i></div><div class="wm-product-info"><small>YAZILIM</small><h3>Yazılım & Araç</h3><p>Özellikler, sürüm ve uyumluluk</p><div class="wm-product-bottom"><b>Satıcı fiyatı</b><button data-wm-detail>İncele</button></div></div></article>
+    <article class="wm-product"><div class="wm-product-image wm-art-design"><span>CREATIVE</span><i class="fa-solid fa-wand-magic-sparkles"></i></div><div class="wm-product-info"><small>TASARIM</small><h3>Dijital Tasarım Paketi</h3><p>Görseller ve ürün açıklaması</p><div class="wm-product-bottom"><b>Satıcı fiyatı</b><button data-wm-detail>İncele</button></div></div></article>
    </div>
    <div class="wm-sell-banner"><div><span>WARTEX MARKET / SELLER</span><h2>Ürününüzü global vitrinde sergileyin.</h2><p>Mağazanızı oluşturun, ürün görselinizi ve açıklamanızı ekleyin. Vitrin süresini seçerek ilanınızın görünürlüğünü artırın.</p></div><button data-wx-notice="Satıcı kaydı, ürün ekleme ve vitrin satın alma ekranları sonraki aşamada yapılacak.">Satışa Başla <i class="fa-solid fa-arrow-right"></i></button></div>
    <div class="wm-footer-note"><i class="fa-solid fa-circle-info"></i><span><b>WARTEX'in rolü:</b> Global ilan, tanıtım ve vitrin platformu. Alıcı ile satıcı ödeme ve teslimat koşullarını kendi aralarında yürütür; WARTEX web sitesi ödeme almaz. Vitrin paketleri Discord üzerinden kripto ile alınacak. İlan kuralları ve bildirim sistemi ayrıca oluşturulacak.</span></div>
-   <div class="wm-vitrine"><div><h3>Vitrin Paketleri</h3><p>Ürünleri belirli süre boyunca öne çıkarma</p></div><div class="wm-vitrine-options"><span>1 Saat</span><span>1 Gün</span><span>1 Hafta</span><span>1 Ay</span></div></div>
+   <div class="wm-vitrine"><div><h3>Vitrin Paketleri</h3><p>Ürünleri belirli süre boyunca öne çıkarma</p></div><div class="wm-vitrine-options" role="radiogroup" aria-label="Vitrin süresi"><button type="button" class="wm-pack" role="radio" aria-checked="false" data-wm-pack="1 Saat">1 Saat</button><button type="button" class="wm-pack" role="radio" aria-checked="false" data-wm-pack="1 Gün">1 Gün</button><button type="button" class="wm-pack" role="radio" aria-checked="false" data-wm-pack="1 Hafta">1 Hafta</button><button type="button" class="wm-pack" role="radio" aria-checked="false" data-wm-pack="1 Ay">1 Ay</button><a class="wm-pack-cta" href="https://discord.gg/cZAmKgJjPq" target="_blank" rel="noopener noreferrer" aria-disabled="true">Süre seçin <i class="fa-brands fa-discord" aria-hidden="true"></i></a></div></div>
   </main>
  </div>
 </div>
@@ -13378,6 +13378,156 @@ let renderTimer=0,lastRender=0;
   visual.innerHTML='<div class="wx-market-visual"><span class="wx-market-visual-mark">NASDAQ</span><div><b>NASDAQ</b><small>ABD teknoloji ve büyüme hisseleri</small></div></div><div class="wx-market-visual"><span class="wx-market-visual-mark">NYSE</span><div><b>NEW YORK STOCK EXCHANGE</b><small>Global şirketler ve hisse piyasaları</small></div></div><div class="wx-market-visual"><span class="wx-market-visual-mark">BIST</span><div><b>BORSA İSTANBUL</b><small>Türkiye hisse senedi piyasası</small></div></div>';
   stock.prepend(visual);
  }
+})();
+</script>
+
+<style id="wx-market-interactions-style">
+#wxMarketWorkspace [hidden]{display:none!important}
+#wxMarketWorkspace .wm-products-head,#wxMarketWorkspace .wm-sell-banner{scroll-margin-top:86px}
+.wx-soon{display:inline-block;margin-left:8px;padding:2px 7px;border:1px solid rgba(184,190,200,.3);border-radius:999px;color:#aeb4bd;font-size:9px;font-style:normal;font-weight:800;letter-spacing:.08em;text-transform:uppercase;vertical-align:middle}
+.wx-resource .wx-soon{display:block;width:max-content;margin:12px 0 0}
+#wxMarketWorkspace .wm-side-head[role=button]{cursor:pointer;user-select:none}
+#wxMarketWorkspace .wm-side-head i{transition:transform .2s ease}
+#wxMarketWorkspace .wm-side-head[aria-expanded=false] i{transform:rotate(-90deg)}
+#wxMarketWorkspace .wm-cat[aria-pressed=true]{color:#f3f5ed;background:#272a27}
+.wm-status{margin:0 0 12px;padding:10px 13px;border:1px solid rgba(139,38,53,.4);border-radius:10px;background:rgba(139,38,53,.1);color:#d9b4bb;font-size:12px;line-height:1.6}
+.wm-empty{display:grid;justify-items:center;gap:8px;padding:48px 20px;border:1px dashed #3c4045;border-radius:14px;color:#9aa1ab;text-align:center;font-size:13px}
+.wm-empty i{color:#6f7680;font-size:24px}.wm-empty b{color:#eceef1;font-size:15px}
+.wm-clear{margin-top:6px;padding:9px 14px;border:1px solid #4a4f56;border-radius:9px;color:#e2e5e9;font-size:12px}
+.wm-clear:hover{border-color:#b94a5b}
+.wm-sort{position:relative}
+.wm-sort-menu{position:absolute;right:0;top:calc(100% + 6px);z-index:30;min-width:220px;padding:6px;border:1px solid #3a3e44;border-radius:11px;background:#15171a;box-shadow:0 16px 40px rgba(0,0,0,.5)}
+.wm-sort-menu button{display:block;width:100%;padding:9px 11px;border-radius:7px;color:#c9cdd3;font-size:12px;text-align:left}
+.wm-sort-menu button:hover,.wm-sort-menu button:focus-visible,.wm-sort-menu button[aria-selected=true]{background:#262a2f;color:#fff}
+.wm-vitrine-options{align-items:center}
+.wm-pack{padding:8px 12px;border:1px solid #444a52;border-radius:8px;color:#d8dce2;font-size:12px;transition:border-color .18s,background .18s}
+.wm-pack:hover{border-color:#8a929c}
+.wm-pack.active{border-color:#b94a5b;background:rgba(139,38,53,.2);color:#fff}
+.wm-pack-cta{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:9px;background:#d9dde2;color:#111318;font-size:12px;font-weight:850}
+.wm-pack-cta[aria-disabled=true]{background:#2a2d32;color:#8b919a;cursor:not-allowed}
+dialog.wm-detail{width:min(520px,calc(100vw - 32px));padding:0;border:1px solid #3a3f46;border-radius:18px;background:#121416;color:#eceef1;overflow:hidden}
+dialog.wm-detail::backdrop{background:rgba(0,0,0,.7)}
+.wm-detail-art{display:grid;place-items:center;height:150px;background:radial-gradient(ellipse at 50% 35%,#41464b,#090a0b 72%);font-size:52px;color:#dce0e5}
+.wm-detail-art.wm-art-key{background:radial-gradient(ellipse at 50% 35%,#55503a,#090a0b 72%)}.wm-detail-art.wm-art-game{background:radial-gradient(ellipse at 50% 35%,#394e62,#090a0b 72%)}.wm-detail-art.wm-art-soft{background:radial-gradient(ellipse at 50% 35%,#3d4d46,#090a0b 72%)}.wm-detail-art.wm-art-design{background:radial-gradient(ellipse at 50% 35%,#51415b,#090a0b 72%)}
+.wm-detail-body{padding:22px}
+.wm-detail-body small{color:#aeb8c4;font-size:11px;letter-spacing:.12em}
+.wm-detail-body h3{margin:8px 0;font-size:20px;font-weight:900}
+.wm-detail-body p{color:#a3a9b2;font-size:14px;line-height:1.7}
+.wm-detail-body dl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.wm-detail-body dl>div{padding:12px;border:1px solid #2c3036;border-radius:10px;background:#181b1f}
+.wm-detail-body dt{color:#868d97;font-size:11px}.wm-detail-body dd{margin:5px 0 0;color:#eceef1;font-size:13px;font-weight:700}
+.wm-detail-note{display:flex;gap:10px;padding:12px 13px;border:1px solid rgba(139,38,53,.4);border-radius:10px;background:rgba(139,38,53,.1);color:#d9b4bb;font-size:13px;line-height:1.6}
+.wm-detail-note i{margin-top:3px}
+.wm-detail-actions{display:flex;justify-content:flex-end;margin-top:18px}
+.wm-detail-close{padding:10px 18px;border-radius:9px;background:#d9dde2;color:#111318;font-size:13px;font-weight:850}
+</style>
+
+<script id="wx-market-interactions">
+(function(){
+ const page=document.getElementById('wxMarketWorkspace');if(!page)return;
+ const $=(s,r=page)=>r.querySelector(s),$$=(s,r=page)=>[...r.querySelectorAll(s)];
+ const products=$$('.wm-product'),grid=$('.wm-products'),head=$('.wm-products-head'),heading=$('h2',head),sub=$('p',head);
+ const search=$('#wmSearch'),subText=sub?sub.textContent:'';
+ products.forEach((p,i)=>p.dataset.order=i);
+ const norm=s=>String(s||'').toLocaleLowerCase('tr-TR');
+ const info=p=>({title:$('h3',p).textContent.trim(),cat:$('small',p).textContent.trim(),desc:$('p',p).textContent.trim(),price:$('.wm-product-bottom b',p).textContent.trim(),num:parseFloat(p.dataset.price),type:p.dataset.type||'',seller:p.dataset.seller||''});
+ const catRe={all:null,key:/DİJİTAL LİSANS/i,game:/OYUN HESABI/i,software:/YAZILIM/i,design:/TASARIM/i};
+ const catLabel={all:'Öne Çıkan Ürünler',key:'Dijital Key & Lisans',game:'Oyun Hesapları',software:'Yazılım & Araçlar',design:'Grafik & Tasarım'};
+ const sortLabel={default:'Önerilen sıra',az:'İsim: A → Z',za:'İsim: Z → A','price-asc':'Fiyat: düşükten yükseğe','price-desc':'Fiyat: yüksekten düşüğe'};
+ const state={cat:'all',q:'',sort:'default',type:'',seller:''};
+
+ // status line + empty state
+ const status=document.createElement('p');status.className='wm-status';status.id='wmStatus';status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.hidden=true;grid.parentNode.insertBefore(status,grid);
+ const empty=document.createElement('div');empty.className='wm-empty';empty.hidden=true;empty.innerHTML='<i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><b>Eşleşen ilan bulunamadı</b><span></span><button type="button" class="wm-clear">Filtreleri temizle</button>';grid.after(empty);
+
+ function apply(){
+  const q=norm(state.q).trim(),hasPrice=products.some(p=>!Number.isNaN(parseFloat(p.dataset.price))),hasType=products.some(p=>p.dataset.type),hasSeller=products.some(p=>p.dataset.seller);
+  let shown=0;
+  products.forEach(p=>{const i=info(p);let ok=!catRe[state.cat]||catRe[state.cat].test(i.cat);
+   if(ok&&q)ok=norm(i.title+' '+i.cat+' '+i.desc).includes(q);
+   if(ok&&state.type&&hasType)ok=i.type===state.type;
+   if(ok&&state.seller&&hasSeller)ok=i.seller===state.seller;
+   p.hidden=!ok;if(ok)shown++;});
+  const list=[...products];
+  list.sort((a,b)=>{const x=info(a),y=info(b);
+   if(state.sort==='az')return x.title.localeCompare(y.title,'tr');
+   if(state.sort==='za')return y.title.localeCompare(x.title,'tr');
+   if(hasPrice&&state.sort==='price-asc')return (x.num||0)-(y.num||0);
+   if(hasPrice&&state.sort==='price-desc')return (y.num||0)-(x.num||0);
+   return a.dataset.order-b.dataset.order;});
+  list.forEach(p=>grid.appendChild(p));
+  const hints=[];
+  if(state.sort.startsWith('price')&&!hasPrice)hints.push('Fiyat sıralaması, ilanlara fiyat bilgisi eklendiğinde çalışır.');
+  if(state.type&&!hasType)hints.push('İlan türü filtresi, ilanlarda tür bilgisi olduğunda çalışır.');
+  if(state.seller&&!hasSeller)hints.push('Satıcı filtresi, ilanlarda satıcı bilgisi olduğunda çalışır.');
+  status.hidden=!hints.length;status.textContent=hints.join(' ');
+  heading.textContent=q?'Arama sonuçları':catLabel[state.cat];
+  if(sub)sub.textContent=(q||state.cat!=='all')?shown+' / '+products.length+' ilan':subText;
+  empty.hidden=shown>0;grid.hidden=shown===0;
+  $('span',empty).textContent=q?('“'+state.q.trim()+'” için sonuç yok. Başka bir arama deneyin veya filtreleri temizleyin.'):'Bu kategoride şu an ilan yok.';
+  // reflect state in the sidebar + sort menu
+  $$('[data-market-cat]').forEach(b=>{const on=b.dataset.marketCat===state.cat;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on));});
+  $$('[data-wm-sort]').forEach(b=>{const on=b.dataset.wmSort===state.sort;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on));});
+  $$('[data-wm-type]').forEach(b=>{const on=b.dataset.wmType===state.type;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on));});
+  $$('[data-wm-seller]').forEach(b=>{const on=b.dataset.wmSeller===state.seller;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on));});
+  sortBtn.firstChild.textContent=state.sort==='default'?'Sırala ':'Sırala: '+sortLabel[state.sort]+' ';
+  $$('[role=option]',menu).forEach(o=>o.setAttribute('aria-selected',String(o.dataset.v===state.sort)));
+ }
+
+ // sort dropdown (built on the existing "Sırala" button)
+ const sortBtn=$('button',head);sortBtn.id='wmSortBtn';sortBtn.type='button';sortBtn.setAttribute('aria-haspopup','listbox');sortBtn.setAttribute('aria-expanded','false');
+ const wrap=document.createElement('div');wrap.className='wm-sort';sortBtn.parentNode.insertBefore(wrap,sortBtn);wrap.appendChild(sortBtn);
+ const menu=document.createElement('div');menu.className='wm-sort-menu';menu.setAttribute('role','listbox');menu.hidden=true;
+ menu.innerHTML=Object.entries(sortLabel).map(([v,l])=>'<button type="button" role="option" data-v="'+v+'">'+l+'</button>').join('');wrap.appendChild(menu);
+ const closeMenu=()=>{menu.hidden=true;sortBtn.setAttribute('aria-expanded','false');};
+ sortBtn.addEventListener('click',e=>{e.stopPropagation();const open=menu.hidden;menu.hidden=!open;sortBtn.setAttribute('aria-expanded',String(open));if(open)$('[role=option]',menu).focus();});
+ menu.addEventListener('click',e=>{const o=e.target.closest('[data-v]');if(!o)return;state.sort=o.dataset.v;closeMenu();sortBtn.focus();apply();});
+ menu.addEventListener('keydown',e=>{const items=$$('[role=option]',menu),i=items.indexOf(document.activeElement);if(e.key==='ArrowDown'){e.preventDefault();items[Math.min(i+1,items.length-1)].focus();}else if(e.key==='ArrowUp'){e.preventDefault();items[Math.max(i-1,0)].focus();}else if(e.key==='Escape'){closeMenu();sortBtn.focus();}});
+ document.addEventListener('click',e=>{if(!menu.hidden&&!wrap.contains(e.target))closeMenu();});
+
+ // category / filter buttons
+ $$('[data-market-cat]').forEach(b=>b.addEventListener('click',()=>{state.cat=b.dataset.marketCat;apply();}));
+ $$('[data-wm-sort]').forEach(b=>b.addEventListener('click',()=>{state.sort=state.sort===b.dataset.wmSort?'default':b.dataset.wmSort;apply();}));
+ $$('[data-wm-type]').forEach(b=>b.addEventListener('click',()=>{state.type=state.type===b.dataset.wmType?'':b.dataset.wmType;apply();}));
+ $$('[data-wm-seller]').forEach(b=>b.addEventListener('click',()=>{state.seller=state.seller===b.dataset.wmSeller?'':b.dataset.wmSeller;apply();}));
+ search.addEventListener('input',()=>{state.q=search.value;apply();});
+ search.addEventListener('keydown',e=>{if(e.key==='Escape'&&search.value){search.value='';state.q='';apply();}});
+ $('.wm-clear',empty).addEventListener('click',()=>{state.cat='all';state.q='';state.sort='default';state.type='';state.seller='';search.value='';apply();});
+
+ // collapsible sidebar groups
+ $$('.wm-side-head').forEach(h=>{const items=[];for(let n=h.nextElementSibling;n&&!n.classList.contains('wm-side-head');n=n.nextElementSibling)items.push(n);
+  h.setAttribute('role','button');h.tabIndex=0;h.setAttribute('aria-expanded','true');
+  const toggle=()=>{const open=h.getAttribute('aria-expanded')!=='true';h.setAttribute('aria-expanded',String(open));items.forEach(n=>n.hidden=!open);};
+  h.addEventListener('click',toggle);h.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}});});
+
+ // in-page navigation buttons
+ $$('[data-wm-scroll]').forEach(b=>b.addEventListener('click',()=>{const t=b.dataset.wmScroll==='sell'?$('.wm-sell-banner'):head;if(t)t.scrollIntoView({behavior:'smooth',block:'start'});}));
+
+ // listing detail dialog
+ const dlg=document.createElement('dialog');dlg.className='wm-detail';dlg.setAttribute('aria-labelledby','wmDetailTitle');page.appendChild(dlg);
+ let lastTrigger=null;
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ function openDetail(p,btn){const i=info(p);lastTrigger=btn;
+  dlg.innerHTML='<div class="wm-detail-art '+esc($('.wm-product-image',p).className.replace('wm-product-image',''))+'">'+$('.wm-product-image>i',p).outerHTML+'</div><div class="wm-detail-body"><small>'+esc(i.cat)+'</small><h3 id="wmDetailTitle">'+esc(i.title)+'</h3><p>'+esc(i.desc)+'</p><dl><div><dt>Fiyat</dt><dd>'+esc(i.price)+'</dd></div><div><dt>Satıcı</dt><dd>Belirtilmedi</dd></div></dl><div class="wm-detail-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Bu bir <b>örnek ilan</b> şablonudur. Gerçek ilanlar, satıcı sistemi açıldığında fiyat, satıcı ve iletişim bilgisiyle burada görüntülenecek.</span></div><div class="wm-detail-actions"><button type="button" class="wm-detail-close">Kapat</button></div></div>';
+  $('.wm-detail-close',dlg).addEventListener('click',()=>dlg.close?dlg.close():dlg.removeAttribute('open'));
+  if(dlg.showModal)dlg.showModal();else dlg.setAttribute('open','');}
+ dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close&&dlg.close();});
+ dlg.addEventListener('close',()=>{if(lastTrigger)lastTrigger.focus();});
+ $$('[data-wm-detail]').forEach(b=>b.addEventListener('click',()=>openDetail(b.closest('.wm-product'),b)));
+
+ // vitrine packages: choose a duration, then continue on Discord (where the page says they are sold)
+ const packs=$$('.wm-pack'),cta=$('.wm-pack-cta');
+ packs.forEach(b=>b.addEventListener('click',()=>{packs.forEach(x=>{const on=x===b;x.setAttribute('aria-checked',String(on));x.classList.toggle('active',on);});cta.setAttribute('aria-disabled','false');cta.firstChild.textContent=b.dataset.wmPack+' vitrin için Discord\'da talep oluştur ';}));
+ cta.addEventListener('click',e=>{if(cta.getAttribute('aria-disabled')==='true')e.preventDefault();});
+
+ // honest markers for parts that need a backend
+ $$('[data-wx-notice]').forEach(b=>{if(b.closest('.wm-top-actions,.wm-sell-banner')&&!b.querySelector('.wx-soon')){const s=document.createElement('em');s.className='wx-soon';s.textContent='Yakında';b.appendChild(s);}});
+ const home=$('.wm-iconbtn');if(home)home.setAttribute('aria-label','Ana menüye dön');
+ apply();
+})();
+(function(){
+ const nx=document.getElementById('wxNexusWorkspace');if(!nx)return;
+ nx.querySelectorAll('.wx-resource').forEach(c=>{if(!c.querySelector('.wx-soon')){const s=document.createElement('span');s.className='wx-soon';s.textContent='Hazırlanıyor';c.appendChild(s);}});
 })();
 </script>
 
