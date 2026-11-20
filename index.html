@@ -13250,8 +13250,8 @@ body.wartex-gateway-active{overflow-x:hidden}
   ['TRX','TRON','trxusdt','T'],['LINK','Chainlink','linkusdt','L'],['AVAX','Avalanche','avaxusdt','A'],['DOT','Polkadot','dotusdt','●'],
   ['BCH','Bitcoin Cash','bchusdt','B'],['ETC','Ethereum Classic','etcusdt','E'],['ATOM','Cosmos','atomusdt','A'],['XLM','Stellar','xlmusdt','X']
  ];
- const state={items:new Map(),currency:'USD',fx:0,ws:null,connected:false,activeSymbol:'BTCUSDT',query:''};
- const fmt=(n,cur=state.currency)=>{if(!Number.isFinite(n))return '—';const v=cur==='TRY'&&state.fx?n*state.fx:n;return new Intl.NumberFormat('tr-TR',{style:'currency',currency:cur,maximumFractionDigits:v<1?5:2}).format(v)};
+ const state={items:new Map(),currency:'USD',fx:0,ws:null,connected:false,activeSymbol:'BTCUSDT',query:'',paused:true,retry:0,reconnect:0,lastGlobal:0};
+ const fmt=(n,cur=state.currency)=>{if(!Number.isFinite(n))return '—';const useTry=cur==='TRY'&&state.fx>0;const v=useTry?n*state.fx:n;return new Intl.NumberFormat('tr-TR',{style:'currency',currency:useTry?'TRY':'USD',maximumFractionDigits:v<1?5:2}).format(v)};
  const pct=n=>(Number(n)>=0?'+':'')+Number(n||0).toFixed(2)+'%';
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  cryptoPanel.innerHTML=`
@@ -13273,40 +13273,71 @@ body.wartex-gateway-active{overflow-x:hidden}
  </div>`;
  stocksPanel.innerHTML=`
  <div class="wx-finance-shell">
-  <div class="wx-finance-top"><div class="wx-finance-brand">WARTEX <span>NEXUS</span></div><div class="wx-finance-search"><i class="fa-solid fa-magnifying-glass"></i><input id="wxStockSearch" placeholder="Hisse veya sembol ara: AAPL, THYAO, NVDA..."></div><span class="wx-finance-status"><i class="fa-solid fa-circle"></i> TradingView veri akışı</span></div>
+  <div class="wx-finance-top"><div class="wx-finance-brand">WARTEX <span>NEXUS</span></div><div class="wx-finance-search"><i class="fa-solid fa-magnifying-glass"></i><input id="wxStockSearch" placeholder="Sembol yazın: AAPL, THYAO veya BORSA:SEMBOL" aria-label="Hisse sembolü" autocomplete="off"><select id="wxStockExchange" aria-label="Borsa"><option value="NASDAQ">NASDAQ</option><option value="NYSE">NYSE</option><option value="BIST">BIST</option></select><button type="button" id="wxStockGo">Göster</button></div><span class="wx-finance-status"><i class="fa-solid fa-circle"></i> TradingView veri akışı</span></div>
   <div class="wx-finance-heading"><div><h1>Borsa ve hisseler, <span style="color:#8b9cf5">tek ekranda.</span></h1><p>Global hisse senetleri, BIST, endeksler ve piyasa tarayıcısı.</p></div></div>
   <div class="wx-finance-stats"><div class="wx-finance-stat"><small>ABD PİYASASI</small><b>NASDAQ / NYSE</b><em>TradingView</em></div><div class="wx-finance-stat"><small>TÜRKİYE</small><b>BIST</b><em>TradingView</em></div><div class="wx-finance-stat"><small>GLOBAL</small><b>Endeksler</b><em>TradingView</em></div><div class="wx-finance-stat"><small>GÖSTERİM</small><b>Canlı / gecikmeli</b><em>Borsaya göre değişir</em></div></div>
   <div class="wx-stock-tools">
    <section class="wx-finance-panel"><div class="wx-finance-panel-head"><h3>Hisse Piyasası Tarayıcısı</h3><span>Ülke ve sektör filtreleri</span></div><div class="wx-stock-widget" id="wxStockScreener"><tv-screener symbol="" market="america" color-theme="dark" locale="tr" show-toolbar="true" is-transparent="false" width="100%" height="100%"></tv-screener></div></section>
-   <section class="wx-finance-panel"><div class="wx-finance-panel-head"><h3>Öne çıkan grafik</h3><span>NASDAQ: AAPL</span></div><div class="wx-stock-chart"><tv-advanced-chart id="wxStockChart" symbol="NASDAQ:AAPL" interval="D" theme="dark" timezone="Europe/Istanbul" style="width:100%;height:100%"></tv-advanced-chart></div></section>
+   <section class="wx-finance-panel"><div class="wx-finance-panel-head"><h3>Öne çıkan grafik</h3><span id="wxStockChartTitle">NASDAQ: AAPL</span></div><div class="wx-stock-chart"><tv-advanced-chart id="wxStockChart" symbol="NASDAQ:AAPL" interval="D" theme="dark" timezone="Europe/Istanbul" style="width:100%;height:100%"></tv-advanced-chart></div></section>
   </div>
   <p class="wx-finance-disclaimer">Hisse senedi ve endeks verilerinin gerçek zamanlı veya gecikmeli sunulması ilgili borsanın veri lisansına bağlıdır. TradingView gömülü araçları kullanılır; fiyatlar işlem platformu veya emir iletim hizmeti değildir. Yatırım tavsiyesi değildir.</p>
  </div>`;
- const tv=document.createElement('script');tv.type='module';tv.src='https://widgets.tradingview-widget.com/w/en/tv-advanced-chart.js';document.head.appendChild(tv);
- const screener=document.createElement('script');screener.type='module';screener.src='https://widgets.tradingview-widget.com/w/en/tv-screener.js';document.head.appendChild(screener);
+ let widgetsLoaded=false;
+ function ensureWidgets(){if(widgetsLoaded)return;widgetsLoaded=true;['tv-advanced-chart','tv-screener'].forEach(n=>{const s=document.createElement('script');s.type='module';s.src='https://widgets.tradingview-widget.com/w/en/'+n+'.js';document.head.appendChild(s);});}
  const search=document.getElementById('wxCoinSearch'),currency=document.getElementById('wxCurrency'),cards=document.getElementById('wxCoinCards');
  function coinRow(sym){const x=state.items.get(sym);if(!x)return '';const meta=symbols.find(a=>a[2].toUpperCase()===sym)||[sym.replace('USDT',''),sym,sym,'•'];const up=Number(x.P)>=0;return {meta,x,up};}
+let renderTimer=0,lastRender=0;
+ const panelOn=()=>root.isConnected&&root.classList.contains('is-active')&&!cryptoPanel.hidden&&!document.hidden;
+ function scheduleRender(){if(renderTimer||!panelOn())return;renderTimer=setTimeout(()=>{renderTimer=0;if(!panelOn())return;lastRender=performance.now();render();},Math.max(0,900-(performance.now()-lastRender)));}
+ const volText=x=>'Hacim '+Number(x.q).toLocaleString('tr-TR',{maximumFractionDigits:0})+' USDT';
+ function coinCard(a,x){const up=Number(x.P)>=0,sym=a[2].toUpperCase();return `<article class="wx-coin-card${sym===state.activeSymbol?' wx-coin-active':''}" role="button" tabindex="0" aria-label="${a[1]} grafiğini göster" data-symbol="${sym}"><div class="wx-coin-top"><div class="wx-coin-icon"><img src="https://assets.coincap.io/assets/icons/${a[0].toLowerCase()}@2x.png" alt="" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${a[3]}'"></div><div class="wx-coin-name">${a[1]}<small>${a[0]}/USDT</small></div><span class="wx-coin-change ${up?'wx-up':'wx-down'}">${pct(x.P)}</span></div><div class="wx-coin-price">${fmt(Number(x.c))}</div><div class="wx-coin-meta"><span>${volText(x)}</span><span>24S</span></div></article>`;}
  function render(){
   const q=state.query.toLowerCase(),visible=symbols.filter(a=>(a[0]+a[1]).toLowerCase().includes(q)).filter(a=>state.items.has(a[2].toUpperCase()));
-  cards.innerHTML=visible.map(a=>{const x=state.items.get(a[2].toUpperCase()),up=Number(x.P)>=0;return `<article class="wx-coin-card" data-symbol="${a[2].toUpperCase()}"><div class="wx-coin-top"><div class="wx-coin-icon"><img src="https://assets.coincap.io/assets/icons/${a[0].toLowerCase()}@2x.png" alt="${a[1]} logo" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${a[3]}'"></div><div class="wx-coin-name">${a[1]}<small>${a[0]}/USDT</small></div><span class="wx-coin-change ${up?'wx-up':'wx-down'}">${pct(x.P)}</span></div><div class="wx-coin-price">${fmt(Number(x.c))}</div><div class="wx-coin-meta"><span>Hacim ${Number(x.q).toLocaleString('tr-TR',{maximumFractionDigits:0})} USDT</span><span>24S</span></div></article>`}).join('')||'<div class="wx-finance-empty">Eşleşen varlık bulunamadı.</div>';
+  const sig=visible.map(a=>a[2]).join(',');
+  if(visible.length&&cards.dataset.sig===sig&&cards.children.length===visible.length){
+   visible.forEach((a,i)=>{const x=state.items.get(a[2].toUpperCase()),up=Number(x.P)>=0,el=cards.children[i],ch=el.querySelector('.wx-coin-change');ch.textContent=pct(x.P);ch.className='wx-coin-change '+(up?'wx-up':'wx-down');el.querySelector('.wx-coin-price').textContent=fmt(Number(x.c));el.querySelector('.wx-coin-meta span').textContent=volText(x);el.classList.toggle('wx-coin-active',a[2].toUpperCase()===state.activeSymbol);});
+  }else{cards.dataset.sig=sig;cards.innerHTML=visible.map(a=>coinCard(a,state.items.get(a[2].toUpperCase()))).join('')||'<div class="wx-finance-empty">Eşleşen varlık bulunamadı.</div>';}
   document.getElementById('wxCoinTable').innerHTML=visible.slice(0,12).map(a=>{const x=state.items.get(a[2].toUpperCase()),up=Number(x.P)>=0;return `<tr data-symbol="${a[2].toUpperCase()}"><td><b>${a[1]}</b> <span class="wx-muted">${a[0]}</span></td><td>${fmt(Number(x.c))}</td><td class="${up?'wx-up':'wx-down'}">${pct(x.P)}</td></tr>`}).join('')||'<tr><td colspan="3">Veri yok</td></tr>';
   const arr=[...state.items.entries()].map(([s,x])=>({s,x})),gain=[...arr].sort((a,b)=>Number(b.x.P)-Number(a.x.P)),lose=[...arr].sort((a,b)=>Number(a.x.P)-Number(b.x.P)),vol=[...arr].sort((a,b)=>Number(b.x.q)-Number(a.x.q));
   const renderMover=(id,list)=>document.getElementById(id).innerHTML=list.slice(0,5).map((o,i)=>{const a=symbols.find(z=>z[2].toUpperCase()===o.s)||[o.s,o.s];return `<div class="wx-mover-row"><span class="wx-mover-rank">${i+1}</span><div class="wx-mover-info"><b>${a[1]}</b><small>${a[0]||o.s}</small></div><div class="wx-mover-value ${Number(o.x.P)>=0?'wx-up':'wx-down'}">${pct(o.x.P)}<br><small style="color:#8b96a7">${fmt(Number(o.x.c))}</small></div></div>`}).join('');
   renderMover('wxGainers',gain);renderMover('wxLosers',lose);renderMover('wxVolumes',vol);
  }
- function selectSymbol(sym){state.activeSymbol=sym;const chart=document.getElementById('wxCryptoChart');if(chart){chart.setAttribute('symbol','BINANCE:'+sym);document.getElementById('wxChartTitle').textContent=sym.replace('USDT','')+' / USDT';}}
+ function selectSymbol(sym){state.activeSymbol=sym;const chart=document.getElementById('wxCryptoChart');if(chart){chart.setAttribute('symbol','BINANCE:'+sym);document.getElementById('wxChartTitle').textContent=sym.replace('USDT','')+' / USDT';chart.scrollIntoView({behavior:'smooth',block:'nearest'});}render();}
  cards.addEventListener('click',e=>{const c=e.target.closest('[data-symbol]');if(c)selectSymbol(c.dataset.symbol)});
+ cards.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-symbol]')){e.preventDefault();selectSymbol(e.target.dataset.symbol)}});
  document.getElementById('wxCoinTable').addEventListener('click',e=>{const c=e.target.closest('[data-symbol]');if(c)selectSymbol(c.dataset.symbol)});
  search.addEventListener('input',()=>{state.query=search.value.trim();render()});
  currency.addEventListener('change',()=>{state.currency=currency.value;render()});
  document.getElementById('wxChartInterval').addEventListener('change',e=>document.getElementById('wxCryptoChart').setAttribute('interval',e.target.value));
- document.getElementById('wxStockSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){const val=e.target.value.trim().toUpperCase();if(!val)return;const sym=/^[A-Z0-9._-]+:[A-Z0-9._-]+$/.test(val)?val:(val.endsWith('.IS')?'BIST:'+val.replace('.IS',''):(val.length<=6?'NASDAQ:'+val:'NYSE:'+val));document.getElementById('wxStockChart').setAttribute('symbol',sym);}});
- async function loadFx(){try{const r=await fetch('https://open.er-api.com/v6/latest/USD');const j=await r.json();if(j&&j.rates&&j.rates.TRY)state.fx=j.rates.TRY;render()}catch(_){}}
+ function showStock(){const raw=document.getElementById('wxStockSearch').value.trim().toUpperCase().replace(/\s+/g,'');if(!raw)return;const ex=document.getElementById('wxStockExchange').value;let sym=raw;if(!raw.includes(':')){sym=(raw.endsWith('.IS')?'BIST':ex)+':'+raw.replace(/\.IS$/,'');}if(!/^[A-Z0-9._-]+:[A-Z0-9._-]+$/.test(sym))return;ensureWidgets();document.getElementById('wxStockChart').setAttribute('symbol',sym);const tt=document.getElementById('wxStockChartTitle');if(tt)tt.textContent=sym.replace(':',': ');}
+ document.getElementById('wxStockSearch').addEventListener('keydown',e=>{if(e.key==='Enter')showStock();});
+ document.getElementById('wxStockGo').addEventListener('click',showStock);
+ async function loadFx(){try{const r=await fetch('https://open.er-api.com/v6/latest/USD');const j=await r.json();if(!(j&&j.rates&&j.rates.TRY))throw new Error('fx');state.fx=j.rates.TRY;render()}catch(_){const o=currency.querySelector('option[value="TRY"]');if(o){o.disabled=true;o.textContent='TRY (kur alınamadı)';}if(state.currency==='TRY'){state.currency='USD';currency.value='USD';render();}}}
  async function loadInitial(){try{const list=symbols.map(a=>a[2].toUpperCase()),url='https://data-api.binance.vision/api/v3/ticker/24hr?symbols='+encodeURIComponent(JSON.stringify(list));const r=await fetch(url);if(!r.ok)throw new Error('Binance API '+r.status);const data=await r.json();data.forEach(x=>state.items.set(x.symbol,x));render();document.getElementById('wxCryptoStatus').innerHTML='<i class="fa-solid fa-circle"></i> Canlı bağlantı hazır';}catch(e){document.getElementById('wxCryptoStatus').textContent='Veri bağlantısı bekleniyor';}}
- async function loadGlobal(){try{const r=await fetch('https://api.coingecko.com/api/v3/global');if(!r.ok)throw new Error();const j=(await r.json()).data,usd=j.total_market_cap.usd,vol=j.total_volume.usd;document.getElementById('wxCryptoStats').innerHTML=`<div class="wx-finance-stat"><small>TOPLAM PİYASA DEĞERİ</small><b>${fmt(usd,'USD')}</b><em>Global kripto piyasası</em></div><div class="wx-finance-stat"><small>24S İŞLEM HACMİ</small><b>${fmt(vol,'USD')}</b><em>Global spot hacim</em></div><div class="wx-finance-stat"><small>BTC HAKİMİYETİ</small><b>${Number(j.market_cap_percentage.btc).toFixed(2)}%</b><em>Bitcoin dominance</em></div><div class="wx-finance-stat"><small>ETH HAKİMİYETİ</small><b>${Number(j.market_cap_percentage.eth).toFixed(2)}%</b><em>Ethereum dominance</em></div><div class="wx-finance-stat"><small>İZLENEN VARLIK</small><b>${Number(j.active_cryptocurrencies).toLocaleString('tr-TR')}</b><em>CoinGecko</em></div><div class="wx-finance-stat"><small>VERİ KAYNAĞI</small><b>Binance + CoinGecko</b><em>Public market data</em></div>`}catch(_){}}
- function connect(){try{const streams=symbols.map(a=>a[2]+'@ticker').join('/');const ws=new WebSocket('wss://data-stream.binance.vision:443/stream?streams='+streams);state.ws=ws;ws.onopen=()=>{state.connected=true;document.getElementById('wxCryptoStatus').innerHTML='<i class="fa-solid fa-circle"></i> Canlı';};ws.onmessage=e=>{const msg=JSON.parse(e.data),x=msg.data;if(x&&x.s){state.items.set(x.s,x);render();}};ws.onclose=()=>{state.connected=false;document.getElementById('wxCryptoStatus').textContent='Bağlantı yenileniyor…';setTimeout(connect,5000)};ws.onerror=()=>ws.close();}catch(_){setTimeout(connect,8000)}}
- loadInitial();loadGlobal();loadFx();connect();
- const oldNexusTabs=[...root.querySelectorAll('[data-wx-tab]')];oldNexusTabs.forEach(t=>t.addEventListener('click',()=>{if(t.dataset.wxTab==='crypto'){loadGlobal();if(!state.connected&&(!state.ws||state.ws.readyState>1))connect();}}));
+ async function loadGlobal(){state.lastGlobal=Date.now();try{const r=await fetch('https://api.coingecko.com/api/v3/global');if(!r.ok)throw new Error();const j=(await r.json()).data,usd=j.total_market_cap.usd,vol=j.total_volume.usd;document.getElementById('wxCryptoStats').innerHTML=`<div class="wx-finance-stat"><small>TOPLAM PİYASA DEĞERİ</small><b>${fmt(usd,'USD')}</b><em>Global kripto piyasası</em></div><div class="wx-finance-stat"><small>24S İŞLEM HACMİ</small><b>${fmt(vol,'USD')}</b><em>Global spot hacim</em></div><div class="wx-finance-stat"><small>BTC HAKİMİYETİ</small><b>${Number(j.market_cap_percentage.btc).toFixed(2)}%</b><em>Bitcoin dominance</em></div><div class="wx-finance-stat"><small>ETH HAKİMİYETİ</small><b>${Number(j.market_cap_percentage.eth).toFixed(2)}%</b><em>Ethereum dominance</em></div><div class="wx-finance-stat"><small>İZLENEN VARLIK</small><b>${Number(j.active_cryptocurrencies).toLocaleString('tr-TR')}</b><em>CoinGecko</em></div><div class="wx-finance-stat"><small>VERİ KAYNAĞI</small><b>Binance + CoinGecko</b><em>Public market data</em></div>`}catch(_){}}
+ const setStatus=h=>{const el=document.getElementById('wxCryptoStatus');if(el)el.innerHTML=h;};
+ function connect(){
+  if(state.paused||(state.ws&&state.ws.readyState<=1))return;
+  try{
+   const streams=symbols.map(a=>a[2]+'@ticker').join('/');
+   const ws=new WebSocket('wss://data-stream.binance.vision:443/stream?streams='+streams);state.ws=ws;
+   ws.onopen=()=>{state.connected=true;state.retry=0;setStatus('<i class="fa-solid fa-circle"></i> Canlı');};
+   ws.onmessage=e=>{try{const x=JSON.parse(e.data).data;if(x&&x.s){state.items.set(x.s,x);scheduleRender();}}catch(_){}};
+   ws.onclose=()=>{state.connected=false;if(state.ws===ws)state.ws=null;if(state.paused)return;setStatus('Bağlantı yenileniyor…');clearTimeout(state.reconnect);state.reconnect=setTimeout(connect,Math.min(30000,3000*Math.pow(2,Math.min(state.retry++,3))));};
+   ws.onerror=()=>ws.close();
+  }catch(_){clearTimeout(state.reconnect);state.reconnect=setTimeout(connect,8000);}
+ }
+ function disconnect(){state.paused=true;clearTimeout(state.reconnect);clearTimeout(renderTimer);renderTimer=0;if(state.ws){const w=state.ws;state.ws=null;try{w.close()}catch(_){}}state.connected=false;}
+ // Nothing is requested or drawn until the Nexus crypto tab is actually on screen.
+ let started=false;
+ function activate(){state.paused=false;ensureWidgets();if(!started){started=true;loadInitial();loadFx();}if(Date.now()-state.lastGlobal>60000)loadGlobal();connect();scheduleRender();}
+ function sync(){if(root.isConnected&&root.classList.contains('is-active')&&!cryptoPanel.hidden&&!document.hidden)activate();else disconnect();}
+ new MutationObserver(sync).observe(root,{attributes:true,attributeFilter:['class']});
+ new MutationObserver(sync).observe(cryptoPanel,{attributes:true,attributeFilter:['hidden']});
+ new MutationObserver(()=>{if(root.classList.contains('is-active')&&!stocksPanel.hidden)ensureWidgets();}).observe(stocksPanel,{attributes:true,attributeFilter:['hidden']});
+ document.addEventListener('visibilitychange',sync);
+ window.addEventListener('pagehide',disconnect);
+ sync();
 })();
 </script>
 
