@@ -13252,6 +13252,7 @@ body.wartex-gateway-active{overflow-x:hidden}
  ];
  const state={items:new Map(),currency:'USD',fx:0,ws:null,connected:false,activeSymbol:'BTCUSDT',query:'',paused:true,retry:0,reconnect:0,lastGlobal:0};
  const fmt=(n,cur=state.currency)=>{if(!Number.isFinite(n))return '—';const useTry=cur==='TRY'&&state.fx>0;const v=useTry?n*state.fx:n;return new Intl.NumberFormat('tr-TR',{style:'currency',currency:useTry?'TRY':'USD',maximumFractionDigits:v<1?5:2}).format(v)};
+ const fmtBig=n=>Number.isFinite(n)?new Intl.NumberFormat('tr-TR',{style:'currency',currency:'USD',notation:'compact',maximumFractionDigits:2}).format(n):'—';
  const pct=n=>(Number(n)>=0?'+':'')+Number(n||0).toFixed(2)+'%';
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  cryptoPanel.innerHTML=`
@@ -13289,7 +13290,7 @@ body.wartex-gateway-active{overflow-x:hidden}
 let renderTimer=0,lastRender=0;
  const panelOn=()=>root.isConnected&&root.classList.contains('is-active')&&!cryptoPanel.hidden&&!document.hidden;
  function scheduleRender(){if(renderTimer||!panelOn())return;renderTimer=setTimeout(()=>{renderTimer=0;if(!panelOn())return;lastRender=performance.now();render();},Math.max(0,900-(performance.now()-lastRender)));}
- const volText=x=>'Hacim '+Number(x.q).toLocaleString('tr-TR',{maximumFractionDigits:0})+' USDT';
+ const volText=x=>'Hacim '+new Intl.NumberFormat('tr-TR',{notation:'compact',maximumFractionDigits:1}).format(Number(x.q))+' USDT';
  function coinCard(a,x){const up=Number(x.P)>=0,sym=a[2].toUpperCase();return `<article class="wx-coin-card${sym===state.activeSymbol?' wx-coin-active':''}" role="button" tabindex="0" aria-label="${a[1]} grafiğini göster" data-symbol="${sym}"><div class="wx-coin-top"><div class="wx-coin-icon"><img src="https://assets.coincap.io/assets/icons/${a[0].toLowerCase()}@2x.png" alt="" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${a[3]}'"></div><div class="wx-coin-name">${a[1]}<small>${a[0]}/USDT</small></div><span class="wx-coin-change ${up?'wx-up':'wx-down'}">${pct(x.P)}</span></div><div class="wx-coin-price">${fmt(Number(x.c))}</div><div class="wx-coin-meta"><span>${volText(x)}</span><span>24S</span></div></article>`;}
  function render(){
   const q=state.query.toLowerCase(),visible=symbols.filter(a=>(a[0]+a[1]).toLowerCase().includes(q)).filter(a=>state.items.has(a[2].toUpperCase()));
@@ -13314,7 +13315,7 @@ let renderTimer=0,lastRender=0;
  document.getElementById('wxStockGo').addEventListener('click',showStock);
  async function loadFx(){try{const r=await fetch('https://open.er-api.com/v6/latest/USD');const j=await r.json();if(!(j&&j.rates&&j.rates.TRY))throw new Error('fx');state.fx=j.rates.TRY;render()}catch(_){const o=currency.querySelector('option[value="TRY"]');if(o){o.disabled=true;o.textContent='TRY (kur alınamadı)';}if(state.currency==='TRY'){state.currency='USD';currency.value='USD';render();}}}
  async function loadInitial(){try{const list=symbols.map(a=>a[2].toUpperCase()),url='https://data-api.binance.vision/api/v3/ticker/24hr?symbols='+encodeURIComponent(JSON.stringify(list));const r=await fetch(url);if(!r.ok)throw new Error('Binance API '+r.status);const data=await r.json();data.forEach(x=>state.items.set(x.symbol,x));render();document.getElementById('wxCryptoStatus').innerHTML='<i class="fa-solid fa-circle"></i> Canlı bağlantı hazır';}catch(e){document.getElementById('wxCryptoStatus').textContent='Veri bağlantısı bekleniyor';}}
- async function loadGlobal(){state.lastGlobal=Date.now();try{const r=await fetch('https://api.coingecko.com/api/v3/global');if(!r.ok)throw new Error();const j=(await r.json()).data,usd=j.total_market_cap.usd,vol=j.total_volume.usd;document.getElementById('wxCryptoStats').innerHTML=`<div class="wx-finance-stat"><small>TOPLAM PİYASA DEĞERİ</small><b>${fmt(usd,'USD')}</b><em>Global kripto piyasası</em></div><div class="wx-finance-stat"><small>24S İŞLEM HACMİ</small><b>${fmt(vol,'USD')}</b><em>Global spot hacim</em></div><div class="wx-finance-stat"><small>BTC HAKİMİYETİ</small><b>${Number(j.market_cap_percentage.btc).toFixed(2)}%</b><em>Bitcoin dominance</em></div><div class="wx-finance-stat"><small>ETH HAKİMİYETİ</small><b>${Number(j.market_cap_percentage.eth).toFixed(2)}%</b><em>Ethereum dominance</em></div><div class="wx-finance-stat"><small>İZLENEN VARLIK</small><b>${Number(j.active_cryptocurrencies).toLocaleString('tr-TR')}</b><em>CoinGecko</em></div><div class="wx-finance-stat"><small>VERİ KAYNAĞI</small><b>Binance + CoinGecko</b><em>Public market data</em></div>`}catch(_){}}
+ async function loadGlobal(){state.lastGlobal=Date.now();try{const r=await fetch('https://api.coingecko.com/api/v3/global');if(!r.ok)throw new Error();const j=(await r.json()).data,usd=j.total_market_cap.usd,vol=j.total_volume.usd;document.getElementById('wxCryptoStats').innerHTML=`<div class="wx-finance-stat"><small>TOPLAM PİYASA DEĞERİ</small><b title="${fmt(usd,'USD')}">${fmtBig(usd)}</b><em>Global kripto piyasası</em></div><div class="wx-finance-stat"><small>24S İŞLEM HACMİ</small><b title="${fmt(vol,'USD')}">${fmtBig(vol)}</b><em>Global spot hacim</em></div><div class="wx-finance-stat"><small>BTC HAKİMİYETİ</small><b>${Number(j.market_cap_percentage.btc).toFixed(2)}%</b><em>Bitcoin dominance</em></div><div class="wx-finance-stat"><small>ETH HAKİMİYETİ</small><b>${Number(j.market_cap_percentage.eth).toFixed(2)}%</b><em>Ethereum dominance</em></div><div class="wx-finance-stat"><small>İZLENEN VARLIK</small><b>${Number(j.active_cryptocurrencies).toLocaleString('tr-TR')}</b><em>CoinGecko</em></div><div class="wx-finance-stat"><small>VERİ KAYNAĞI</small><b>Binance + CoinGecko</b><em>Public market data</em></div>`}catch(_){}}
  const setStatus=h=>{const el=document.getElementById('wxCryptoStatus');if(el)el.innerHTML=h;};
  function connect(){
   if(state.paused||(state.ws&&state.ws.readyState<=1))return;
@@ -13529,6 +13530,92 @@ dialog.wm-detail::backdrop{background:rgba(0,0,0,.7)}
  const nx=document.getElementById('wxNexusWorkspace');if(!nx)return;
  nx.querySelectorAll('.wx-resource').forEach(c=>{if(!c.querySelector('.wx-soon')){const s=document.createElement('span');s.className='wx-soon';s.textContent='Hazırlanıyor';c.appendChild(s);}});
 })();
+</script>
+
+<style id="wx-polish">
+/* WARTEX gateway / Market / Nexus polish: readable type scale, consistent radii, one palette (graphite + silver + burgundy). Appearance only. */
+#wartexGateway{--wx-burg-text:#cf6b7b;--wx-focus:#e0909c}
+#wartexGateway :is(button,a,input,select,[role=button],[tabindex="0"]):focus-visible{outline:2px solid var(--wx-focus);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){#wartexGateway *{transition:none!important;animation:none!important}}
+
+/* gateway */
+.wx-gateway-card .wx-gateway-action{font-size:11px}
+.wx-gateway-descriptions article>span{font-size:10px}
+.wx-gateway-foot{font-size:10px}
+
+/* Nexus layout: the earlier padding:0!important was beating the page padding, so content touched the screen edges */
+#wartexGateway #wxNexusWorkspace.is-active{padding:0 clamp(14px,3vw,48px) 56px!important}
+#wxNexusWorkspace .wx-subnav{display:flex;align-items:center;gap:16px;min-height:62px}
+.wx-subbrand{font-size:10px}
+.wx-back{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:10px;font-size:13px;font-weight:700;transition:border-color .18s,background .18s}
+.wx-back:hover{border-color:#8a929c;background:#1f2329}
+.wx-market-hero{padding:clamp(22px,3vw,34px);border-radius:18px}
+.wx-lead{max-width:760px;font-size:14px}
+.wx-tabs{gap:8px;margin:22px 0 18px}
+.wx-nexus-tab{padding:10px 16px;border-radius:10px;border-color:#2b313b;background:#12161d;color:#aab2be;font-size:13px;font-weight:800;transition:color .18s,border-color .18s,background .18s}
+.wx-nexus-tab:hover{color:#fff;border-color:#4a525e}
+.wx-nexus-tab.active{background:#1c2129;border-color:#b94a5b;color:#fff;box-shadow:inset 0 -2px 0 #b94a5b}
+
+@media(max-width:640px){#wxNexusWorkspace .wx-subnav{flex-wrap:wrap;gap:8px 12px;padding:10px 0;min-height:0;height:auto}.wx-subbrand{flex-basis:100%}.wx-market-hero{margin-top:12px}.wx-finance-search select{flex:none}}
+/* finance */
+.wx-finance-top{gap:14px 18px}
+.wx-finance-search{max-width:600px;padding:9px 12px}
+.wx-finance-search input{font-size:13px}
+.wx-finance-search select,.wx-finance-search button{flex:none;padding:7px 10px;border:1px solid #303a49;border-radius:8px;background:#19212e;color:#dfe6f0;font-size:12px}
+.wx-finance-search button{background:#262c38;font-weight:800}
+.wx-finance-search button:hover,.wx-finance-search select:hover{border-color:#b94a5b}
+.wx-finance-heading h1 span{color:var(--wx-burg-text)!important}
+.wx-finance-heading p{font-size:13px}
+.wx-finance-stats{grid-template-columns:repeat(auto-fit,minmax(176px,1fr))}
+.wx-finance-stat small{font-size:10px}
+.wx-finance-stat b{font-size:clamp(15px,1.4vw,19px);overflow-wrap:anywhere}
+.wx-finance-stat em{font-size:11px}
+.wx-coin-name{font-size:13px}.wx-coin-name small{font-size:11px}
+.wx-coin-change{font-size:11px}.wx-coin-price{font-size:17px}.wx-coin-meta{font-size:11px}
+.wx-coin-card.wx-coin-active{border-color:#b94a5b;box-shadow:0 0 0 1px rgba(185,74,91,.35)}
+.wx-finance-panel-head h3{font-size:14px}.wx-finance-panel-head span{font-size:11px}
+.wx-finance-table{font-size:12px}.wx-finance-table th{font-size:10px}
+.wx-mover-rank{font-size:11px}.wx-mover-info b{font-size:12px}.wx-mover-info small{font-size:10px}.wx-mover-value{font-size:12px}
+.wx-finance-status{font-size:12px}.wx-live-label{font-size:11px}
+.wx-finance-controls select,.wx-finance-controls button{font-size:12px}
+.wx-finance-disclaimer{font-size:11px}
+.wx-market-visual-mark{width:auto;min-width:58px;padding:0 10px;font-size:12px}
+.wx-market-visual b{font-size:13px}.wx-market-visual small{font-size:11px}
+.wx-resource h4{font-size:14px}.wx-resource p{font-size:12px}.wx-note{font-size:12px}
+
+/* Market type scale (was 8-10px) */
+#wxMarketWorkspace .wm-brand{font-size:20px}
+#wxMarketWorkspace .wm-search input{font-size:13px}
+#wxMarketWorkspace .wm-top-actions button{font-size:12px}
+#wxMarketWorkspace .wm-side-head{font-size:13px}
+#wxMarketWorkspace .wm-cat{padding:9px 8px;font-size:12px}
+#wxMarketWorkspace .wm-more{font-size:11px}
+#wxMarketWorkspace .wm-breadcrumb{font-size:12px}
+#wxMarketWorkspace .wm-store-kicker{font-size:10px}
+#wxMarketWorkspace .wm-store-name h1{font-size:22px}
+#wxMarketWorkspace .wm-online{font-size:11px}
+#wxMarketWorkspace .wm-store-buttons button{padding:8px 13px;font-size:12px}
+#wxMarketWorkspace .wm-metrics span{font-size:10px}
+#wxMarketWorkspace .wm-metrics b{font-size:12px}
+#wxMarketWorkspace .wm-products-head h2{font-size:18px}
+#wxMarketWorkspace .wm-products-head p{font-size:12px}
+#wxMarketWorkspace .wm-products-head button{padding:9px 13px;font-size:12px}
+#wxMarketWorkspace .wm-product-image>span{font-size:9px}
+#wxMarketWorkspace .wm-product-info small{font-size:10px}
+#wxMarketWorkspace .wm-product-info h3{font-size:14px}
+#wxMarketWorkspace .wm-product-info p{font-size:12px}
+#wxMarketWorkspace .wm-product-bottom b{font-size:11px}
+#wxMarketWorkspace .wm-product-bottom button{padding:8px 12px;font-size:12px}
+#wxMarketWorkspace .wm-sell-banner span{font-size:10px}
+#wxMarketWorkspace .wm-sell-banner h2{font-size:19px}
+#wxMarketWorkspace .wm-sell-banner p{font-size:13px}
+#wxMarketWorkspace .wm-sell-banner button{font-size:13px}
+#wxMarketWorkspace .wm-footer-note{font-size:12px}
+#wxMarketWorkspace .wm-vitrine h3{font-size:14px}
+#wxMarketWorkspace .wm-vitrine p{font-size:12px}
+</style>
+<script id="wx-nexus-a11y">
+(function(){const r=document.getElementById('wxNexusWorkspace');if(!r)return;const bar=r.querySelector('.wx-tabs');if(bar)bar.setAttribute('role','tablist');r.querySelectorAll('[data-wx-tab]').forEach(t=>t.setAttribute('role','tab'));r.querySelectorAll('.wx-tabpanel').forEach(p=>p.setAttribute('role','tabpanel'));})();
 </script>
 
 </body>
