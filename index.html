@@ -11845,6 +11845,10 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
 
 
 <!-- WARTEX yönetici paneli: API yetkisi doğrulanınca görünür -->
+
+<style id="wx-admin-content-style">
+.wx-admin-content{margin-top:24px;padding-top:22px;border-top:1px solid #303036}.wx-admin-content-head{display:flex;justify-content:space-between;gap:15px;align-items:center}.wx-admin-content-head small{font-size:9px;letter-spacing:.16em;color:#a1a1aa}.wx-admin-content-head h3{font-size:19px;font-weight:900;margin-top:5px}.wx-admin-content-head p{font-size:11px;color:#8b8b94;margin-top:4px}.wx-admin-content-head>button,.wx-admin-editor-actions button{border:1px solid #777;border-radius:8px;padding:9px 13px;font-size:11px;font-weight:800;background:#e4e4e7;color:#111}.wx-admin-tabs{display:flex;gap:8px;margin:18px 0}.wx-admin-tabs button{padding:9px 14px;border:1px solid #37373d;border-radius:8px;color:#aaa;font-size:10px}.wx-admin-tabs button.active{background:#e4e4e7;color:#111;border-color:#e4e4e7}.wx-admin-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.wx-admin-editor{display:grid;gap:10px;padding:15px;border:1px solid #303036;border-radius:12px;background:#111114}.wx-admin-editor h4,.wx-admin-lists h4,.wx-admin-list-title{font-size:13px;font-weight:850;margin-bottom:3px}.wx-admin-editor label{display:grid;gap:5px;font-size:10px;color:#aaa}.wx-admin-editor input,.wx-admin-editor textarea,.wx-admin-editor select{width:100%;padding:9px 10px;border:1px solid #38383f;border-radius:7px;background:#09090b;color:#eee;font:inherit;font-size:11px;outline:none}.wx-admin-editor-actions{display:flex;gap:8px;flex-wrap:wrap}.wx-admin-editor-actions .secondary{background:transparent;color:#ccc;border-color:#444}.wx-admin-lists{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:20px}.wx-admin-records{display:grid;gap:8px;margin-top:9px}.wx-admin-record{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid #303036;border-radius:9px;background:#111114;font-size:11px}.wx-admin-record img{width:38px;height:38px;object-fit:cover;border-radius:6px;background:#222}.wx-admin-record .meta{min-width:0;flex:1}.wx-admin-record .meta b{display:block;overflow-wrap:anywhere}.wx-admin-record .meta small{display:block;color:#999;margin-top:3px}.wx-admin-record button{padding:6px 8px;border:1px solid #4a4a50;border-radius:6px;color:#ddd;font-size:10px}.wx-admin-record button.danger{border-color:#713d3d;color:#ffb4b4}.wx-admin-content-message{min-height:18px;margin-top:12px;color:#a3e6b1;font-size:11px}.wx-admin-nexus-editor{grid-template-columns:repeat(2,minmax(0,1fr))}.wx-admin-nexus-editor h4,.wx-admin-nexus-editor .wide,.wx-admin-nexus-editor .wx-admin-editor-actions{grid-column:1/-1}@media(max-width:700px){.wx-admin-form-grid,.wx-admin-lists,.wx-admin-nexus-editor{grid-template-columns:1fr}.wx-admin-nexus-editor h4,.wx-admin-nexus-editor .wide,.wx-admin-nexus-editor .wx-admin-editor-actions{grid-column:auto}.wx-admin-record{flex-wrap:wrap}}
+</style>
 <style id="wartex-admin-style">
 #wartexAdminModal{position:fixed;inset:0;z-index:10030;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.86);backdrop-filter:blur(12px)}
 #wartexAdminModal.is-open{display:flex}
@@ -11887,6 +11891,43 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
      <tbody id="wartexAdminRows"><tr><td colspan="6" class="wartex-admin-muted">Henüz veri yüklenmedi.</td></tr></tbody>
     </table>
    </div>
+   <section id="wxAdminContent" class="wx-admin-content">
+    <div class="wx-admin-content-head"><div><small>MARKET & NEXUS CONTROL</small><h3>Mağaza ve içerik yönetimi</h3><p>Bu alan yalnızca doğrulanmış yönetici oturumunda açılır.</p></div><button type="button" id="wxAdminContentReload">Yenile</button></div>
+    <div class="wx-admin-tabs"><button type="button" class="active" data-wxac-tab="market">WARTEX MARKET</button><button type="button" data-wxac-tab="nexus">WARTEX NEXUS</button></div>
+    <section id="wxAdminMarketPane" class="wx-admin-pane">
+     <div class="wx-admin-form-grid">
+      <form id="wxAdminStoreForm" class="wx-admin-editor">
+       <h4 id="wxAdminStoreHeading">Mağaza oluştur</h4><input type="hidden" name="id">
+       <label>Mağaza adı<input name="name" maxlength="60" required></label><label>Discord kullanıcı adı<input name="discord_username" maxlength="80" required></label>
+       <label>Mağaza görsel URL'si<input name="image_url" type="url" placeholder="https://..."></label><label>Açıklama<textarea name="description" maxlength="1200" rows="3"></textarea></label>
+       <label>Yayın durumu<select name="status"><option value="published">Yayında</option><option value="draft">Taslak</option><option value="hidden">Gizli</option></select></label>
+       <div class="wx-admin-editor-actions"><button type="submit">Mağazayı kaydet</button><button type="reset" class="secondary">Temizle</button></div>
+      </form>
+      <form id="wxAdminProductForm" class="wx-admin-editor">
+       <h4 id="wxAdminProductHeading">Ürün ekle</h4><input type="hidden" name="id">
+       <label>Mağaza<select name="store_id" required><option value="">Önce mağaza oluştur</option></select></label><label>Ürün adı<input name="title" maxlength="100" required></label>
+       <label>Kategori<input name="category" maxlength="60" required placeholder="Dijital Key & Lisans"></label><label>Etiket / fiyat bilgisi<input name="price_label" maxlength="40" placeholder="Discord'dan bilgi al"></label>
+       <label>Ürün görsel URL'si<input name="image_url" type="url" placeholder="https://..."></label><label>Açıklama<textarea name="description" maxlength="2000" rows="3"></textarea></label>
+       <label>Yayın durumu<select name="status"><option value="published">Yayında</option><option value="draft">Taslak</option><option value="hidden">Gizli</option></select></label>
+       <div class="wx-admin-editor-actions"><button type="submit">Ürünü kaydet</button><button type="reset" class="secondary">Temizle</button></div>
+      </form>
+     </div>
+     <div class="wx-admin-lists"><div><h4>Mağazalar</h4><div id="wxAdminStoresList" class="wx-admin-records">Yükleniyor…</div></div><div><h4>Ürünler</h4><div id="wxAdminProductsList" class="wx-admin-records">Yükleniyor…</div></div></div>
+    </section>
+    <section id="wxAdminNexusPane" class="wx-admin-pane hidden">
+     <form id="wxAdminNexusForm" class="wx-admin-editor wx-admin-nexus-editor">
+      <h4 id="wxAdminNexusHeading">Nexus içeriği ekle</h4><input type="hidden" name="id">
+      <label>Başlık<input name="title" maxlength="120" required></label><label>Kategori<input name="category" maxlength="60" required placeholder="Yazılım Eğitimi"></label>
+      <label>İçerik türü<input name="item_type" maxlength="40" value="resource"></label><label>Edinim türü<select name="access_type"><option value="discord">Discord'dan edin</option><option value="free">Ücretsiz</option></select></label>
+      <label>Görsel URL'si<input name="image_url" type="url" placeholder="https://..."></label><label>Discord bağlantısı<input name="discord_url" type="url" placeholder="https://discord.gg/..."></label>
+      <label class="wide">Açıklama<textarea name="description" maxlength="3000" rows="4"></textarea></label>
+      <label>Yayın durumu<select name="status"><option value="published">Yayında</option><option value="draft">Taslak</option><option value="hidden">Gizli</option></select></label>
+      <div class="wx-admin-editor-actions"><button type="submit">İçeriği kaydet</button><button type="reset" class="secondary">Temizle</button></div>
+     </form>
+     <h4 class="wx-admin-list-title">Nexus içerikleri</h4><div id="wxAdminNexusList" class="wx-admin-records">Yükleniyor…</div>
+    </section>
+    <div id="wxAdminContentMessage" role="status" class="wx-admin-content-message"></div>
+   </section>
    </div>
   </div>
  </section>
@@ -12291,6 +12332,51 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeWartexP
     } catch(error) { showAdminLoginMessage(error.message||"Kod doğrulanamadı."); }
     finally { button.disabled=false; button.textContent="Kodu doğrula"; }
   });
+
+  // MARKET + NEXUS: only reachable after the existing MFA admin session is established.
+  const wxContentHeaders = () => ({ "Authorization":"Bearer "+token(), "X-Admin-Token":adminToken||"", "Content-Type":"application/json" });
+  const wxContentMessage = message => { const el=document.getElementById("wxAdminContentMessage"); if(el) el.textContent=message||""; };
+  const wxContentRequest = async (path, options={}) => {
+    if(!adminToken || !adminSessionIsValid() || !currentUser || !token()) throw new Error("Yönetici oturumu geçerli değil. Yeniden giriş yap.");
+    const response=await fetch(API+path,{...options,headers:{...wxContentHeaders(),...(options.headers||{})},cache:"no-store"});
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok) throw new Error(data.error||"İşlem başarısız. Worker içerik API'si kurulu mu?");
+    return data;
+  };
+  let wxMarketData={stores:[],products:[]}, wxNexusData=[];
+  const wxFormObject=form=>Object.fromEntries(new FormData(form).entries());
+  const wxSafe=value=>String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+  const wxRecord=(item,type)=>{const title=item.name||item.title||"İsimsiz";const subtitle=item.status||"—";const img=item.image_url?'<img src="'+wxSafe(item.image_url)+'" alt="">':"";return '<article class="wx-admin-record">'+img+'<div class="meta"><b>'+wxSafe(title)+'</b><small>'+wxSafe(subtitle)+' · '+wxSafe(item.category||item.discord_username||"")+'</small></div><button type="button" data-wxac-edit="'+type+'" data-id="'+wxSafe(item.id)+'">Düzenle</button><button type="button" class="danger" data-wxac-delete="'+type+'" data-id="'+wxSafe(item.id)+'">Kaldır</button></article>';};
+  async function wxLoadContent(){
+    wxContentMessage("Market ve Nexus kayıtları yükleniyor…");
+    try{
+      const [m,n]=await Promise.all([wxContentRequest("/api/admin/content/market"),wxContentRequest("/api/admin/content/nexus")]);
+      wxMarketData={stores:m.stores||[],products:m.products||[]};wxNexusData=n.items||[];
+      document.getElementById("wxAdminStoresList").innerHTML=wxMarketData.stores.map(x=>wxRecord(x,"store")).join("")||'<p class="text-xs text-zinc-500">Henüz mağaza yok.</p>';
+      document.getElementById("wxAdminProductsList").innerHTML=wxMarketData.products.map(x=>wxRecord(x,"product")).join("")||'<p class="text-xs text-zinc-500">Henüz ürün yok.</p>';
+      document.getElementById("wxAdminNexusList").innerHTML=wxNexusData.map(x=>wxRecord(x,"nexus")).join("")||'<p class="text-xs text-zinc-500">Henüz Nexus içeriği yok.</p>';
+      const select=document.querySelector('#wxAdminProductForm [name="store_id"]');
+      select.innerHTML='<option value="">Mağaza seç</option>'+wxMarketData.stores.map(x=>'<option value="'+wxSafe(x.id)+'">'+wxSafe(x.name)+'</option>').join("");
+      wxContentMessage("Kayıtlar güncel. Mağaza/ürün oluşturma ve kaldırma yetkisi yalnızca yöneticide.");
+    }catch(error){wxContentMessage(error.message); }
+  }
+  document.querySelectorAll("[data-wxac-tab]").forEach(button=>button.addEventListener("click",()=>{
+    document.querySelectorAll("[data-wxac-tab]").forEach(x=>x.classList.toggle("active",x===button));
+    document.getElementById("wxAdminMarketPane").classList.toggle("hidden",button.dataset.wxacTab!=="market");
+    document.getElementById("wxAdminNexusPane").classList.toggle("hidden",button.dataset.wxacTab!=="nexus");
+  }));
+  document.getElementById("wxAdminContentReload")?.addEventListener("click",wxLoadContent);
+  document.getElementById("wxAdminStoreForm")?.addEventListener("submit",async e=>{e.preventDefault();try{const b=wxFormObject(e.currentTarget),id=b.id;delete b.id;await wxContentRequest("/api/admin/content/market/stores",{method:id?"PUT":"POST",body:JSON.stringify({...b,...(id?{id}:{})})});e.currentTarget.reset();e.currentTarget.elements.id.value="";document.getElementById("wxAdminStoreHeading").textContent="Mağaza oluştur";await wxLoadContent();}catch(err){wxContentMessage(err.message);}});
+  document.getElementById("wxAdminProductForm")?.addEventListener("submit",async e=>{e.preventDefault();try{const b=wxFormObject(e.currentTarget),id=b.id;delete b.id;await wxContentRequest("/api/admin/content/market/products",{method:id?"PUT":"POST",body:JSON.stringify({...b,...(id?{id}:{})})});e.currentTarget.reset();e.currentTarget.elements.id.value="";document.getElementById("wxAdminProductHeading").textContent="Ürün ekle";await wxLoadContent();}catch(err){wxContentMessage(err.message);}});
+  document.getElementById("wxAdminNexusForm")?.addEventListener("submit",async e=>{e.preventDefault();try{const b=wxFormObject(e.currentTarget),id=b.id;delete b.id;await wxContentRequest("/api/admin/content/nexus/items",{method:id?"PUT":"POST",body:JSON.stringify({...b,...(id?{id}:{})})});e.currentTarget.reset();e.currentTarget.elements.id.value="";document.getElementById("wxAdminNexusHeading").textContent="Nexus içeriği ekle";await wxLoadContent();}catch(err){wxContentMessage(err.message);}});
+  document.getElementById("wxAdminContent")?.addEventListener("click",async e=>{
+    const edit=e.target.closest("[data-wxac-edit]"),del=e.target.closest("[data-wxac-delete]");
+    if(edit){const type=edit.dataset.wxacEdit,id=edit.dataset.id,item=type==="store"?wxMarketData.stores.find(x=>x.id===id):type==="product"?wxMarketData.products.find(x=>x.id===id):wxNexusData.find(x=>x.id===id);if(!item)return;const form=document.getElementById(type==="store"?"wxAdminStoreForm":type==="product"?"wxAdminProductForm":"wxAdminNexusForm");Object.entries(item).forEach(([k,v])=>{if(form.elements[k])form.elements[k].value=v??"";});document.getElementById(type==="store"?"wxAdminStoreHeading":type==="product"?"wxAdminProductHeading":"wxAdminNexusHeading").textContent="Kaydı düzenle";document.getElementById(type==="nexus"?"wxAdminNexusPane":"wxAdminMarketPane").scrollIntoView({behavior:"smooth",block:"start"});return;}
+    if(del){const type=del.dataset.wxacDelete,id=del.dataset.id;const label=type==="store"?"Mağaza ve bağlı ürünleri":type==="product"?"Ürün":"Nexus içeriği";if(!confirm(label+" yayından kaldırılıp silinsin mi? Bu işlem geri alınamaz."))return;try{const path=type==="store"?"/api/admin/content/market/stores/"+id:type==="product"?"/api/admin/content/market/products/"+id:"/api/admin/content/nexus/items/"+id;await wxContentRequest(path,{method:"DELETE"});await wxLoadContent();}catch(err){wxContentMessage(err.message);}}
+  });
+  const wxAdminDashboardObserver=new MutationObserver(()=>{if(!document.getElementById("wartexAdminDashboard")?.classList.contains("hidden")&&adminToken)wxLoadContent();});
+  wxAdminDashboardObserver.observe(document.getElementById("wartexAdminDashboard"),{attributes:true,attributeFilter:["class"]});
+
   adminOpenButton?.addEventListener("click", () => { menu?.classList.add("hidden"); openAdminPanel(); });
   document.getElementById("wartexAdminClose")?.addEventListener("click", closeAdminPanel);
   document.getElementById("wartexAdminRefresh")?.addEventListener("click", loadAdminUsers);
@@ -13687,7 +13773,7 @@ dialog.wm-detail::backdrop{background:rgba(0,0,0,.7)}
 <script id="wx-market-seller-library-script">
 (function(){
  const market=document.getElementById('wxMarketWorkspace'),overlay=document.getElementById('wxSellerOverlay'),form=document.getElementById('wxSellerForm');if(!market||!overlay||!form)return;
- const open=()=>{overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';};
+ const open=()=>{const n=document.getElementById('wxGatewayNotice');if(n){n.textContent='Mağaza oluşturma yalnızca doğrulanmış WARTEX yöneticisi tarafından yapılır.';n.classList.add('is-visible');}return;};
  const close=()=>{overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');document.body.style.overflow='';};
  market.addEventListener('click',e=>{const b=e.target.closest('[data-wm-open-store]');if(b){e.preventDefault();e.stopPropagation();open();}});
  overlay.querySelector('.wx-seller-close').addEventListener('click',close);
