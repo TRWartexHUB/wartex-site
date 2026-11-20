@@ -13807,5 +13807,87 @@ dialog.wm-detail::backdrop{background:rgba(0,0,0,.7)}
 })();
 </script>
 
+
+<style id="wx-service-catalog-v1">
+/* WARTEX NEXUS service catalogues */
+#wxNexusWorkspace .wx-service-intro{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;flex-wrap:wrap;margin:4px 0 20px;padding:20px;border:1px solid #35404e;border-radius:15px;background:linear-gradient(120deg,#1a202a,#10151d)}
+#wxNexusWorkspace .wx-service-intro h2{font-size:20px;font-weight:950;letter-spacing:.02em;color:#f3f5f8}
+#wxNexusWorkspace .wx-service-intro p{max-width:760px;margin-top:7px;color:#aab5c4;font-size:12px;line-height:1.8}
+#wxNexusWorkspace .wx-service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+#wxNexusWorkspace .wx-service-card{display:flex;flex-direction:column;min-height:260px;padding:19px;border:1px solid #303a48;border-radius:15px;background:linear-gradient(155deg,#171e28,#10151d);transition:transform .2s,border-color .2s,box-shadow .2s}
+#wxNexusWorkspace .wx-service-card:hover{transform:translateY(-3px);border-color:#8997a9;box-shadow:0 14px 32px #0005}
+#wxNexusWorkspace .wx-service-icon{display:grid;place-items:center;width:43px;height:43px;margin-bottom:16px;border:1px solid #465365;border-radius:12px;background:#222b38;color:#d5deea;font-size:18px}
+#wxNexusWorkspace .wx-service-card h3{font-size:15px;font-weight:900;color:#f1f4f8}
+#wxNexusWorkspace .wx-service-card p{margin-top:9px;color:#aab5c4;font-size:11px;line-height:1.8}
+#wxNexusWorkspace .wx-service-card ul{display:grid;gap:6px;margin:13px 0 18px;padding:0;list-style:none;color:#c4cedb;font-size:10px}
+#wxNexusWorkspace .wx-service-card li:before{content:"✓";margin-right:8px;color:#9eb6a9;font-weight:900}
+#wxNexusWorkspace .wx-service-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:13px;border-top:1px solid #2b3542}
+#wxNexusWorkspace .wx-service-price{color:#dce4ee;font-size:11px;font-weight:900}
+#wxNexusWorkspace .wx-service-cta{display:inline-flex;align-items:center;gap:7px;padding:9px 12px;border:1px solid #8795a7;border-radius:9px;background:#dce3ec;color:#101720;font-size:10px;font-weight:950;text-decoration:none}
+#wxNexusWorkspace .wx-service-bundle{position:relative;margin:18px 0 22px;padding:22px;border:1px solid #9b7880;border-radius:16px;background:linear-gradient(115deg,#291d24,#171820 68%,#171d27);box-shadow:0 14px 38px #0004}
+#wxNexusWorkspace .wx-service-discount{display:inline-flex;padding:6px 10px;border:1px solid #c58b98;border-radius:20px;background:#5a303a;color:#ffe5e9;font-size:11px;font-weight:950;letter-spacing:.04em}
+#wxNexusWorkspace .wx-service-bundle h3{margin-top:12px;color:#fff;font-size:19px;font-weight:950}
+#wxNexusWorkspace .wx-service-bundle p{max-width:820px;margin-top:7px;color:#d1c3c8;font-size:11px;line-height:1.8}
+#wxNexusWorkspace .wx-service-bundle strong{color:#fff}
+#wxNexusWorkspace .wx-service-note{margin-top:18px;padding:14px;border:1px solid #303a48;border-radius:12px;background:#111720;color:#9eacbf;font-size:10px;line-height:1.8}
+@media(max-width:900px){#wxNexusWorkspace .wx-service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:580px){#wxNexusWorkspace .wx-service-grid{grid-template-columns:1fr}#wxNexusWorkspace .wx-service-card{min-height:0}#wxNexusWorkspace .wx-service-intro{padding:16px}}
+</style>
+<script id="wx-service-catalog-v1">
+(function(){
+ const root=document.getElementById('wxNexusWorkspace');
+ if(!root)return;
+ const tabs=root.querySelector('.wx-tabs');
+ const library=root.querySelector('#wxNexusLibrary');
+ if(!tabs||!library)return;
+ const panels=[...root.querySelectorAll('.wx-tabpanel')];
+ const discordTab=document.createElement('button');
+ discordTab.type='button';discordTab.className='wx-nexus-tab';discordTab.dataset.wxServiceTab='discord';discordTab.textContent='Discord Hizmetleri';
+ const webTab=document.createElement('button');
+ webTab.type='button';webTab.className='wx-nexus-tab';webTab.dataset.wxServiceTab='web';webTab.textContent='Web • Hosting • Domain';
+ tabs.append(discordTab,webTab);
+ const discordPanel=document.createElement('div');
+ discordPanel.className='wx-tabpanel';discordPanel.id='wxNexusDiscordServices';discordPanel.hidden=true;
+ discordPanel.innerHTML=`
+  <div class="wx-service-intro"><div><div class="wx-subbrand">WARTEX SERVICES / DISCORD</div><h2>Discord Hizmet Kataloğu</h2><p>Topluluğun için düzenli, güvenli ve yönetilebilir bir Discord sunucusu hazırlıyoruz. İhtiyacına göre tek hizmet seçebilir veya avantajlı tam paketi tercih edebilirsin.</p></div></div>
+  <div class="wx-service-grid">
+   <article class="wx-service-card"><span class="wx-service-icon"><i class="fa-brands fa-discord"></i></span><h3>Discord Sunucusu Kurulum</h3><p>Topluluğuna uygun, düzenli ve kullanıma hazır Discord sunucusu kurulumu.</p><ul><li>Kategori ve kanal mimarisi</li><li>Roller ve izinlerin düzenlenmesi</li><li>Kurallar, karşılama ve temel log kanalları</li><li>Görsel düzen ve başlangıç ayarları</li></ul><div class="wx-service-bottom"><span class="wx-service-price">Fiyat için teklif al</span><a class="wx-service-cta" href="https://discord.gg/cZAmKgJjPq" target="_blank" rel="noopener noreferrer">Teklif al <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></article>
+   <article class="wx-service-card"><span class="wx-service-icon"><i class="fa-solid fa-robot"></i></span><h3>Discord Botu Kurulum</h3><p>Sunucunun ihtiyaçlarına göre botların kurulumu, yapılandırılması ve test edilmesi.</p><ul><li>Ticket ve destek sistemi</li><li>Moderasyon ve otomatik rol</li><li>Log, karşılama ve kayıt ayarları</li><li>Mevcut botların yapılandırılması</li></ul><div class="wx-service-bottom"><span class="wx-service-price">Fiyat için teklif al</span><a class="wx-service-cta" href="https://discord.gg/cZAmKgJjPq" target="_blank" rel="noopener noreferrer">Teklif al <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></article>
+   <article class="wx-service-card"><span class="wx-service-icon"><i class="fa-solid fa-user-shield"></i></span><h3>Discord Moderatör Kiralama</h3><p>Belirlenen saat ve kurallar kapsamında topluluğunu denetleyecek moderasyon desteği.</p><ul><li>Sohbet ve üye düzeninin takibi</li><li>Spam ve kural ihlallerine müdahale</li><li>Olayların yönetime raporlanması</li><li>Yetki sınırları ve çalışma saatlerinin önceden belirlenmesi</li></ul><div class="wx-service-bottom"><span class="wx-service-price">Süreye göre teklif al</span><a class="wx-service-cta" href="https://discord.gg/cZAmKgJjPq" target="_blank" rel="noopener noreferrer">Teklif al <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></article>
+  </div>
+  <section class="wx-service-bundle"><span class="wx-service-discount"><i class="fa-solid fa-tag"></i> TÜMÜNÜ ALANA %20 İNDİRİM</span><h3>WARTEX Discord Komple Paket</h3><p><strong>Sunucu kurulumu + Discord botu kurulumu + moderatör hizmeti</strong> birlikte alındığında, bu üç hizmetin toplam hizmet bedeli üzerinden <strong>%20 indirim</strong> uygulanır. Moderasyon süresi ve kapsamı teklif aşamasında netleştirilir.</p><a class="wx-service-cta" href="https://discord.gg/cZAmKgJjPq" target="_blank" rel="noopener noreferrer">Komple paket için iletişime geç <i class="fa-brands fa-discord"></i></a></section>
+  <div class="wx-service-note"><strong>Hizmet koşulları:</strong> Moderatörlere yalnızca görevleri için gerekli sınırlı Discord izinleri verilir; hesap şifresi veya kişisel giriş bilgisi istenmez. Çalışma süresi, görev kapsamı, ücret ve yetki sınırları işe başlamadan önce yazılı olarak netleştirilir.</div>
+ `;
+ const webPanel=document.createElement('div');
+ webPanel.className='wx-tabpanel';webPanel.id='wxNexusWebServices';webPanel.hidden=true;
+ webPanel.innerHTML=`
+  <div class="wx-service-intro"><div><div class="wx-subbrand">WARTEX SERVICES / WEB INFRASTRUCTURE</div><h2>Web Sitesi • Hosting • Domain Kataloğu</h2><p>Web projeni yayına hazırlamak için tasarım, alan adı ve barındırma kurulum desteği. İhtiyacın olan hizmeti ayrı seçebilir veya hepsini tek kurulumda birleştirebilirsin.</p></div></div>
+  <div class="wx-service-grid">
+   <article class="wx-service-card"><span class="wx-service-icon"><i class="fa-solid fa-window-maximize"></i></span><h3>Web Sitesi Kurulum</h3><p>İşletmen, topluluğun veya projen için modern ve mobil uyumlu web sitesi kurulumu.</p><ul><li>Ana sayfa ve içerik bölümleri</li><li>Mobil ve masaüstü uyumluluğu</li><li>Menü, iletişim ve bağlantı ayarları</li><li>Temel yayın öncesi kontrol</li></ul><div class="wx-service-bottom"><span class="wx-service-price">Kapsama göre teklif al</span><a class="wx-service-cta" href="https://discord.gg/cZAmKgJjPq" target="_blank" rel="noopener noreferrer">Teklif al <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></article>
+   <article class="wx-service-card"><span class="wx-service-icon"><i class="fa-solid fa-server"></i></span><h3>Web Hosting Kurulum</h3><p>Alan adına ve proje gereksinimlerine uygun hosting ortamının hazırlanması ve yapılandırılması.</p><ul><li>Hosting hesabı ve temel ayarlar</li><li>Dosya yükleme ve yayınlama</li><li>SSL/HTTPS yapılandırma desteği</li><li>Yayın ve erişim testi</li></ul><div class="wx-service-bottom"><span class="wx-service-price">Sağlayıcıya göre teklif al</span><a class="wx-service-cta" href="https://discord.gg/cZAmKgJjPq" target="_blank" rel="noopener noreferrer">Teklif al <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></article>
+   <article class="wx-service-card"><span class="wx-service-icon"><i class="fa-solid fa-globe"></i></span><h3>Domain / Alan Adı Kurulum</h3><p>Seçtiğin alan adının kayıt, DNS ve web sitene bağlama adımlarında teknik destek.</p><ul><li>Alan adı seçimi ve uygunluk kontrolü</li><li>DNS kayıtlarının yapılandırılması</li><li>Domainin hosting'e yönlendirilmesi</li><li>SSL ve erişim kontrolü</li></ul><div class="wx-service-bottom"><span class="wx-service-price">Alan adına göre teklif al</span><a class="wx-service-cta" href="https://discord.gg/cZAmKgJjPq" target="_blank" rel="noopener noreferrer">Teklif al <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></article>
+  </div>
+  <section class="wx-service-bundle"><span class="wx-service-discount">TAM KURULUM PAKETİ</span><h3>Web Sitesi + Hosting + Domain</h3><p>Web sitesinin hazırlanması, hosting ortamına yüklenmesi ve alan adına bağlanması tek proje kapsamında planlanır. <strong>Hosting ve domain sağlayıcı ücretleri üçüncü taraflara aittir</strong>; satın alma öncesinde süre, yenileme bedeli ve sahiplik bilgileri müşteriye açıkça bildirilir.</p><a class="wx-service-cta" href="https://discord.gg/cZAmKgJjPq" target="_blank" rel="noopener noreferrer">Web kurulum teklifi al <i class="fa-brands fa-discord"></i></a></section>
+  <div class="wx-service-note"><strong>Şeffaflık:</strong> Domain ve hosting hizmeti sağlayıcı üzerinden müşteri adına alınabilir; mümkün olduğunda hesap ve alan adı sahipliği müşteride kalır. Yenileme ücretleri, teknik destek kapsamı ve teslim süresi işe başlamadan önce belirlenir.</div>
+ `;
+ library.insertAdjacentElement('afterend',discordPanel);
+ discordPanel.insertAdjacentElement('afterend',webPanel);
+ const allTabs=[...tabs.querySelectorAll('[data-wx-tab],[data-wx-service-tab]')];
+ const allPanels=[...root.querySelectorAll('.wx-tabpanel')];
+ function activate(name){
+  allTabs.forEach(t=>{const active=(t.dataset.wxTab||t.dataset.wxServiceTab)===name;t.classList.toggle('active',active);t.setAttribute('aria-selected',String(active));});
+  allPanels.forEach(p=>{p.hidden=p.id!==({crypto:'wxNexusCrypto',stocks:'wxNexusStocks',library:'wxNexusLibrary',discord:'wxNexusDiscordServices',web:'wxNexusWebServices'}[name]);});
+ }
+ tabs.addEventListener('click',e=>{
+  const tab=e.target.closest('[data-wx-tab],[data-wx-service-tab]');
+  if(!tab)return;
+  e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+  activate(tab.dataset.wxTab||tab.dataset.wxServiceTab);
+ },true);
+ allTabs.forEach(t=>{t.setAttribute('role','tab');t.setAttribute('aria-selected',String(t.classList.contains('active')));});
+ activate('crypto');
+})();
+</script>
+
 </body>
 </html>
