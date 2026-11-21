@@ -3572,6 +3572,12 @@ button:active,.wartex-nav-button:active,[role="button"]:active{transform:scale(.
             <span>WARTEX Executor</span>
 
         </button>
+        <button type="button" onclick="openModal('wartexSecurityModal')"
+                class="wartex-nav-button" style="border:1px solid rgba(148,163,184,.28);background:linear-gradient(135deg,rgba(71,85,105,.22),rgba(15,17,21,.9));color:#dce3eb">
+            <i class="fa-solid fa-shield-halved" style="color:#a9c5b7"></i>
+            <span>WARTEX SECURITY</span>
+        </button>
+
         <button type="button" onclick="openModal('spooferCatalogModal')"
                 class="wartex-nav-button wartex-catalog-nav">
             <i class="fa-solid fa-microchip"></i>
@@ -13925,6 +13931,61 @@ dialog.wm-detail::backdrop{background:rgba(0,0,0,.7)}
  activate('crypto');
 })();
 </script>
+
+<!-- WARTEX SECURITY PRODUCT MODAL -->
+<div id="wartexSecurityModal" class="hidden fixed inset-0 z-[10060] items-center justify-center p-3 sm:p-6"
+     style="background:rgba(3,5,8,.88);backdrop-filter:blur(12px)"
+     onclick="if(event.target===this)closeModal('wartexSecurityModal')">
+  <div class="relative w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-3xl"
+       style="background:linear-gradient(145deg,#20252c,#101216 68%);border:1px solid rgba(177,190,205,.24);box-shadow:0 28px 100px #000b;color:#edf2f7">
+    <button type="button" onclick="closeModal('wartexSecurityModal')" aria-label="Kapat"
+            class="absolute right-4 top-4 z-10 w-10 h-10 rounded-xl text-zinc-300 hover:text-white"
+            style="background:#252a31;border:1px solid #454d58"><i class="fa-solid fa-xmark"></i></button>
+    <div class="p-6 sm:p-9">
+      <div class="flex flex-wrap items-center gap-3 mb-5">
+        <span class="w-12 h-12 rounded-2xl grid place-items-center text-xl" style="background:#26352f;border:1px solid #526b5c;color:#b8d8c4"><i class="fa-solid fa-shield-halved"></i></span>
+        <div><span class="text-[10px] tracking-[.24em] font-bold" style="color:#9eafa7">WARTEX • DISCORD SECURITY</span><h2 class="text-2xl sm:text-3xl font-black text-white">WARTEX SECURITY</h2></div>
+        <span class="ml-auto mr-12 sm:mr-0 text-[10px] px-3 py-1.5 rounded-full" style="background:#1d3027;color:#a9d4b8;border:1px solid #3c604b">FREE + VIP</span>
+      </div>
+      <p class="max-w-3xl text-sm leading-7 text-zinc-400 mb-7">Discord sunucunu korumak ve yönetimini kolaylaştırmak için geliştirilen WARTEX SECURITY. Temel güvenlik araçları ücretsiz; gelişmiş özellikler ve özel kurulum için VIP teklif al.</p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <section class="rounded-2xl p-5 sm:p-6 flex flex-col" style="background:linear-gradient(145deg,#19251f,#14181a);border:1px solid #456451">
+          <div class="flex items-center justify-between gap-3"><span class="text-xs font-black tracking-widest" style="color:#a9d4b8">FREE PAKET</span><span class="text-2xl font-black text-white">Ücretsiz</span></div>
+          <h3 class="text-xl font-extrabold text-white mt-4">Temel Güvenlik</h3>
+          <p class="text-xs text-zinc-400 mt-2 leading-6">Botu sunucuna ekle, temel güvenlik takibini kullanmaya başla.</p>
+          <ul class="text-sm text-zinc-300 space-y-3 mt-5 mb-7">
+            <li><i class="fa-solid fa-check mr-2" style="color:#9bc9aa"></i>Üye giriş ve çıkış takibi</li>
+            <li><i class="fa-solid fa-check mr-2" style="color:#9bc9aa"></i>Kanal ve rol değişikliklerini izleme</li>
+            <li><i class="fa-solid fa-check mr-2" style="color:#9bc9aa"></i>Ban ve unban olaylarını takip etme</li>
+            <li><i class="fa-solid fa-check mr-2" style="color:#9bc9aa"></i>Temel güvenlik durum komutları</li>
+          </ul>
+          <a href="https://discord.com/oauth2/authorize?client_id=1553352063956680745" target="_blank" rel="noopener noreferrer"
+             class="mt-auto w-full text-center rounded-xl py-3.5 px-4 font-extrabold text-sm transition hover:brightness-110"
+             style="background:linear-gradient(135deg,#dce5e0,#9eafa7);color:#111713">
+            <i class="fa-brands fa-discord mr-2"></i>Botu Sunucuna Ekle
+          </a>
+        </section>
+        <section class="rounded-2xl p-5 sm:p-6 flex flex-col" style="background:linear-gradient(145deg,#242832,#17191f);border:1px solid #657184">
+          <div class="flex items-center justify-between gap-3"><span class="text-xs font-black tracking-widest text-slate-300">VIP PAKET</span><span class="text-xs font-bold px-3 py-1 rounded-full" style="background:#303946;color:#d8e1ed">Özel Teklif</span></div>
+          <h3 class="text-xl font-extrabold text-white mt-4">Gelişmiş Koruma & Kurulum</h3>
+          <p class="text-xs text-zinc-400 mt-2 leading-6">Sunucunun ihtiyaçlarına göre VIP özellikleri ve özel yapılandırma için fiyat teklifi al.</p>
+          <ul class="text-sm text-zinc-300 space-y-3 mt-5 mb-7">
+            <li><i class="fa-solid fa-sparkles mr-2 text-slate-300"></i>Sunucuya özel kurulum ve yapılandırma</li>
+            <li><i class="fa-solid fa-sparkles mr-2 text-slate-300"></i>Gelişmiş güvenlik özellikleri için VIP plan</li>
+            <li><i class="fa-solid fa-sparkles mr-2 text-slate-300"></i>Özel log ve bildirim düzeni</li>
+            <li><i class="fa-solid fa-sparkles mr-2 text-slate-300"></i>Kurulum sonrası destek ve özelleştirme</li>
+          </ul>
+          <a href="https://discord.gg/WAJycrxPpR" target="_blank" rel="noopener noreferrer"
+             class="mt-auto w-full text-center rounded-xl py-3.5 px-4 font-extrabold text-sm transition hover:brightness-110"
+             style="background:linear-gradient(135deg,#d8dee7,#929eae);color:#11151b">
+            <i class="fa-brands fa-discord mr-2"></i>VIP Kurulum İçin Teklif Al
+          </a>
+        </section>
+      </div>
+      <p class="text-[10px] text-zinc-500 leading-6 mt-5">VIP özellikleri ve ücretlendirme, Discord üzerinden ihtiyaçlarına göre belirlenir. Ücretsiz paketin temel özellikleri ile VIP kapsamı birbirinden ayrıdır.</p>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
